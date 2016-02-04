@@ -1,0 +1,15 @@
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/KompetansetorgetServer.Tests.dll.mdb
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/KompetansetorgetServer.Tests.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/obj/Debug/KompetansetorgetServer.Tests.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/obj/Debug/KompetansetorgetServer.Tests.dll.mdb
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/Microsoft.Web.Infrastructure.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/System.Web.Razor.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/System.Web.Helpers.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/System.Web.WebPages.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/System.Web.WebPages.Deployment.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/System.Web.WebPages.Razor.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/System.Web.Mvc.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/nunit.framework.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/KompetansetorgetServer.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/KompetansetorgetServer.dll.mdb

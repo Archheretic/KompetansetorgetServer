@@ -1,0 +1,16 @@
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/KompetansetorgetServer.dll.mdb
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/KompetansetorgetServer.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/obj/Debug/KompetansetorgetServer.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/obj/Debug/KompetansetorgetServer.dll.mdb
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/Microsoft.Web.Infrastructure.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/System.Web.Mvc.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/System.Web.Razor.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/System.Web.Helpers.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/System.Web.WebPages.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/System.Web.WebPages.Deployment.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/System.Web.WebPages.Razor.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/MySql.Data.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/MySql.Data.Entity.EF6.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/EntityFramework.dll
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer/bin/EntityFramework.SqlServer.dll

@@ -1,0 +1,16 @@
+﻿<Properties StartupItem="KompetansetorgetServer/KompetansetorgetServer.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="chromium-browser" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="KompetansetorgetServer/Web.config">
+    <Files>
+      <File FileName="KompetansetorgetServer/Models/Student.cs" Line="10" Column="4" />
+      <File FileName="KompetansetorgetServer/ContextDbs/StudentContext.cs" Line="11" Column="43" />
+      <File FileName="KompetansetorgetServer/Controllers/StudentController.cs" Line="26" Column="31" />
+      <File FileName="KompetansetorgetServer/Views/Home/Index.cshtml" Line="5" Column="39" />
+      <File FileName="KompetansetorgetServer/Web.config" Line="37" Column="124" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
