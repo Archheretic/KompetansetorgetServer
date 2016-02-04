@@ -35,18 +35,36 @@ namespace KompetansetorgetServer.Controllers
             return View ();
         } 
 
-//		public async Task<Proficiency> getStudentProficiency(string username) 
-//		{
-//			Task<Student> student = getStudent(username);
-//			int id = student.IdProficiency;
-//			return await db.Proficiencies.FindAsync (id);
-//		}
+		public ActionResult TestGetStudentProficiency()
+		{
+			string username = "viktos08";
+			GetStudentProficiency(username);
+			return RedirectToAction("Index", "Home");
+		}	
 
-		private async Task<Student> getStudent(string username) 
+		//Void kinda defeats the purpose, but its for testing purposes only
+		private async void GetStudentProficiency(string username)
+		{
+			Student student = await GetStudent(username);
+
+			Console.WriteLine (student.IdProficiency);
+
+			Proficiency prof = await db.Proficiencies.FindAsync (student.IdProficiency);
+			Console.WriteLine ("Idrettsfag = " + prof.Idrettsfag);
+			Console.WriteLine ("Datateknologi = " + prof.Datateknologi);
+			Console.WriteLine ("Lærer = " + prof.Lerer );
+		}
+
+		private async Task<Student> GetStudent(string username) 
 		{
 			return await db.Students.FindAsync (username);
 		}
 
+//		private async Student getStudent1(string username) 
+//		{
+//			var student = await db.Students.Where(x => x.Username== username).ToListAsync();
+//			return student;
+//		}
 //			foreach (Student student in studDb.Students) 
 //			{
 //				if (student.Username.Equals(username))
