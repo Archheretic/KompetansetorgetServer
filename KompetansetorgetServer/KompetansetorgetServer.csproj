@@ -89,9 +89,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ContextDbs\StudentContext.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Models\Proficiency.cs" />
+    <Compile Include="Controllers\ProficiencyController.cs" />
+    <Compile Include="ContextDbs\KompetanseContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
@@ -135,7 +137,6 @@
     <Content Include="Content\modules\tooltip.min.css" />
     <Content Include="Content\bootstrap-additions.css" />
     <Content Include="Content\bootstrap-additions.min.css" />
-    <Content Include="Web %28copy%29.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

@@ -11,11 +11,11 @@ namespace KompetansetorgetServer.Controllers
 {
     public class StudentController : Controller
     {
-		private StudentContext db;
+		private KompetanseContext db;
 
 		public StudentController() 
 		{
-			this.db = new StudentContext();
+			this.db = new KompetanseContext();
 		}
 
         public ActionResult Index()
@@ -25,10 +25,16 @@ namespace KompetansetorgetServer.Controllers
 
 		public ActionResult TestAddition() 
 		{
+			Random r = new Random();
+			int rNumber = r.Next();
+			Proficiency prof = new Proficiency ();
 			Student student = new Student () {
+				Username = rNumber.ToString(),
 				FirstName = "Some",
-				LastName = "Guy"
+				LastName = "Guy",
+				Proficiency = prof
 			};
+			db.Proficiencies.Add (prof);
 			db.Students.Add(student);
 			db.SaveChanges();
 

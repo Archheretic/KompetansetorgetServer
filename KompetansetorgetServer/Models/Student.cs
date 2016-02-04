@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace KompetansetorgetServer.Models
 {
@@ -9,8 +10,9 @@ namespace KompetansetorgetServer.Models
 		public Student()
 		{
 		}
-		[Column("id")]
-		public int Id { get; set; }
+		[Key]
+		[Column("username")]
+		public string Username { get; set; }
 
 		[Column("firstName")]
 		public string FirstName { get; set; }
@@ -20,6 +22,12 @@ namespace KompetansetorgetServer.Models
 
 		[Column("email")]
 		public string Email { get; set; }
+
+		[Column("idProficiency")]
+		[ForeignKey("Proficiency")]
+		public int IdProficiency { get; set; }
+
+		public Proficiency Proficiency { get; set; }
 	}
 }
 

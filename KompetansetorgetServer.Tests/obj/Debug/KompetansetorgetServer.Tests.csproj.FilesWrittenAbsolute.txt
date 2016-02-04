@@ -13,3 +13,4 @@
 /home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/nunit.framework.dll
 /home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/KompetansetorgetServer.dll
 /home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/KompetansetorgetServer.dll.mdb
+/home/archheretic/KompetansetorgetServer/KompetansetorgetServer.Tests/bin/Debug/EntityFramework.dll
