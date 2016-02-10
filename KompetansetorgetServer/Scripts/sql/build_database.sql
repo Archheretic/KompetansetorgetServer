@@ -37,8 +37,10 @@ CONSTRAINT `fk_Student_Proficiency`
 );
 
 insert into Proficiency (datateknologi, Idrettsfag) values (true, true);
+insert into Proficiency (datateknologi) values (null;
+
 insert into Student (username, firstName, lastName, email, idProficiency) values ('viktos08', 'Viktor', 'Setervang', 'setervang@uia.no', 1);
-insert into Student (username, firstName) values ('rolfs11', 'Rolf');
+insert into Student (username, firstName, idProficiency) values ('rolfs11', 'Rolf', 2);
 
 use kompetansetorget;
 select * from Student;
