@@ -1,14 +1,15 @@
 ﻿<Properties StartupItem="KompetansetorgetServer/KompetansetorgetServer.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="chromium-browser" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="KompetansetorgetServer/Controllers/ProficiencyController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KompetansetorgetServer/web.config">
     <Files>
       <File FileName="KompetansetorgetServer/Scripts/sql/build_database.sql" Line="8" Column="36" />
-      <File FileName="KompetansetorgetServer/Controllers/StudentController.cs" Line="37" Column="32" />
-      <File FileName="KompetansetorgetServer/Controllers/ProficiencyController.cs" Line="55" Column="35" />
-      <File FileName="KompetansetorgetServer/Views/Home/Index.cshtml" Line="10" Column="47" />
+      <File FileName="KompetansetorgetServer/Controllers/Api/StudentController.cs" Line="18" Column="19" />
+      <File FileName="KompetansetorgetServer/ContextDbs/KompetanseContext.cs" Line="1" Column="1" />
+      <File FileName="KompetansetorgetServer/Controllers/StudentController.cs" Line="18" Column="18" />
+      <File FileName="KompetansetorgetServer/Views/_ViewStart.cshtml" Line="1" Column="1" />
       <File FileName="KompetansetorgetServer/Views/Web.config" Line="1" Column="1" />
-      <File FileName="KompetansetorgetServer/Models/Proficiency.cs" Line="59" Column="2" />
-      <File FileName="KompetansetorgetServer/Models/Student.cs" Line="15" Column="16" />
+      <File FileName="KompetansetorgetServer/Global.asax" Line="1" Column="1" />
+      <File FileName="KompetansetorgetServer/web.config" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
