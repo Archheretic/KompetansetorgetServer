@@ -10,48 +10,48 @@ using System.Net;
 
 namespace KompetansetorgetServer
 {
-	public class StudentController : ApiController
+	public class ProficiencyController : ApiController
 	{
 		private KompetanseContext db;
 
-		public StudentController ()
+		public ProficiencyController ()
 		{
 			this.db = new KompetanseContext();
 		}
 
-		public IQueryable<Student> GetStudents()
+		public IQueryable<Proficiency> GetProficiencys()
 		{
-			return db.Students;
+			return db.Proficiencies;
 		}
 
-		// GET: api/Students/5
-		[ResponseType(typeof(Student))]
-		public IHttpActionResult GetStudent(string id)
+		// GET: api/Proficiencys/5
+		[ResponseType(typeof(Proficiency))]
+		public IHttpActionResult GetProficiency(int id)
 		{
-			Student student = db.Students.Find(id);
-			if (student == null)
+			Proficiency proficiency = db.Proficiencies.Find(id);
+			if (proficiency == null)
 			{
 				return NotFound();
 			}
 
-			return Ok(student);
+			return Ok(proficiency);
 		}
 
-		// PUT: api/Students/5
+		// PUT: api/Proficiencys/5
 		[ResponseType(typeof(void))]
-		public IHttpActionResult PutStudent(string id, Student student)
+		public IHttpActionResult PutProficiency(int id, Proficiency proficiency)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			if (id != student.Username)
+			if (id != proficiency.Id)
 			{
 				return BadRequest();
 			}
 
-			db.Entry(student).State = EntityState.Modified;
+			db.Entry(proficiency).State = EntityState.Modified;
 
 			try
 			{
@@ -59,7 +59,7 @@ namespace KompetansetorgetServer
 			}
 			catch (DbUpdateConcurrencyException)
 			{
-				if (!StudentExists(id))
+				if (!ProficiencyExists(id))
 				{
 					return NotFound();
 				}
@@ -72,9 +72,9 @@ namespace KompetansetorgetServer
 			return StatusCode(HttpStatusCode.NoContent);
 		}
 
-		private bool StudentExists(string id)
+		private bool ProficiencyExists(int id)
 		{
-			return db.Students.Count(e => e.Username == id) > 0;
+			return db.Proficiencies.Count(e => e.Id == id) > 0;
 		}
 	}
 }
