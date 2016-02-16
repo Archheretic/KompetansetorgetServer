@@ -1,15 +1,11 @@
 ﻿<Properties StartupItem="KompetansetorgetServer/KompetansetorgetServer.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="chromium-browser" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="KompetansetorgetServer/web.config">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="KompetansetorgetServer/Scripts/sql/build_database.sql" Line="8" Column="36" />
-      <File FileName="KompetansetorgetServer/Controllers/Api/StudentController.cs" Line="18" Column="19" />
-      <File FileName="KompetansetorgetServer/ContextDbs/KompetanseContext.cs" Line="1" Column="1" />
-      <File FileName="KompetansetorgetServer/Controllers/StudentController.cs" Line="18" Column="18" />
-      <File FileName="KompetansetorgetServer/Views/_ViewStart.cshtml" Line="1" Column="1" />
-      <File FileName="KompetansetorgetServer/Views/Web.config" Line="1" Column="1" />
-      <File FileName="KompetansetorgetServer/Global.asax" Line="1" Column="1" />
-      <File FileName="KompetansetorgetServer/web.config" Line="1" Column="1" />
+      <File FileName="KompetansetorgetServer/Web.config" Line="121" Column="17" />
+      <File FileName="KompetansetorgetServer/Pushit/Push.cs" Line="14" Column="21" />
+      <File FileName="KompetansetorgetServer/Global.asax.cs" Line="46" Column="27" />
+      <File FileName="KompetansetorgetServer/Global.asax" Line="1" Column="68" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

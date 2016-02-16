@@ -6,12 +6,16 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Http;
+using PushSharp;
+using PushSharp.Core;
 
 
 namespace KompetansetorgetServer
 {
 	public class MvcApplication : System.Web.HttpApplication
 	{
+		private static PushBroker pushBroker;
+
 		public static void RegisterRoutes (RouteCollection routes)
 		{
 			routes.IgnoreRoute ("{resource}.axd/{*pathInfo}");
@@ -39,6 +43,33 @@ namespace KompetansetorgetServer
 			AreaRegistration.RegisterAllAreas ();
 			RegisterGlobalFilters (GlobalFilters.Filters);
 			RegisterRoutes (RouteTable.Routes);
+			Initiate_PushBroker ();
+		}
+
+		protected void Application_End()
+		{
+			pushBroker.StopAllServices();
+		}
+
+
+		void Initiate_PushBroker()
+		{
+			// 
+			pushBroker = new PushBroker();
+
+			/*
+			pushBroker.OnNotificationSent += NotificationSent;
+			pushBroker.OnChannelException += ChannelException;
+			pushBroker.OnServiceException += ServiceException;
+			pushBroker.OnNotificationFailed += NotificationFailed;
+			pushBroker.OnDeviceSubscriptionExpired += DeviceSubscriptionExpired;
+			pushBroker.OnDeviceSubscriptionChanged += DeviceSubscriptionChanged;
+			pushBroker.OnChannelCreated += ChannelCreated;
+			pushBroker.OnChannelDestroyed += ChannelDestroyed;
+			*/
+
+			HttpContext.Current.Application["MyPushBroker"] = pushBroker;
+
 		}
 	}
 
