@@ -16,7 +16,7 @@ namespace KompetansetorgetServer
 		public Push ()
 		{
 
-			string myAuthToken = "cvi1LZzRdZ4:APA91bERsfF7kNNMmXV_4qhcwEg7_D5tQCIJhua-QbrGnyIBIsF0K7ovqVcZi9kWRRgheERodLCwbNDwXtNmZWXimZzDbwAPboR3CKcl4OkT6BeHMSSvnpgA9yvgknbqOhEFQjH4eO6Z";
+			string myAuthToken = "dRoHtQTtEdo:APA91bH0KuEL90_iSX6gFXJy2kOPcmDbX_3Ts1-Can3tBIpyWGdipZefLxZayb2zBz93o_8uGMpOOSXxnsSoqO2YAHl9pfh2BYIqm6mbIW71AhXpeQgycbVWj3QnFt9TTgb-2sIKH-qR";
 
 
 			//Registering the GCM Service and sending an Android Notification
@@ -26,7 +26,7 @@ namespace KompetansetorgetServer
 			//IMPORTANT: For Android you MUST use your own RegistrationId here that gets generated within your Android app itself!
 			pushBroker.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
 				//.WithJson("{\"alert\":\"Hello World!\",\"badge\":7,\"sound\":\"sound.caf\"}"));
-				.WithJson(@"{""alert"":""Hello World!"",""badge"":7,""sound"":""sound.caf""}"));
+				.WithJson(@"{""message"":""Hello World!"",""badge"":7,""sound"":""sound.caf""}"));
 
 
 			/*

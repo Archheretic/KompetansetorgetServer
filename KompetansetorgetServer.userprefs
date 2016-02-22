@@ -1,11 +1,12 @@
 ﻿<Properties StartupItem="KompetansetorgetServer/KompetansetorgetServer.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="chromium-browser" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="KompetansetorgetServer/Global.asax.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KompetansetorgetServer/PushNotifications/Push.cs">
     <Files>
       <File FileName="KompetansetorgetServer/Web.config" Line="1" Column="1" />
-      <File FileName="KompetansetorgetServer/Pushit/Push.cs" Line="52" Column="19" />
-      <File FileName="KompetansetorgetServer/Global.asax.cs" Line="72" Column="25" />
+      <File FileName="KompetansetorgetServer/Global.asax.cs" Line="1" Column="1" />
       <File FileName="KompetansetorgetServer/Global.asax" Line="1" Column="1" />
+      <File FileName="KompetansetorgetServer/PushNotifications/Push.cs" Line="23" Column="101" />
+      <File FileName="KompetansetorgetServer/PushNotifications/PushAll.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
