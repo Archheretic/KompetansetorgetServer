@@ -146,7 +146,7 @@
     <Folder Include="Scripts\sql\" />
     <Folder Include="ContextDbs\" />
     <Folder Include="Controllers\Api\" />
-    <Folder Include="Pushit\" />
+    <Folder Include="PushNotifications\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -160,7 +160,8 @@
     <Compile Include="ContextDbs\KompetanseContext.cs" />
     <Compile Include="Controllers\Api\StudentController.cs" />
     <Compile Include="Controllers\Api\ProficiencyController.cs" />
-    <Compile Include="Pushit\Push.cs" />
+    <Compile Include="PushNotifications\PushAll.cs" />
+    <Compile Include="PushNotifications\Push.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />

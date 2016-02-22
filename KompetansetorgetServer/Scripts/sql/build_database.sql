@@ -33,14 +33,28 @@ PRIMARY KEY (username),
 CONSTRAINT `fk_Student_Proficiency`
  FOREIGN KEY (idProficiency)
  REFERENCES Proficiency(id)
-
 );
+
+CREATE TABLE Device (
+deviceId VARCHAR(65) NOT NULL,
+token VARCHAR(4096) NOT NULL,
+deviceType VARCHAR(45) NOT NULL, 
+username VARCHAR(32) NOT NULL,
+PRIMARY KEY (deviceId),
+CONTRAINT `fk_Device_Student`
+ FOREIGN KEY (username)
+ REFERENCES Student(username)
+);
+
 
 insert into Proficiency (datateknologi, Idrettsfag) values (true, true);
 insert into Proficiency (datateknologi) values (null;
 
 insert into Student (username, firstName, lastName, email, idProficiency) values ('viktos08', 'Viktor', 'Setervang', 'setervang@uia.no', 1);
 insert into Student (username, firstName, idProficiency) values ('rolfs11', 'Rolf', 2);
+
+// Ikke oppdatert siste insert
+//insert into Device (username, deviceId) values('viktos08', 'cvi1LZzRdZ4:APA91bERsfF7kNNMmXV_4qhcwEg7_D5tQCIJhua-QbrGnyIBIsF0K7ovqVcZi9kWRRgheERodLCwbNDwXtNmZWXimZzDbwAPboR3CKcl4OkT6BeHMSSvnpgA9yvgknbqOhEFQjH4eO6Z'
 
 use kompetansetorget;
 select * from Student;
