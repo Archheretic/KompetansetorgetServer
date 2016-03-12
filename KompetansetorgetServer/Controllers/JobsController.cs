@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using KompetansetorgetServer.Models;
+using KompetansetorgetServer.PushNotifications;
 
 namespace KompetansetorgetServer.Controllers
 {
@@ -141,5 +142,20 @@ namespace KompetansetorgetServer.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult TestPushToViktor()
+        {
+            Push p = new Push();
+            p.PushToAndroid();
+            return RedirectToAction("About", "Home");
+        }
+
+        public ActionResult TestPushToAll()
+        {
+            PushAll p = new PushAll();
+            p.SendMessageToAllAndroid("Hei alle sammen");
+            return RedirectToAction("About", "Home");
+        }
+        
     }
 }
