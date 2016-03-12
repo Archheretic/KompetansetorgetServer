@@ -1,0 +1,122 @@
+﻿@model KompetansetorgetServer.Models.Job
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Job</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobType.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobType.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Webpage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Webpage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LinkedIn_profile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LinkedIn_profile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Expiry_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Expiry_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Steps_to_apply)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Steps_to_apply)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Published)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Published)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Modified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Modified)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdJob }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

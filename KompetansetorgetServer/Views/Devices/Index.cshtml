@@ -1,0 +1,39 @@
+﻿@model IEnumerable<KompetansetorgetServer.Models.Device>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Token)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeviceType)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Token)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeviceType)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdDevice }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdDevice }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdDevice })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<KompetansetorgetServer.Models.Job>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Company.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobType.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Webpage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LinkedIn_profile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Expiry_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Steps_to_apply)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Published)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modified)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contact.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobType.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Webpage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LinkedIn_profile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Expiry_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Steps_to_apply)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Published)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modified)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdJob }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdJob }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdJob })
+        </td>
+    </tr>
+}
+
+</table>
