@@ -156,6 +156,46 @@ namespace KompetansetorgetServer.Controllers
             p.SendMessageToAllAndroid("Hei alle sammen");
             return RedirectToAction("About", "Home");
         }
-        
+
+
+        // POST: Students/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        public ActionResult InsertEnJob()
+        {
+            Job job = new Job()
+            {
+                Title = "Database ansvarlig",
+                Description = "Database ansvarlig for Snekkern",
+                Webpage = "http://snekkern.no/",
+                Steps_to_apply = "Send mail",
+                Expiry_date = DateTime.Now.AddDays(20),
+                Created = DateTime.Now,
+                Published = DateTime.Now,
+                Modified = DateTime.Now
+            };
+
+            Contact contact = db.Contacts.First(x => x.IdContact == 1);
+            Location location = db.Locations.First(x => x.IdLocation.Equals("Vest-Agder"));
+            JobType jobType = db.JobTypes.First(x => x.IdJobType.Equals("Heltid"));
+            Company company = db.Companies.First(x => x.IdCompany.Equals("uia"));
+
+            Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
+            //Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
+
+
+            job.Contact = contact;
+            job.Study_groups.Add(data);
+            //job.Study_groups.Add(idrett);
+            job.Location = location;
+            job.JobType = jobType;
+            job.Company = company;
+
+            db.Jobs.Add(job);
+            //htc.Student = student;
+            db.SaveChanges();
+            return RedirectToAction("About", "Home");
+        }
+
     }
 }
