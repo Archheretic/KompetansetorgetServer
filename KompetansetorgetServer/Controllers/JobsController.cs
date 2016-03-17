@@ -24,7 +24,7 @@ namespace KompetansetorgetServer.Controllers
         }
 
         // GET: Jobs/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public async Task<ActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -53,7 +53,7 @@ namespace KompetansetorgetServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdJob,Title,Description,Webpage,LinkedIn_profile,Expiry_date,Steps_to_apply,Created,Published,Modified,IdContact,IdLocation,IdJobType,IdCompany")] Job job)
+        public async Task<ActionResult> Create([Bind(Include = "Uuid,Title,Description,Webpage,LinkedIn_profile,Expiry_date,Steps_to_apply,Created,Published,Modified,IdContact,IdLocation,IdJobType,IdCompany")] Job job)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +70,7 @@ namespace KompetansetorgetServer.Controllers
         }
 
         // GET: Jobs/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -93,7 +93,7 @@ namespace KompetansetorgetServer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdJob,Title,Description,Webpage,LinkedIn_profile,Expiry_date,Steps_to_apply,Created,Published,Modified,IdContact,IdLocation,IdJobType,IdCompany")] Job job)
+        public async Task<ActionResult> Edit([Bind(Include = "Uuid,Title,Description,Webpage,LinkedIn_profile,Expiry_date,Steps_to_apply,Created,Published,Modified,IdContact,IdLocation,IdJobType,IdCompany")] Job job)
         {
             if (ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace KompetansetorgetServer.Controllers
         }
 
         // GET: Jobs/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -126,7 +126,7 @@ namespace KompetansetorgetServer.Controllers
         // POST: Jobs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(string id)
         {
             Job job = await db.Jobs.FindAsync(id);
             db.Jobs.Remove(job);
@@ -143,6 +143,7 @@ namespace KompetansetorgetServer.Controllers
             base.Dispose(disposing);
         }
 
+
         public ActionResult TestPushToViktor()
         {
             Push p = new Push();
@@ -157,45 +158,11 @@ namespace KompetansetorgetServer.Controllers
             return RedirectToAction("About", "Home");
         }
 
-
-        // POST: Students/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public ActionResult InsertEnJob()
+        public ActionResult PopulateDb()
         {
-            Job job = new Job()
-            {
-                Title = "Database ansvarlig",
-                Description = "Database ansvarlig for Snekkern",
-                Webpage = "http://snekkern.no/",
-                Steps_to_apply = "Send mail",
-                Expiry_date = DateTime.Now.AddDays(20),
-                Created = DateTime.Now,
-                Published = DateTime.Now,
-                Modified = DateTime.Now
-            };
-
-            Contact contact = db.Contacts.First(x => x.IdContact == 1);
-            Location location = db.Locations.First(x => x.IdLocation.Equals("Vest-Agder"));
-            JobType jobType = db.JobTypes.First(x => x.IdJobType.Equals("Heltid"));
-            Company company = db.Companies.First(x => x.IdCompany.Equals("uia"));
-
-            Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
-            //Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
-
-
-            job.Contact = contact;
-            job.Study_groups.Add(data);
-            //job.Study_groups.Add(idrett);
-            job.Location = location;
-            job.JobType = jobType;
-            job.Company = company;
-
-            db.Jobs.Add(job);
-            //htc.Student = student;
-            db.SaveChanges();
+            DbPopulator populator = new DbPopulator();
+            populator.PopulateAll();
             return RedirectToAction("About", "Home");
         }
-
     }
 }

@@ -125,29 +125,5 @@ namespace KompetansetorgetServer.Controllers
             base.Dispose(disposing);
         }
 
-
-        // POST: Students/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        public ActionResult InsertViktor()
-        {
-            Student student = new Student()
-            {
-                Username = "viktos08",
-                Name = "Viktor Setervang",
-                Email = "viktos08@uia.no"
-                    
-            };
-            Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
-            Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
-            Device htc = db.Devices.First(x => x.IdDevice.Equals("HT451WM08832"));
-            student.Devices.Add(htc);
-            student.Study_groups.Add(data);
-            student.Study_groups.Add(idrett);
-            db.Students.Add(student);
-            //htc.Student = student;
-            db.SaveChanges();
-            return RedirectToAction("About", "Home");
-        }
     }
 }
