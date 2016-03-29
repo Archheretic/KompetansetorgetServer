@@ -21,7 +21,7 @@ namespace KompetansetorgetServer.Controllers.Api
         // GET: api/Jobs
         //public IQueryable<Job> GetJobs()
         /// <summary>
-        /// This method is called if no query strings were presented
+        /// This method is called if no query strings are presented
         /// </summary>
         /// <returns></returns>
         public IQueryable GetJobs()
@@ -45,6 +45,7 @@ namespace KompetansetorgetServer.Controllers.Api
         }
 
         // GET: api/Jobs/5
+        // Example: /api/jobs/2c70edff-edbe-4d6d-8e79-10a47f330feb
         [ResponseType(typeof(Job))]
         public async Task<IHttpActionResult> GetJob(string id)
         {
@@ -86,9 +87,11 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 return GetJobs();
             }
+
             var jobs = from job in db.Jobs               //IdStudy_group is a string primary key
                        where job.Study_groups.Any(s => s.IdStudy_group.Equals(study_group))
                        select job;
+
             return jobs.Select(s => new
             {
                 s.Uuid,

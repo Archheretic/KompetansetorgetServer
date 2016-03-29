@@ -259,7 +259,7 @@
     <Compile Include="Controllers\Api\JobsController.cs" />
     <Compile Include="Controllers\Api\LocationsController.cs" />
     <Compile Include="Controllers\Api\StudentsController.cs" />
-    <Compile Include="Controllers\Api\Study_groupsController.cs" />
+    <Compile Include="Controllers\Api\Study_groupController.cs" />
     <Compile Include="Controllers\Api\TypesController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />

@@ -13,17 +13,21 @@ using KompetansetorgetServer.Models;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
-    public class Study_groupsController : ApiController
+    public class Study_groupController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: api/Study_groups
-        public IQueryable<Study_group> GetStudy_group()
+        // GET: api/Study_group
+        public IQueryable GetStudy_group()
         {
-            return db.Study_group;
+            return db.Study_group.Select(s => new
+            {
+                s.IdStudy_group,
+                s.Name
+            });
         }
 
-        // GET: api/Study_groups/5
+        // GET: api/Study_group/5
         [ResponseType(typeof(Study_group))]
         public async Task<IHttpActionResult> GetStudy_group(string id)
         {
@@ -36,7 +40,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return Ok(study_group);
         }
 
-        // PUT: api/Study_groups/5
+        // PUT: api/Study_group/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutStudy_group(string id, Study_group study_group)
         {
@@ -71,7 +75,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Study_groups
+        // POST: api/Study_group
         [ResponseType(typeof(Study_group))]
         public async Task<IHttpActionResult> PostStudy_group(Study_group study_group)
         {
@@ -101,7 +105,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return CreatedAtRoute("DefaultApi", new { id = study_group.IdStudy_group }, study_group);
         }
 
-        // DELETE: api/Study_groups/5
+        // DELETE: api/Study_group/5
         [ResponseType(typeof(Study_group))]
         public async Task<IHttpActionResult> DeleteStudy_group(string id)
         {
