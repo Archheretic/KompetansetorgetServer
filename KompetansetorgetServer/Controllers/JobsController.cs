@@ -164,5 +164,22 @@ namespace KompetansetorgetServer.Controllers
             populator.PopulateAll();
             return RedirectToAction("About", "Home");
         }
+
+        // this maps to a get requests to:
+        // domain/api/jobs
+        // and domain/api/jobs?id=someid
+        // and domain/api/jobs?mail=somemail
+        // and domain/api/jobs?pw=somepw
+        // and domain/api/jobs?mail=somemail&pw=somepw
+        // and domain/api/jobs with any query string really
+        /*
+        [HttpGet]
+        public System.Web.Http.IHttpActionResult Get(string study_group)
+        {
+            // should probably check mail and pw for empty strings and nulls
+            //var users = SomeStaticExampleService.FindByMailAndPw(mail, pw);
+            return null;
+            //return this.Json(users);
+        } */
     }
 }

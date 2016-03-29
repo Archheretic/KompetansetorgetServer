@@ -20,7 +20,7 @@ namespace KompetansetorgetServer.Models
             PopulateJobType();
             PopulateContact();
             PopulateCompany();
-            PopulateJob();
+            PopulateJob(); 
         }
 
         //Populates the Location table
@@ -96,7 +96,7 @@ namespace KompetansetorgetServer.Models
                 Name = "Viktor Setervang",
                 Email = "viktos08@uia.no"
 
-            };
+            };   
             Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
             Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
             Device htc = db.Devices.First(x => x.IdDevice.Equals("HT451WM08832"));
@@ -142,6 +142,16 @@ namespace KompetansetorgetServer.Models
 
             };
 
+            Contact mikkelsen = new Contact()
+            {
+                IdContact = 2,
+                Name = "Susanne mikkelsen",
+                Position = "Avdelingsjef",
+                Phone = "75224367",
+                Mail = "mikkelsen@hotmail.com"
+
+            };
+
             db.Contacts.Add(andersen);
             db.SaveChanges();
 
@@ -164,7 +174,22 @@ namespace KompetansetorgetServer.Models
 
             };
 
+            Company spicheren = new Company()
+            {
+                IdCompany = "spicheren",
+                Name = "Spicheren",
+                Adress = "Gimlemoen 1",
+                Url = "http://spicheren.no/",
+                Facebook = "",
+                LinkedIn = "",
+                Description = "Treningssenter",
+                Logo = "http://www.sia.no/~/media/Images/Spicheren/Logo/Spicheren_500.png?h=98&la=nb-NO&w=499"
+
+            };
+
+
             db.Companies.Add(snekkern);
+            db.Companies.Add(spicheren);
             db.SaveChanges();
 
         }
@@ -202,6 +227,34 @@ namespace KompetansetorgetServer.Models
             job.Company = company;
 
             db.Jobs.Add(job);
+
+            Job job2 = new Job()
+            {
+                Uuid = Guid.NewGuid().ToString(),
+                Title = "PT",
+                Description = "Er du vår nye mest selgende PT?!?!1",
+                Webpage = "http://spicheren.no/",
+                Steps_to_apply = "Send mail",
+                Expiry_date = DateTime.Now.AddDays(20),
+                Created = DateTime.Now,
+                Published = DateTime.Now,
+                Modified = DateTime.Now
+            };
+
+            Contact contact2 = db.Contacts.First(x => x.IdContact == 2);
+            Company company2 = db.Companies.First(x => x.IdCompany.Equals("spicheren"));
+
+            Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
+
+
+            job2.Contact = contact2;
+            job2.Study_groups.Add(idrett);
+            job2.Location = location;
+            job2.JobType = jobType;
+            job2.Company = company2;
+
+            db.Jobs.Add(job);
+            db.Jobs.Add(job2);
             //htc.Student = student;
             db.SaveChanges();
             //return RedirectToAction("About", "Home");

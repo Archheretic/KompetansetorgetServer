@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KompetansetorgetServer.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
@@ -19,6 +20,10 @@ namespace KompetansetorgetServer.Controllers.Api
        
         // GET: api/Jobs
         //public IQueryable<Job> GetJobs()
+        /// <summary>
+        /// This method is called if no query strings were presented
+        /// </summary>
+        /// <returns></returns>
         public IQueryable GetJobs()
         {
             //return db.Jobs;
@@ -67,7 +72,39 @@ namespace KompetansetorgetServer.Controllers.Api
             });
         }
 
-
+        /// <summary>
+        /// Lists all jobs that contains that spesific Study_group. 
+        /// GET: api/jobs?study_group=datateknologi
+        /// GET: api/jobs?study_group=idrettsfag
+        /// </summary>
+        /// <param name="study_group">the Study_group identificator</param>
+        /// <returns></returns> 
+        [HttpGet, Route("api/jobs")]
+        public IQueryable GetJobByStudy(string study_group = "")
+        {
+            if (study_group.IsNullOrWhiteSpace())
+            {
+                return GetJobs();
+            }
+            var jobs = from job in db.Jobs               //IdStudy_group is a string primary key
+                       where job.Study_groups.Any(s => s.IdStudy_group.Equals(study_group))
+                       select job;
+            return jobs.Select(s => new
+            {
+                s.Uuid,
+                s.Description,
+                s.Webpage,
+                s.Expiry_date,
+                s.Steps_to_apply,
+                s.Created,
+                s.Published,
+                s.Modified,
+                s.IdContact,
+                s.IdJobType,
+                s.IdCompany,
+                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
+            });
+        }
 
         // PUT: api/Jobs/5
         [ResponseType(typeof(void))]
