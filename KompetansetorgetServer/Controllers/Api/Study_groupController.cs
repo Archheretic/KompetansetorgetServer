@@ -37,7 +37,10 @@ namespace KompetansetorgetServer.Controllers.Api
                 return NotFound();
             }
 
-            return Ok(study_group);
+            return Ok( new {
+                study_group.IdStudy_group,
+                study_group.Name
+            });
         }
 
         // PUT: api/Study_group/5
