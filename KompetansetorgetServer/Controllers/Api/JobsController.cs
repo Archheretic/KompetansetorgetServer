@@ -19,8 +19,14 @@ namespace KompetansetorgetServer.Controllers.Api
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
         // [HttpGet, Route("api/jobs")]
-        public IQueryable Get(string types = "", string study_group = "", string locations = "")
+        public IQueryable Get(string types = "", string study_group = "", string locations = "", 
+            string sortOrder = "", string sortBy = "")
         {
+            if (!sortOrder.IsNullOrWhiteSpace() && !sortBy.IsNullOrWhiteSpace())
+            {
+                return GetJobsSorted(sortOrder, sortBy);
+            }
+
             if (!types.IsNullOrWhiteSpace())
             {
                 return GetJobByType(types);
@@ -48,6 +54,9 @@ namespace KompetansetorgetServer.Controllers.Api
         private IQueryable GetJobs()
         {
             //return db.Jobs;
+            var jobs = from job in db.Jobs select job;
+            return GetJobSerialized(jobs);
+            /*
             return db.Jobs.Select(s => new
             {
                 s.Uuid,
@@ -63,7 +72,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 s.IdLocation,
                 s.IdCompany,
                 Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
-            });
+            }); */
         }
 
         // GET: api/Jobs/5
@@ -115,7 +124,8 @@ namespace KompetansetorgetServer.Controllers.Api
                        where job.Study_groups.Any(s => s.IdStudy_group.Equals(study_group))
                        select job;
 
-            return jobs.Select(s => new
+            return GetJobSerialized(jobs);
+            /*return jobs.Select(s => new
             {
                 s.Uuid,
                 s.Description,
@@ -130,7 +140,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 s.IdLocation,
                 s.IdCompany,
                 Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
-            });
+            });*/
         }
 
 
@@ -149,11 +159,12 @@ namespace KompetansetorgetServer.Controllers.Api
                 return GetJobs();
             }
 
-            var jobs = from job in db.Jobs               //IdStudy_group is a string primary key
+            var jobs = from job in db.Jobs               
                        where job.IdJobType.Equals(types)
                        select job;
 
-            return jobs.Select(s => new
+            return GetJobSerialized(jobs);
+            /* return jobs.Select(s => new
             {
                 s.Uuid,
                 s.Description,
@@ -168,7 +179,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 s.IdLocation,
                 s.IdCompany,
                 Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
-            });
+            }); */
         }
 
 
@@ -186,10 +197,12 @@ namespace KompetansetorgetServer.Controllers.Api
                 return GetJobs();
             }
 
-            var jobs = from job in db.Jobs               //IdStudy_group is a string primary key
+            var jobs = from job in db.Jobs           
                        where job.IdLocation.Equals(locations)
                        select job;
-
+            
+            return GetJobSerialized(jobs);
+            /*
             return jobs.Select(s => new
             {
                 s.Uuid,
@@ -206,6 +219,123 @@ namespace KompetansetorgetServer.Controllers.Api
                 s.IdCompany,
                 Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
             });
+            */
+        }
+
+
+        /// <summary>
+        /// Lists all jobs that contains that spesific Location. 
+        /// GET: api/jobs?locations=vestagder
+        /// GET: api/jobs?locations=austagder
+        /// </summary>
+        /// <param name="locations">the Locations identificator</param>
+        /// <returns></returns> 
+        private IQueryable GetJobSerialized(IQueryable<Job> jobs)
+        {
+            return jobs.Select(s => new
+            {
+                s.Uuid,
+                s.Description,
+                s.Webpage,
+                s.Expiry_date,
+                s.Steps_to_apply,
+                s.Created,
+                s.Published,
+                s.Modified,
+                s.IdContact,
+                s.IdJobType,
+                s.IdLocation,
+                s.IdCompany,
+                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
+            });
+            
+        }
+
+
+        /// <summary>
+        /// List jobs in a ascending or descending order based on a spesific searchString
+        /// GET: api/jobs/?sortorder=asc&sortby=types
+        /// GET: api/jobs/?sortorder=desc&sortby=types
+        /// GET: api/jobs/?sortorder=desc&sortby=locations
+        /// GET: api/jobs/?sortorder=desc&sortby=study_group
+        /// </summary>
+        /// <param name="sortOrder"></param>
+        /// <param name="sortBy"></param>
+        /// <returns></returns>
+        private IQueryable GetJobsSorted(string sortOrder = "", string sortBy = "")
+        {
+            if (sortOrder.IsNullOrWhiteSpace() || sortBy.IsNullOrWhiteSpace())
+            {
+                return GetJobs();
+            }
+
+            if (!sortOrder.Equals("desc") && !sortOrder.Equals("asc"))
+            {
+                return GetJobs();
+            }
+
+            var queryResult = from job in db.Jobs select job;
+
+            // Won't work due to incompatible return type.
+            //GetJobSerialized(jobs1)
+
+            var jobs = queryResult.Select(s => new
+                {
+                    s.Uuid,
+                    s.Description,
+                    s.Webpage,
+                    s.Expiry_date,
+                    s.Steps_to_apply,
+                    s.Created,
+                    s.Published,
+                    s.Modified,
+                    s.IdContact,
+                    s.IdJobType,
+                    s.IdLocation,
+                    s.IdCompany,
+                    Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
+            });
+
+
+
+            if (sortOrder.Equals("desc"))
+            {
+                switch (sortBy)
+                {
+                    case "types":
+                        jobs = jobs.OrderByDescending(j => j.IdJobType );
+                        return jobs;
+                    case "locations":
+                        jobs = jobs.OrderByDescending(j => j.IdLocation);
+                        return jobs;
+                    case "study_group":
+
+                        jobs = jobs.OrderByDescending(j => j.Study_groups.Select(sg => new { sg.IdStudy_group }));
+                        //jobs = jobs.OrderByDescending(j => j.Study_groups.IdStudy_group);
+                        //jobs = jobs.OrderByDescending(j => j.Study_groups.Select(sg => new { sg.IdStudy_group }));
+                        return jobs;
+                    default:
+                        return GetJobs();
+                }
+            }
+
+            else
+            {
+                switch (sortBy)
+                {
+                    case "types":
+                        jobs = jobs.OrderBy(j => j.IdJobType);
+                        return jobs;
+                    case "locations":
+                        jobs = jobs.OrderBy(j => j.IdLocation);
+                        return jobs;
+                    case "study_group":
+                        jobs = jobs.OrderBy(j => j.Study_groups);
+                        return jobs;
+                    default:
+                        return GetJobs();
+                }
+            }
         }
 
 
