@@ -17,14 +17,32 @@ namespace KompetansetorgetServer.Controllers.Api
     public class JobsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
-       
+
+        // [HttpGet, Route("api/jobs")]
+        public IQueryable Get(string types = "", string study_group = "")
+        {
+            if (!types.IsNullOrWhiteSpace())
+            {
+                return GetJobByType(types);
+                
+            }
+
+            if (!study_group.IsNullOrWhiteSpace())
+            {
+                return GetJobByStudy(study_group);
+
+            }
+
+            return GetJobs();
+        }
+
         // GET: api/Jobs
         //public IQueryable<Job> GetJobs()
         /// <summary>
         /// This method is called if no query strings are presented
         /// </summary>
         /// <returns></returns>
-        public IQueryable GetJobs()
+        private IQueryable GetJobs()
         {
             //return db.Jobs;
             return db.Jobs.Select(s => new
@@ -80,8 +98,8 @@ namespace KompetansetorgetServer.Controllers.Api
         /// </summary>
         /// <param name="study_group">the Study_group identificator</param>
         /// <returns></returns> 
-        [HttpGet, Route("api/jobs")]
-        public IQueryable GetJobByStudy(string study_group = "")
+       // [HttpGet, Route("api/jobs")]
+        private IQueryable GetJobByStudy(string study_group = "")
         {
             if (study_group.IsNullOrWhiteSpace())
             {
@@ -90,6 +108,43 @@ namespace KompetansetorgetServer.Controllers.Api
 
             var jobs = from job in db.Jobs               //IdStudy_group is a string primary key
                        where job.Study_groups.Any(s => s.IdStudy_group.Equals(study_group))
+                       select job;
+
+            return jobs.Select(s => new
+            {
+                s.Uuid,
+                s.Description,
+                s.Webpage,
+                s.Expiry_date,
+                s.Steps_to_apply,
+                s.Created,
+                s.Published,
+                s.Modified,
+                s.IdContact,
+                s.IdJobType,
+                s.IdCompany,
+                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
+            });
+        }
+
+
+        /// <summary>
+        /// Lists all jobs that contains that spesific Type (full time and part time jobs). 
+        /// GET: api/jobs?types=heltid
+        /// GET: api/jobs?types=deltid
+        /// </summary>
+        /// <param name="types">the JobTypes identificator</param>
+        /// <returns></returns> 
+       // [HttpGet, Route("api/jobs")]
+        private IQueryable GetJobByType(string types = "")
+        {
+            if (types.IsNullOrWhiteSpace())
+            {
+                return GetJobs();
+            }
+
+            var jobs = from job in db.Jobs               //IdStudy_group is a string primary key
+                       where job.IdJobType.Equals(types)
                        select job;
 
             return jobs.Select(s => new

@@ -13,6 +13,7 @@ namespace KompetansetorgetServer.Models
         // Populates all the tables in the correct order.
         public void PopulateAll()
         {
+            
             PopulateLocation();
             PopulateStudy_group();
             PopulateDevice();
@@ -20,7 +21,9 @@ namespace KompetansetorgetServer.Models
             PopulateJobType();
             PopulateContact();
             PopulateCompany();
-            PopulateJob(); 
+            PopulateJob();
+            
+            //temp();
         }
 
         //Populates the Location table
@@ -152,7 +155,20 @@ namespace KompetansetorgetServer.Models
 
             };
 
+            Contact syvertsen = new Contact()
+            {
+                IdContact = 3,
+                Name = "Andre Syvertsen",
+                Position = "Avdelingsjef",
+                Phone = "23224367",
+                Mail = "syvertsen@hotmail.com"
+
+            };
+
             db.Contacts.Add(andersen);
+            db.Contacts.Add(mikkelsen);
+            db.Contacts.Add(syvertsen);
+
             db.SaveChanges();
 
         }
@@ -187,9 +203,22 @@ namespace KompetansetorgetServer.Models
 
             };
 
+            Company nav = new Company()
+            {
+                IdCompany = "nav",
+                Name = "Nav",
+                Adress = "Gyldenløves gate 23, 4611 Kristiansand S",
+                Url = "http://nav.no/",
+                Facebook = "",
+                LinkedIn = "",
+                Description = "Arbeids- og velferdsforvaltning",
+                Logo = "https://appres.nav.no/_public/beta.nav.no/images/logo.png?_ts=1512923c9b0"
+
+            };
 
             db.Companies.Add(snekkern);
             db.Companies.Add(spicheren);
+            db.Companies.Add(nav);
             db.SaveChanges();
 
         }
@@ -197,6 +226,9 @@ namespace KompetansetorgetServer.Models
         //Populates the Job table
         private void PopulateJob()
         {
+            DateTime now = DateTime.Now;
+
+
             Job job = new Job()
             {
                 Uuid = Guid.NewGuid().ToString(),
@@ -204,15 +236,17 @@ namespace KompetansetorgetServer.Models
                 Description = "Database ansvarlig for Snekkern",
                 Webpage = "http://snekkern.no/",
                 Steps_to_apply = "Send mail",
-                Expiry_date = DateTime.Now.AddDays(20),
-                Created = DateTime.Now,
-                Published = DateTime.Now,
-                Modified = DateTime.Now
+                Expiry_date = now.AddDays(20),
+                Created = now,
+                Published = now,
+                Modified = now
             };
 
             Contact contact = db.Contacts.First(x => x.IdContact == 1);
             Location location = db.Locations.First(x => x.IdLocation.Equals("vestagder"));
-            JobType jobType = db.JobTypes.First(x => x.IdJobType.Equals("heltid"));
+            JobType heltid = db.JobTypes.First(x => x.IdJobType.Equals("heltid"));
+            JobType deltid = db.JobTypes.First(x => x.IdJobType.Equals("deltid"));
+
             Company company = db.Companies.First(x => x.IdCompany.Equals("snekkern"));
 
             Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
@@ -223,7 +257,7 @@ namespace KompetansetorgetServer.Models
             job.Study_groups.Add(data);
             //job.Study_groups.Add(idrett);
             job.Location = location;
-            job.JobType = jobType;
+            job.JobType = heltid;
             job.Company = company;
 
             db.Jobs.Add(job);
@@ -235,10 +269,10 @@ namespace KompetansetorgetServer.Models
                 Description = "Er du vår nye mest selgende PT?!?!1",
                 Webpage = "http://spicheren.no/",
                 Steps_to_apply = "Send mail",
-                Expiry_date = DateTime.Now.AddDays(20),
-                Created = DateTime.Now,
-                Published = DateTime.Now,
-                Modified = DateTime.Now
+                Expiry_date = now.AddDays(20),
+                Created = now,
+                Published = now,
+                Modified = now
             };
 
             Contact contact2 = db.Contacts.First(x => x.IdContact == 2);
@@ -250,14 +284,108 @@ namespace KompetansetorgetServer.Models
             job2.Contact = contact2;
             job2.Study_groups.Add(idrett);
             job2.Location = location;
-            job2.JobType = jobType;
+            job2.JobType = heltid;
             job2.Company = company2;
 
             db.Jobs.Add(job);
             db.Jobs.Add(job2);
             //htc.Student = student;
+            Job job3 = new Job()
+            {
+                Uuid = Guid.NewGuid().ToString(),
+                Title = "IT og kursanvarlig",
+                Description = "IT og opplæring",
+                Webpage = "http://nav.no/",
+                Steps_to_apply = "Send mail",
+                Expiry_date = now.AddDays(20),
+                Created = now,
+                Published = now,
+                Modified = now
+            };
+
+            Contact contact3 = db.Contacts.First(x => x.IdContact == 3);
+            Company company3 = db.Companies.First(x => x.IdCompany.Equals("nav"));
+            Study_group ped = db.Study_group.First(x => x.IdStudy_group.Equals("lærer"));
+
+
+            job3.Contact = contact3;
+            job3.Study_groups.Add(data);
+            job3.Study_groups.Add(ped);
+
+            job3.Location = location;
+            job3.JobType = deltid;
+            job3.Company = company3;
+
             db.SaveChanges();
             //return RedirectToAction("About", "Home");
+        }
+
+        private void temp()
+        {
+            
+            Contact syvertsen = new Contact()
+            {
+                IdContact = 3,
+                Name = "Andre Syvertsen",
+                Position = "Avdelingsjef",
+                Phone = "23224367",
+                Mail = "syvertsen@hotmail.com"
+
+            };
+
+            db.Contacts.Add(syvertsen);
+            db.SaveChanges();
+
+            Company nav = new Company()
+            {
+                IdCompany = "nav",
+                Name = "Nav",
+                Adress = "Gyldenløves gate 23, 4611 Kristiansand S",
+                Url = "http://nav.no/",
+                Facebook = "",
+                LinkedIn = "",
+                Description = "Arbeids- og velferdsforvaltning",
+                Logo = "https://appres.nav.no/_public/beta.nav.no/images/logo.png?_ts=1512923c9b0"
+
+            };
+            db.Companies.Add(nav);
+            db.SaveChanges();
+            
+            Location location = db.Locations.First(x => x.IdLocation.Equals("vestagder"));
+            Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
+
+            JobType deltid = db.JobTypes.First(x => x.IdJobType.Equals("deltid"));
+
+            DateTime now = DateTime.Now;
+
+            Job job3 = new Job()
+            {
+                Uuid = Guid.NewGuid().ToString(),
+                Title = "IT og kursanvarlig",
+                Description = "IT og opplæring",
+                Webpage = "http://nav.no/",
+                Steps_to_apply = "Send mail",
+                Expiry_date = now.AddDays(20),
+                Created = now,
+                Published = now,
+                Modified = now
+            };
+
+            Contact contact3 = db.Contacts.First(x => x.IdContact == 3);
+            Company company3 = db.Companies.First(x => x.IdCompany.Equals("nav"));
+            Study_group ped = db.Study_group.First(x => x.IdStudy_group.Equals("lærer"));
+
+
+            job3.Contact = contact3;
+            job3.Study_groups.Add(data);
+            job3.Study_groups.Add(ped);
+
+            job3.Location = location;
+            job3.JobType = deltid;
+            job3.Company = company3;
+
+            db.Jobs.Add(job3);
+            db.SaveChanges();
         }
     }
 }
