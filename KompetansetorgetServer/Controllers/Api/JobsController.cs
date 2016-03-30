@@ -53,26 +53,8 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <returns></returns>
         private IQueryable GetJobs()
         {
-            //return db.Jobs;
             var jobs = from job in db.Jobs select job;
             return GetJobSerialized(jobs);
-            /*
-            return db.Jobs.Select(s => new
-            {
-                s.Uuid,
-                s.Description,
-                s.Webpage,
-                s.Expiry_date,
-                s.Steps_to_apply,
-                s.Created,
-                s.Published,
-                s.Modified,
-                s.IdContact,
-                s.IdJobType,
-                s.IdLocation,
-                s.IdCompany,
-                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
-            }); */
         }
 
         // GET: api/Jobs/5
@@ -125,22 +107,6 @@ namespace KompetansetorgetServer.Controllers.Api
                        select job;
 
             return GetJobSerialized(jobs);
-            /*return jobs.Select(s => new
-            {
-                s.Uuid,
-                s.Description,
-                s.Webpage,
-                s.Expiry_date,
-                s.Steps_to_apply,
-                s.Created,
-                s.Published,
-                s.Modified,
-                s.IdContact,
-                s.IdJobType,
-                s.IdLocation,
-                s.IdCompany,
-                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
-            });*/
         }
 
 
@@ -164,22 +130,6 @@ namespace KompetansetorgetServer.Controllers.Api
                        select job;
 
             return GetJobSerialized(jobs);
-            /* return jobs.Select(s => new
-            {
-                s.Uuid,
-                s.Description,
-                s.Webpage,
-                s.Expiry_date,
-                s.Steps_to_apply,
-                s.Created,
-                s.Published,
-                s.Modified,
-                s.IdContact,
-                s.IdJobType,
-                s.IdLocation,
-                s.IdCompany,
-                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
-            }); */
         }
 
 
@@ -202,24 +152,6 @@ namespace KompetansetorgetServer.Controllers.Api
                        select job;
             
             return GetJobSerialized(jobs);
-            /*
-            return jobs.Select(s => new
-            {
-                s.Uuid,
-                s.Description,
-                s.Webpage,
-                s.Expiry_date,
-                s.Steps_to_apply,
-                s.Created,
-                s.Published,
-                s.Modified,
-                s.IdContact,
-                s.IdJobType,
-                s.IdLocation,
-                s.IdCompany,
-                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
-            });
-            */
         }
 
 
@@ -253,7 +185,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
 
         /// <summary>
-        /// List jobs in a ascending or descending order based on a spesific searchString
+        /// List jobs in a ascending or descending order based on sortBy parameter.
         /// GET: api/jobs/?sortorder=asc&sortby=types
         /// GET: api/jobs/?sortorder=desc&sortby=types
         /// GET: api/jobs/?sortorder=desc&sortby=locations
