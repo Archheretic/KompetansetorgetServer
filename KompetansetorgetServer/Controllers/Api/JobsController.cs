@@ -19,18 +19,21 @@ namespace KompetansetorgetServer.Controllers.Api
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
         // [HttpGet, Route("api/jobs")]
-        public IQueryable Get(string types = "", string study_group = "")
+        public IQueryable Get(string types = "", string study_group = "", string locations = "")
         {
             if (!types.IsNullOrWhiteSpace())
             {
                 return GetJobByType(types);
-                
             }
 
             if (!study_group.IsNullOrWhiteSpace())
             {
                 return GetJobByStudy(study_group);
+            }
 
+            if (!locations.IsNullOrWhiteSpace())
+            {
+                return GetJobByLocation(locations);
             }
 
             return GetJobs();
@@ -57,6 +60,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 s.Modified,
                 s.IdContact,
                 s.IdJobType,
+                s.IdLocation,
                 s.IdCompany,
                 Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
             });
@@ -86,6 +90,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 job.Modified,
                 job.IdContact,
                 job.IdJobType,
+                job.IdLocation,
                 job.IdCompany,
                 Study_groups = job.Study_groups.Select(st => new { st.IdStudy_group })
             });
@@ -122,6 +127,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 s.Modified,
                 s.IdContact,
                 s.IdJobType,
+                s.IdLocation,
                 s.IdCompany,
                 Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
             });
@@ -159,10 +165,49 @@ namespace KompetansetorgetServer.Controllers.Api
                 s.Modified,
                 s.IdContact,
                 s.IdJobType,
+                s.IdLocation,
                 s.IdCompany,
                 Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
             });
         }
+
+
+        /// <summary>
+        /// Lists all jobs that contains that spesific Location. 
+        /// GET: api/jobs?locations=vestagder
+        /// GET: api/jobs?locations=austagder
+        /// </summary>
+        /// <param name="locations">the Locations identificator</param>
+        /// <returns></returns> 
+        private IQueryable GetJobByLocation(string locations = "")
+        {
+            if (locations.IsNullOrWhiteSpace())
+            {
+                return GetJobs();
+            }
+
+            var jobs = from job in db.Jobs               //IdStudy_group is a string primary key
+                       where job.IdLocation.Equals(locations)
+                       select job;
+
+            return jobs.Select(s => new
+            {
+                s.Uuid,
+                s.Description,
+                s.Webpage,
+                s.Expiry_date,
+                s.Steps_to_apply,
+                s.Created,
+                s.Published,
+                s.Modified,
+                s.IdContact,
+                s.IdJobType,
+                s.IdLocation,
+                s.IdCompany,
+                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
+            });
+        }
+
 
         // PUT: api/Jobs/5
         [ResponseType(typeof(void))]
