@@ -14,52 +14,45 @@ namespace KompetansetorgetServer.Models
     {
         public Job()
         {
-            Study_groups = new HashSet<Study_group>();
+            companies = new HashSet<Company>();
+            contacts = new HashSet<Contact>();
+            locations = new HashSet<Location>();
+            studyGroups = new HashSet<StudyGroup>();
+            jobTypes = new HashSet<JobType>();
+
         }
 
         [Key]
-        public string Uuid { get; set; }
+        public string uuid { get; set; }
 
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Webpage { get; set; }
-        public string LinkedIn_profile { get; set; }
-
-        [Column(TypeName = "datetime2")]
-        public DateTime Expiry_date { get; set; }
-
-        public string Steps_to_apply { get; set; }
+        public string title { get; set; }
+        public string description { get; set; }
+        public string webpage { get; set; }
+        public string linkedInProfile { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime Created { get; set; }
+        public DateTime expiryDate { get; set; }
+
+        public string stepsToApply { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime Published { get; set; }
+        public DateTime created { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime Modified { get; set; }
+        public DateTime published { get; set; }
 
-        public virtual ICollection<Study_group> Study_groups { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime modified { get; set; }
 
-        [Column("IdContact")]
-        [ForeignKey("Contact")]
-        public int IdContact { get; set; }
-        public Contact Contact { get; set; }
+        public virtual ICollection<Company> companies { get; set; }
 
-        [Column("IdLocation")]
-        [ForeignKey("Location")]
-        public string IdLocation { get; set; }
-        public Location Location { get; set; }
+        public virtual ICollection<Contact> contacts { get; set; }
 
-        [Column("IdJobType")]
-        [ForeignKey("JobType")]
-        public string IdJobType { get; set; }
-        public JobType JobType { get; set; }
+        public virtual ICollection<Location> locations { get; set; }
 
-        [Column("IdCompany")]
-        [ForeignKey("Company")]
-        public string IdCompany { get; set; }
-        public Company Company { get; set; }
+        public virtual ICollection<JobType> jobTypes { get; set; }
+
+        public virtual ICollection<StudyGroup> studyGroups { get; set; }
     }
 }
 
@@ -86,28 +79,28 @@ public ActionResult InsertEnJob()
 {
     Job job = new Job()
     {
-        Title = "Database ansvarlig",
-        Description = "Database ansvarlig for Snekkern",
-        Webpage = "http://snekkern.no/",
-        Steps_to_apply = "Send mail",
-        Expiry_date = DateTime.Now.AddDays(20),
-        Created = DateTime.Now,
-        Published = DateTime.Now,
-        Modified = DateTime.Now
+        title = "Database ansvarlig",
+        description = "Database ansvarlig for Snekkern",
+        webpage = "http://snekkern.no/",
+        stepsToApply = "Send email",
+        expiryDate = DateTime.Now.AddDays(20),
+        created = DateTime.Now,
+        published = DateTime.Now,
+        modified = DateTime.Now
     };
 
-    Contact contact = db.Contacts.First(x => x.IdContact == 1);
-    Location location = db.Locations.First(x => x.IdLocation.Equals("Vest-Agder"));
-    JobType jobType = db.JobTypes.First(x => x.IdJobType.Equals("Heltid"));
-    Company company = db.Companies.First(x => x.IdCompany.Equals("uia"));
+    Contact contact = db.contacts.First(x => x.id == 1);
+    Location location = db.locations.First(x => x.id.Equals("Vest-Agder"));
+    JobType jobType = db.jobTypes.First(x => x.id.Equals("Heltid"));
+    Company company = db.companies.First(x => x.id.Equals("uia"));
 
-    Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
-    //Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
+    StudyGroup data = db.StudyGroup.First(x => x.id.Equals("datateknologi"));
+    //StudyGroup idrett = db.StudyGroup.First(x => x.id.Equals("idrettsfag"));
 
 
     job.Contact = contact;
-    job.Study_groups.Add(data);
-    //job.Study_groups.Add(idrett);
+    job.studyGroups.Add(data);
+    //job.studyGroups.Add(idrett);
     job.Location = location;
     job.JobType = jobType;
     job.Company = company;
@@ -127,18 +120,18 @@ public ActionResult InsertEnJob()
             //return db.Jobs;
             return db.Jobs.Select(s => new
             {
-                s.Uuid,
-                s.Description,
-                s.Webpage,
-                s.Expiry_date,
-                s.Steps_to_apply,
-                s.Created,
-                s.Published,
-                s.Modified,
-                s.IdContact,
-                s.IdJobType,
-                s.IdCompany,
-                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
+                s.uuid,
+                s.description,
+                s.webpage,
+                s.expiryDate,
+                s.stepsToApply,
+                s.created,
+                s.published,
+                s.modified,
+                s.id,
+                s.id,
+                s.id,
+                studyGroups = s.studyGroups.Select(st => new { st.id })
             });
         }
 
@@ -155,18 +148,18 @@ public ActionResult InsertEnJob()
             //return Ok(job);
             return Ok (new
             {
-                job.Uuid,
-                job.Description,
-                job.Webpage,
-                job.Expiry_date,
-                job.Steps_to_apply,
-                job.Created,
-                job.Published,
-                job.Modified,
-                job.IdContact,
-                job.IdJobType,
-                job.IdCompany,
-                Study_groups = job.Study_groups.Select(st => new { st.IdStudy_group })
+                job.uuid,
+                job.description,
+                job.webpage,
+                job.expiryDate,
+                job.stepsToApply,
+                job.created,
+                job.published,
+                job.modified,
+                job.id,
+                job.id,
+                job.id,
+                studyGroups = job.studyGroups.Select(st => new { st.id })
             });
         }
 

@@ -17,26 +17,34 @@ namespace KompetansetorgetServer.Controllers.Api
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: api/Locations
-        public IQueryable<Location> GetLocations()
+        // GET: api/locations
+        public IQueryable GetLocations()
         {
-            return db.Locations;
+            return db.locations.Select( l => new 
+            {
+                l.id,
+                l.name
+            });
         }
 
-        // GET: api/Locations/5
+        // GET: api/locations/5
         [ResponseType(typeof(Location))]
         public async Task<IHttpActionResult> GetLocation(string id)
         {
-            Location location = await db.Locations.FindAsync(id);
+            Location location = await db.locations.FindAsync(id);
             if (location == null)
             {
                 return NotFound();
             }
 
-            return Ok(location);
+            return Ok( new
+            {
+                location.id,
+                location.name
+            });
         }
 
-        // PUT: api/Locations/5
+        // PUT: api/locations/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutLocation(string id, Location location)
         {
@@ -45,7 +53,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (id != location.IdLocation)
+            if (id != location.id)
             {
                 return BadRequest();
             }
@@ -71,7 +79,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Locations
+        // POST: api/locations
         [ResponseType(typeof(Location))]
         public async Task<IHttpActionResult> PostLocation(Location location)
         {
@@ -80,7 +88,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            db.Locations.Add(location);
+            db.locations.Add(location);
 
             try
             {
@@ -88,7 +96,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch (DbUpdateException)
             {
-                if (LocationExists(location.IdLocation))
+                if (LocationExists(location.id))
                 {
                     return Conflict();
                 }
@@ -98,20 +106,20 @@ namespace KompetansetorgetServer.Controllers.Api
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = location.IdLocation }, location);
+            return CreatedAtRoute("DefaultApi", new { id = location.id }, location);
         }
 
-        // DELETE: api/Locations/5
+        // DELETE: api/locations/5
         [ResponseType(typeof(Location))]
         public async Task<IHttpActionResult> DeleteLocation(string id)
         {
-            Location location = await db.Locations.FindAsync(id);
+            Location location = await db.locations.FindAsync(id);
             if (location == null)
             {
                 return NotFound();
             }
 
-            db.Locations.Remove(location);
+            db.locations.Remove(location);
             await db.SaveChangesAsync();
 
             return Ok(location);
@@ -128,7 +136,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         private bool LocationExists(string id)
         {
-            return db.Locations.Count(e => e.IdLocation == id) > 0;
+            return db.locations.Count(e => e.id == id) > 0;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace KompetansetorgetServer.Models
     public class DbPopulator
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
-
+        
         // Populates all the tables in the correct order.
         public void PopulateAll()
         {
@@ -25,51 +25,51 @@ namespace KompetansetorgetServer.Models
             
             //temp();
         }
-
+    
         //Populates the Location table
         private void PopulateLocation()
         {
             Location va = new Location()
             {
-                IdLocation = "vestagder",
-                Name = "Vest-Agder"
+                id = "vestagder",
+                name = "Vest-Agder"
             };
 
             Location aa = new Location()
             {
-                IdLocation = "austagder",
-                Name = "Aust-Agder"
+                id = "austagder",
+                name = "Aust-Agder"
             };
-            db.Locations.Add(aa);
-            db.Locations.Add(va);
+            db.locations.Add(aa);
+            db.locations.Add(va);
             db.SaveChanges();
 
         }
 
-        //Populates the Study_group table
+        //Populates the StudyGroup table
         private void PopulateStudy_group()
         {
-            Study_group idrett = new Study_group()
+            StudyGroup idrett = new StudyGroup()
             {
-                IdStudy_group = "idrettsfag",
-                Name = "Idrettsfag"
+                id = "idrettsfag",
+                name = "Idrettsfag"
             };
 
-            Study_group data = new Study_group()
+            StudyGroup data = new StudyGroup()
             {
-                IdStudy_group = "datateknologi",
-                Name = "Datateknologi"
+                id = "datateknologi",
+                name = "Datateknologi"
             };
 
-            Study_group ped = new Study_group()
+            StudyGroup ped = new StudyGroup()
             {
-                IdStudy_group = "lærer",
-                Name = "Lærerutdanning og pedagogikk"
+                id = "lærerutdanning",
+                name = "Lærerutdanning og pedagogikk"
             };
 
-            db.Study_group.Add(idrett);
-            db.Study_group.Add(data);
-            db.Study_group.Add(ped);
+            db.studyGroup.Add(idrett);
+            db.studyGroup.Add(data);
+            db.studyGroup.Add(ped);
 
             db.SaveChanges();
 
@@ -80,12 +80,12 @@ namespace KompetansetorgetServer.Models
         {
             Device htc = new Device()
             {
-               IdDevice = "HT451WM08832",
-               DeviceType = "android",
-               Token = "fMXJqM0z0FQ:APA91bHHp_TLeg3Z3ES3qc1Kdt25KUFdX5G5gZLgVqrdjSA3uQZkmuR9V-b78X48T9ZGCGJkdyqvBeFrpoYyCbgnw5_7dslTjbR4E9SEm74uh-e4pOqeJjcrA5smhcQUuP_YQoNwVNvY"
+               id = "HT451WM08832",
+               deviceType = "android",
+               token = "fMXJqM0z0FQ:APA91bHHp_TLeg3Z3ES3qc1Kdt25KUFdX5G5gZLgVqrdjSA3uQZkmuR9V-b78X48T9ZGCGJkdyqvBeFrpoYyCbgnw5_7dslTjbR4E9SEm74uh-e4pOqeJjcrA5smhcQUuP_YQoNwVNvY"
 
             };
-            db.Devices.Add(htc);
+            db.devices.Add(htc);
             db.SaveChanges();
 
         }
@@ -95,18 +95,18 @@ namespace KompetansetorgetServer.Models
         {
             Student student = new Student()
             {
-                Username = "viktos08",
-                Name = "Viktor Setervang",
-                Email = "viktos08@uia.no"
+                username = "viktos08",
+                name = "Viktor Setervang",
+                email = "viktos08@uia.no"
 
             };   
-            Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
-            Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
-            Device htc = db.Devices.First(x => x.IdDevice.Equals("HT451WM08832"));
+            StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
+            StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrettsfag"));
+            Device htc = db.devices.First(x => x.id.Equals("HT451WM08832"));
             student.Devices.Add(htc);
-            student.Study_groups.Add(data);
-            student.Study_groups.Add(idrett);
-            db.Students.Add(student);
+            student.studyGroups.Add(data);
+            student.studyGroups.Add(idrett);
+            db.students.Add(student);
             //htc.Student = student;
             db.SaveChanges();
         }
@@ -116,18 +116,18 @@ namespace KompetansetorgetServer.Models
         {
             JobType heltid = new JobType()
             {
-                IdJobType = "heltid",
-                Name = "Heltid"
+                id = "heltid",
+                name = "Heltid"
             };
 
             JobType deltid = new JobType()
             {
-                IdJobType = "deltid",
-                Name = "Deltid"
+                id = "deltid",
+                name = "Deltid"
             };
 
-            db.JobTypes.Add(heltid);
-            db.JobTypes.Add(deltid);
+            db.jobTypes.Add(heltid);
+            db.jobTypes.Add(deltid);
             db.SaveChanges();
 
         }
@@ -137,48 +137,48 @@ namespace KompetansetorgetServer.Models
         {
             Contact andersen = new Contact()
             {
-                IdContact = 1,
-                Name = "Snekker Andersen",
-                Position = "Avdelingsjef",
-                Phone = "45124367",
-                Mail = "andersen@hotmail.com"
+                id = 1,
+                name = "Snekker Andersen",
+                position = "Avdelingsjef",
+                phone = "45124367",
+                email = "andersen@hotmail.com"
 
             };
 
             Contact mikkelsen = new Contact()
             {
-                IdContact = 2,
-                Name = "Susanne mikkelsen",
-                Position = "Avdelingsjef",
-                Phone = "75224367",
-                Mail = "mikkelsen@hotmail.com"
+                id = 2,
+                name = "Susanne mikkelsen",
+                position = "Avdelingsjef",
+                phone = "75224367",
+                email = "mikkelsen@hotmail.com"
 
             };
 
             Contact syvertsen = new Contact()
             {
-                IdContact = 3,
-                Name = "Andre Syvertsen",
-                Position = "Avdelingsjef",
-                Phone = "23224367",
-                Mail = "syvertsen@hotmail.com"
+                id = 3,
+                name = "Andre Syvertsen",
+                position = "Avdelingsjef",
+                phone = "23224367",
+                email = "syvertsen@hotmail.com"
 
             };
 
             Contact nilsen = new Contact()
             {
-                IdContact = 4,
-                Name = "Nils Nilsen",
-                Position = "Avdelingsjef",
-                Phone = "67224367",
-                Mail = "nilsen@hotmail.com"
+                id = 4,
+                name = "Nils Nilsen",
+                position = "Avdelingsjef",
+                phone = "67224367",
+                email = "nilsen@hotmail.com"
 
             };
 
-            db.Contacts.Add(andersen);
-            db.Contacts.Add(mikkelsen);
-            db.Contacts.Add(syvertsen);
-            db.Contacts.Add(nilsen);
+            db.contacts.Add(andersen);
+            db.contacts.Add(mikkelsen);
+            db.contacts.Add(syvertsen);
+            db.contacts.Add(nilsen);
             db.SaveChanges();
 
         }
@@ -189,60 +189,60 @@ namespace KompetansetorgetServer.Models
         {
             Company snekkern = new Company()
             {
-                IdCompany = "snekkern",
-                Name = "Snekkern",
-                Adress = "Industrigata 3",
-                Url = "http://snekkern.no/",
-                Facebook = "",
-                LinkedIn = "",
-                Description = "Snekkrer ting",
-                Logo = "http://w267110-www.php5.dittdomene.no/wp-content/uploads/2014/11/Snekkern_top_tag_straight.png"
+                id = "snekkern",
+                name = "Snekkern",
+                adress = "Industrigata 3",
+                url = "http://snekkern.no/",
+                facebook = "",
+                linkedIn = "",
+                description = "Snekkrer ting",
+                logo = "http://w267110-www.php5.dittdomene.no/wp-content/uploads/2014/11/Snekkern_top_tag_straight.png"
 
             };
 
             Company spicheren = new Company()
             {
-                IdCompany = "spicheren",
-                Name = "Spicheren",
-                Adress = "Gimlemoen 1",
-                Url = "http://spicheren.no/",
-                Facebook = "",
-                LinkedIn = "",
-                Description = "Treningssenter",
-                Logo = "http://www.sia.no/~/media/Images/Spicheren/Logo/Spicheren_500.png?h=98&la=nb-NO&w=499"
+                id = "spicheren",
+                name = "Spicheren",
+                adress = "Gimlemoen 1",
+                url = "http://spicheren.no/",
+                facebook = "",
+                linkedIn = "",
+                description = "Treningssenter",
+                logo = "http://www.sia.no/~/media/Images/Spicheren/logo/Spicheren_500.png?h=98&la=nb-NO&w=499"
 
             };
 
             Company nav = new Company()
             {
-                IdCompany = "nav",
-                Name = "Nav",
-                Adress = "Gyldenløves gate 23, 4611 Kristiansand S",
-                Url = "http://nav.no/",
-                Facebook = "",
-                LinkedIn = "",
-                Description = "Arbeids- og velferdsforvaltning",
-                Logo = "https://appres.nav.no/_public/beta.nav.no/images/logo.png?_ts=1512923c9b0"
+                id = "nav",
+                name = "Nav",
+                adress = "Gyldenløves gate 23, 4611 Kristiansand S",
+                url = "http://nav.no/",
+                facebook = "",
+                linkedIn = "",
+                description = "Arbeids- og velferdsforvaltning",
+                logo = "https://appres.nav.no/_public/beta.nav.no/images/logo.png?_ts=1512923c9b0"
 
             };
 
             Company stamina = new Company()
             {
-                IdCompany = "stamina",
-                Name = "Stamina Hot",
-                Adress = "Storgaten 90, 4877 Grimstad",
-                Url = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad/",
-                Facebook = "",
-                LinkedIn = "",
-                Description = "Treningssenter",
-                Logo = "https://www.staminagroup.no/UI/logo.png"
+                id = "stamina",
+                name = "Stamina Hot",
+                adress = "Storgaten 90, 4877 Grimstad",
+                url = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad/",
+                facebook = "",
+                linkedIn = "",
+                description = "Treningssenter",
+                logo = "https://www.staminagroup.no/UI/logo.png"
 
             };
 
-            db.Companies.Add(stamina);
-            db.Companies.Add(snekkern);
-            db.Companies.Add(spicheren);
-            db.Companies.Add(nav);
+            db.companies.Add(stamina);
+            db.companies.Add(snekkern);
+            db.companies.Add(spicheren);
+            db.companies.Add(nav);
             db.SaveChanges();
 
         }
@@ -255,121 +255,129 @@ namespace KompetansetorgetServer.Models
 
             Job job = new Job()
             {
-                Uuid = Guid.NewGuid().ToString(),
-                Title = "Database ansvarlig",
-                Description = "Database ansvarlig for Snekkern",
-                Webpage = "http://snekkern.no/",
-                Steps_to_apply = "Send mail",
-                Expiry_date = now.AddDays(20),
-                Created = now,
-                Published = now,
-                Modified = now
+                uuid = Guid.NewGuid().ToString(),
+                title = "Database ansvarlig",
+                description = "Database ansvarlig for Snekkern",
+                webpage = "http://snekkern.no/",
+                stepsToApply = "Send email",
+                expiryDate = now.AddDays(20),
+                created = now,
+                published = now,
+                modified = now
             };
 
-            Contact contact = db.Contacts.First(x => x.IdContact == 1);
-            Location location = db.Locations.First(x => x.IdLocation.Equals("vestagder"));
-            JobType heltid = db.JobTypes.First(x => x.IdJobType.Equals("heltid"));
-            JobType deltid = db.JobTypes.First(x => x.IdJobType.Equals("deltid"));
+            Contact contact = db.contacts.First(x => x.id == 1);
+            Location location = db.locations.First(x => x.id.Equals("vestagder"));
+            JobType heltid = db.jobTypes.First(x => x.id.Equals("heltid"));
+            JobType deltid = db.jobTypes.First(x => x.id.Equals("deltid"));
 
-            Company company = db.Companies.First(x => x.IdCompany.Equals("snekkern"));
+            Company company = db.companies.First(x => x.id.Equals("snekkern"));
 
-            Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
-            //Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
+            StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
+            //StudyGroup idrett = db.StudyGroup.First(x => x.id.Equals("idrettsfag"));
 
 
-            job.Contact = contact;
-            job.Study_groups.Add(data);
-            //job.Study_groups.Add(idrett);
-            job.Location = location;
-            job.JobType = heltid;
-            job.Company = company;
+            job.contacts.Add(contact);
+            job.studyGroups.Add(data);
+            //job.studyGroups.Add(idrett);
+            job.locations.Add(location);
+            job.jobTypes.Add(heltid);
+            job.companies.Add(company);
 
+            db.jobs.Add(job);
+            db.SaveChanges();
+  
 
 
             Job job2 = new Job()
             {
-                Uuid = Guid.NewGuid().ToString(),
-                Title = "PT",
-                Description = "Er du vår nye mest selgende PT?!?!1",
-                Webpage = "http://spicheren.no/",
-                Steps_to_apply = "Send mail",
-                Expiry_date = now.AddDays(20),
-                Created = now,
-                Published = now,
-                Modified = now
+                uuid = Guid.NewGuid().ToString(),
+                title = "PT",
+                description = "Er du vår nye mest selgende PT?!?!1",
+                webpage = "http://spicheren.no/",
+                stepsToApply = "Send email",
+                expiryDate = now.AddDays(21),
+                created = now.AddDays(1),
+                published = now.AddDays(1),
+                modified = now.AddDays(1)
             };
 
-            Contact contact2 = db.Contacts.First(x => x.IdContact == 2);
-            Company company2 = db.Companies.First(x => x.IdCompany.Equals("spicheren"));
+            Contact contact2 = db.contacts.First(x => x.id == 2);
+            Company company2 = db.companies.First(x => x.id.Equals("spicheren"));
 
-            Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
+            StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrettsfag"));
 
 
-            job2.Contact = contact2;
-            job2.Study_groups.Add(idrett);
-            job2.Location = location;
-            job2.JobType = heltid;
-            job2.Company = company2;
+            job2.contacts.Add(contact2);
+            job2.studyGroups.Add(idrett);
+            job2.locations.Add(location);
+            job2.jobTypes.Add(heltid);
+            job2.companies.Add(company2);
+
+            db.jobs.Add(job2);
+            db.SaveChanges();
+
 
 
             //htc.Student = student;
             Job job3 = new Job()
             {
-                Uuid = Guid.NewGuid().ToString(),
-                Title = "IT og kursanvarlig",
-                Description = "IT og opplæring",
-                Webpage = "http://nav.no/",
-                Steps_to_apply = "Send mail",
-                Expiry_date = now.AddDays(20),
-                Created = now,
-                Published = now,
-                Modified = now
+                uuid = Guid.NewGuid().ToString(),
+                title = "IT og kursanvarlig",
+                description = "IT og opplæring",
+                webpage = "http://nav.no/",
+                stepsToApply = "Send email",
+                expiryDate = now.AddDays(22),
+                created = now.AddDays(2),
+                published = now.AddDays(2),
+                modified = now.AddDays(2)
             };
 
-            Contact contact3 = db.Contacts.First(x => x.IdContact == 3);
-            Company company3 = db.Companies.First(x => x.IdCompany.Equals("nav"));
-            Study_group ped = db.Study_group.First(x => x.IdStudy_group.Equals("lærer"));
+            Contact contact3 = db.contacts.First(x => x.id == 3);
+            Company company3 = db.companies.First(x => x.id.Equals("nav"));
+            StudyGroup ped = db.studyGroup.First(x => x.id.Equals("lærerutdanning"));
 
-            job3.Contact = contact3;
-            job3.Study_groups.Add(data);
-            job3.Study_groups.Add(ped);
+            job3.contacts.Add(contact3);
+            job3.studyGroups.Add(data);
+            job3.studyGroups.Add(ped);
 
-            job3.Location = location;
-            job3.JobType = deltid;
-            job3.Company = company3;
+            job3.locations.Add(location);
+            job3.jobTypes.Add(deltid);
+            job3.companies.Add(company3);
+
+            db.jobs.Add(job3);
+            db.SaveChanges();
 
             Job job4 = new Job()
             {
-                Uuid = Guid.NewGuid().ToString(),
-                Title = "IT PT",
-                Description = "Er du vår nye høyteknologiske IT PT?!",
-                Webpage = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad",
-                Steps_to_apply = "Send mail",
-                Expiry_date = now.AddDays(20),
-                Created = now,
-                Published = now,
-                Modified = now
+                uuid = Guid.NewGuid().ToString(),
+                title = "IT PT",
+                description = "Er du vår nye høyteknologiske IT PT?!",
+                webpage = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad",
+                stepsToApply = "Send email",
+                expiryDate = now.AddDays(23),
+                created = now.AddDays(3),
+                published = now.AddDays(3),
+                modified = now.AddDays(3)
             };
 
-            Contact contact4 = db.Contacts.First(x => x.IdContact == 4);
-            Company company4 = db.Companies.First(x => x.IdCompany.Equals("stamina"));
+            Contact contact4 = db.contacts.First(x => x.id == 4);
+            Company company4 = db.companies.First(x => x.id.Equals("stamina"));
+            Location aa = db.locations.First(x => x.id.Equals("austagder"));
+
+            job4.contacts.Add(contact4);
+            job4.studyGroups.Add(data);
+            job4.studyGroups.Add(idrett);
+
+            job4.locations.Add(aa);
+            job4.jobTypes.Add(deltid);
+            job4.companies.Add(company4);
 
 
-            job4.Contact = contact4;
-            job4.Study_groups.Add(data);
-            job4.Study_groups.Add(idrett);
-
-            job4.Location = location;
-            job4.JobType = deltid;
-            job4.Company = company4;
 
 
 
-
-            db.Jobs.Add(job);
-            db.Jobs.Add(job2);
-            db.Jobs.Add(job3);
-            db.Jobs.Add(job4);
+            db.jobs.Add(job4);
             db.SaveChanges();
             //return RedirectToAction("About", "Home");
         }
@@ -379,66 +387,66 @@ namespace KompetansetorgetServer.Models
             
             Contact nilsen = new Contact()
             {
-                IdContact = 4,
-                Name = "Nils Nilsen",
-                Position = "Avdelingsjef",
-                Phone = "67224367",
-                Mail = "nilsen@hotmail.com"
+                id = 4,
+                name = "Nils Nilsen",
+                position = "Avdelingsjef",
+                phone = "67224367",
+                email = "nilsen@hotmail.com"
 
             };
 
-            db.Contacts.Add(nilsen);
+            db.contacts.Add(nilsen);
             db.SaveChanges();
 
             Company stamina = new Company()
             {
-                IdCompany = "stamina",
-                Name = "Stamina Hot",
-                Adress = "Storgaten 90, 4877 Grimstad",
-                Url = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad/",
-                Facebook = "",
-                LinkedIn = "",
-                Description = "Treningssenter",
-                Logo = "https://www.staminagroup.no/UI/logo.png"
+                id = "stamina",
+                name = "Stamina Hot",
+                adress = "Storgaten 90, 4877 Grimstad",
+                url = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad/",
+                facebook = "",
+                linkedIn = "",
+                description = "Treningssenter",
+                logo = "https://www.staminagroup.no/UI/logo.png"
 
             };
-            db.Companies.Add(stamina);
+            db.companies.Add(stamina);
             db.SaveChanges();
             
-            Location location = db.Locations.First(x => x.IdLocation.Equals("austagder"));
-            Study_group data = db.Study_group.First(x => x.IdStudy_group.Equals("datateknologi"));
-            Study_group idrett = db.Study_group.First(x => x.IdStudy_group.Equals("idrettsfag"));
+            Location location = db.locations.First(x => x.id.Equals("austagder"));
+            StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
+            StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrettsfag"));
 
-            JobType deltid = db.JobTypes.First(x => x.IdJobType.Equals("deltid"));
+            JobType deltid = db.jobTypes.First(x => x.id.Equals("deltid"));
 
             DateTime now = DateTime.Now;
 
             Job job4 = new Job()
             {
-                Uuid = Guid.NewGuid().ToString(),
-                Title = "IT PT",
-                Description = "Er du vår nye høyteknologiske IT PT?!",
-                Webpage = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad",
-                Steps_to_apply = "Send mail",
-                Expiry_date = now.AddDays(20),
-                Created = now,
-                Published = now,
-                Modified = now
+                uuid = Guid.NewGuid().ToString(),
+                title = "IT PT",
+                description = "Er du vår nye høyteknologiske IT PT?!",
+                webpage = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad",
+                stepsToApply = "Send email",
+                expiryDate = now.AddDays(24),
+                created = now.AddDays(4),
+                published = now.AddDays(4),
+                modified = now.AddDays(4)
             };
 
-            Contact contact4 = db.Contacts.First(x => x.IdContact == 4);
-            Company company4 = db.Companies.First(x => x.IdCompany.Equals("stamina"));
+            Contact contact4 = db.contacts.First(x => x.id == 4);
+            Company company4 = db.companies.First(x => x.id.Equals("stamina"));
 
 
-            job4.Contact = contact4;
-            job4.Study_groups.Add(data);
-            job4.Study_groups.Add(idrett);
+            job4.contacts.Add(contact4);
+            job4.studyGroups.Add(data);
+            job4.studyGroups.Add(idrett);
 
-            job4.Location = location;
-            job4.JobType = deltid;
-            job4.Company = company4;
+            job4.locations.Add(location);
+            job4.jobTypes.Add(deltid);
+            job4.companies.Add(company4);
 
-            db.Jobs.Add(job4);
+            db.jobs.Add(job4);
             db.SaveChanges();
         }
     }

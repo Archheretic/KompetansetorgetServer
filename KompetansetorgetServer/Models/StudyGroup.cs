@@ -7,13 +7,12 @@ using System.Web;
 
 namespace KompetansetorgetServer.Models
 {
-    [Table("Study_group")]
-    public class Study_group
+    [Table("StudyGroup")]
+    public class StudyGroup
     {
         [Key]
-        [Column("IdStudy_group")]
-        public string IdStudy_group { get; set; } // administrasjon
-        public string Name { get; set; }
+        public string id { get; set; } // administrasjon
+        public string name { get; set; }
         public virtual ICollection<Job> Jobs { get; set; }
         public virtual ICollection<Student> Students { get; set; }
     }

@@ -1,7 +1,7 @@
 ﻿@model KompetansetorgetServer.Models.Device
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.title = "Details";
 }
 
 <h2>Details</h2>
@@ -11,24 +11,24 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Token)
+            @Html.DisplayNameFor(model => model.token)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Token)
+            @Html.DisplayFor(model => model.token)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DeviceType)
+            @Html.DisplayNameFor(model => model.deviceType)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DeviceType)
+            @Html.DisplayFor(model => model.deviceType)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IdDevice }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -94,6 +94,6 @@ protected void Application_End()
 
 		static void ChannelCreated(object sender, IPushChannel pushChannel)
 		{
-            Debug.WriteLine("Channel Created for: " + sender);
+            Debug.WriteLine("Channel created for: " + sender);
 		}
         */

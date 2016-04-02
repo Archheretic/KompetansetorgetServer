@@ -11,107 +11,107 @@ using KompetansetorgetServer.Models;
 
 namespace KompetansetorgetServer.Controllers
 {
-    public class Study_groupController : Controller
+    public class StudyGroupsController : Controller
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: Study_group
+        // GET: StudyGroups
         public async Task<ActionResult> Index()
         {
-            return View(await db.Study_group.ToListAsync());
+            return View(await db.studyGroup.ToListAsync());
         }
 
-        // GET: Study_group/Details/5
+        // GET: StudyGroups/Details/5
         public async Task<ActionResult> Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Study_group study_group = await db.Study_group.FindAsync(id);
-            if (study_group == null)
+            StudyGroup studyGroup = await db.studyGroup.FindAsync(id);
+            if (studyGroup == null)
             {
                 return HttpNotFound();
             }
-            return View(study_group);
+            return View(studyGroup);
         }
 
-        // GET: Study_group/Create
+        // GET: StudyGroups/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Study_group/Create
+        // POST: StudyGroups/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdStudy_group,Name")] Study_group study_group)
+        public async Task<ActionResult> Create([Bind(Include = "id,name")] StudyGroup studyGroup)
         {
             if (ModelState.IsValid)
             {
-                db.Study_group.Add(study_group);
+                db.studyGroup.Add(studyGroup);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(study_group);
+            return View(studyGroup);
         }
 
-        // GET: Study_group/Edit/5
+        // GET: StudyGroups/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Study_group study_group = await db.Study_group.FindAsync(id);
-            if (study_group == null)
+            StudyGroup studyGroup = await db.studyGroup.FindAsync(id);
+            if (studyGroup == null)
             {
                 return HttpNotFound();
             }
-            return View(study_group);
+            return View(studyGroup);
         }
 
-        // POST: Study_group/Edit/5
+        // POST: StudyGroups/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdStudy_group,Name")] Study_group study_group)
+        public async Task<ActionResult> Edit([Bind(Include = "id,name")] StudyGroup studyGroup)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(study_group).State = EntityState.Modified;
+                db.Entry(studyGroup).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(study_group);
+            return View(studyGroup);
         }
 
-        // GET: Study_group/Delete/5
+        // GET: StudyGroups/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Study_group study_group = await db.Study_group.FindAsync(id);
-            if (study_group == null)
+            StudyGroup studyGroup = await db.studyGroup.FindAsync(id);
+            if (studyGroup == null)
             {
                 return HttpNotFound();
             }
-            return View(study_group);
+            return View(studyGroup);
         }
 
-        // POST: Study_group/Delete/5
+        // POST: StudyGroups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Study_group study_group = await db.Study_group.FindAsync(id);
-            db.Study_group.Remove(study_group);
+            StudyGroup studyGroup = await db.studyGroup.FindAsync(id);
+            db.studyGroup.Remove(studyGroup);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

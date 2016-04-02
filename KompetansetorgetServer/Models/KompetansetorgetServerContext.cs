@@ -19,20 +19,20 @@ namespace KompetansetorgetServer.Models
         {
         }
 
-        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Company> Companies { get; set; }
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Company> companies { get; set; }
 
-        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Contact> Contacts { get; set; }
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Contact> contacts { get; set; }
 
-        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Device> Devices { get; set; }
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Device> devices { get; set; }
 
-        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.JobType> JobTypes { get; set; }
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.JobType> jobTypes { get; set; }
 
-        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Location> Locations { get; set; }
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Location> locations { get; set; }
 
-        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Student> Students { get; set; }
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Student> students { get; set; }
 
-        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Study_group> Study_group { get; set; }
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.StudyGroup> studyGroup { get; set; }
 
-        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Job> Jobs { get; set; }
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Job> jobs { get; set; }
     }
 }

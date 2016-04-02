@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<KompetansetorgetServer.Models.Company>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.title = "Index";
 }
 
 <h2>Index</h2>
@@ -12,25 +12,25 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Adress)
+            @Html.DisplayNameFor(model => model.adress)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Url)
+            @Html.DisplayNameFor(model => model.url)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Facebook)
+            @Html.DisplayNameFor(model => model.facebook)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LinkedIn)
+            @Html.DisplayNameFor(model => model.linkedIn)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Logo)
+            @Html.DisplayNameFor(model => model.logo)
         </th>
         <th></th>
     </tr>
@@ -38,30 +38,30 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Adress)
+            @Html.DisplayFor(modelItem => item.adress)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Url)
+            @Html.DisplayFor(modelItem => item.url)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Facebook)
+            @Html.DisplayFor(modelItem => item.facebook)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LinkedIn)
+            @Html.DisplayFor(modelItem => item.linkedIn)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.DisplayFor(modelItem => item.description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Logo)
+            @Html.DisplayFor(modelItem => item.logo)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdCompany }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdCompany }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdCompany })
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
 }

@@ -15,20 +15,20 @@ namespace KompetansetorgetServer.Controllers
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: Devices
+        // GET: devices
         public async Task<ActionResult> Index()
         {
-            return View(await db.Devices.ToListAsync());
+            return View(await db.devices.ToListAsync());
         }
 
-        // GET: Devices/Details/5
+        // GET: devices/Details/5
         public async Task<ActionResult> Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = await db.Devices.FindAsync(id);
+            Device device = await db.devices.FindAsync(id);
             if (device == null)
             {
                 return HttpNotFound();
@@ -36,22 +36,22 @@ namespace KompetansetorgetServer.Controllers
             return View(device);
         }
 
-        // GET: Devices/Create
+        // GET: devices/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Devices/Create
+        // POST: devices/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdDevice,Token,DeviceType")] Device device)
+        public async Task<ActionResult> Create([Bind(Include = "id,token,deviceType")] Device device)
         {
             if (ModelState.IsValid)
             {
-                db.Devices.Add(device);
+                db.devices.Add(device);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -59,14 +59,14 @@ namespace KompetansetorgetServer.Controllers
             return View(device);
         }
 
-        // GET: Devices/Edit/5
+        // GET: devices/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = await db.Devices.FindAsync(id);
+            Device device = await db.devices.FindAsync(id);
             if (device == null)
             {
                 return HttpNotFound();
@@ -74,12 +74,12 @@ namespace KompetansetorgetServer.Controllers
             return View(device);
         }
 
-        // POST: Devices/Edit/5
+        // POST: devices/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdDevice,Token,DeviceType")] Device device)
+        public async Task<ActionResult> Edit([Bind(Include = "id,token,deviceType")] Device device)
         {
             if (ModelState.IsValid)
             {
@@ -90,14 +90,14 @@ namespace KompetansetorgetServer.Controllers
             return View(device);
         }
 
-        // GET: Devices/Delete/5
+        // GET: devices/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = await db.Devices.FindAsync(id);
+            Device device = await db.devices.FindAsync(id);
             if (device == null)
             {
                 return HttpNotFound();
@@ -105,13 +105,13 @@ namespace KompetansetorgetServer.Controllers
             return View(device);
         }
 
-        // POST: Devices/Delete/5
+        // POST: devices/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Device device = await db.Devices.FindAsync(id);
-            db.Devices.Remove(device);
+            Device device = await db.devices.FindAsync(id);
+            db.devices.Remove(device);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

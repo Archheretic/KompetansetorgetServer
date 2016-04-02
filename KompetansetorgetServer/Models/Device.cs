@@ -11,9 +11,9 @@ namespace KompetansetorgetServer.Models
     public class Device
     {
         [Key]
-        public string IdDevice { get; set; }
-        public string Token { get; set; } // size: (4096)
-        public string DeviceType { get; set; }
+        public string id { get; set; }
+        public string token { get; set; } // size: (4096)
+        public string deviceType { get; set; }
 
         public virtual Student Student { get; set; }
     }

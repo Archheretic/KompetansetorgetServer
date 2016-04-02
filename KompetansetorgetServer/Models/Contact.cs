@@ -11,10 +11,12 @@ namespace KompetansetorgetServer.Models
     public class Contact
     {
         [Key]
-        public int IdContact { get; set; }
-        public string Name { get; set; }
-        public string Position { get; set; }
-        public string Phone { get; set; }
-        public string Mail { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string position { get; set; }
+        public string phone { get; set; }
+        public string email { get; set; }
+
+        public virtual ICollection<Job> Jobs { get; set; }
     }
 }

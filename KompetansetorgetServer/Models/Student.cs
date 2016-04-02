@@ -12,18 +12,18 @@ namespace KompetansetorgetServer.Models
     {
         public Student()
         {
-            Study_groups = new HashSet<Study_group>();
+            studyGroups = new HashSet<StudyGroup>();
             Devices = new List<Device>();
         }
         [Key]
-        [Column("Username")]
-        public string Username { get; set; }
+        [Column("username")]
+        public string username { get; set; }
 
-        public string Name { get; set; }
+        public string name { get; set; }
 
-        public string Email { get; set; }
+        public string email { get; set; }
 
-        public virtual ICollection<Study_group> Study_groups { get; set; }
+        public virtual ICollection<StudyGroup> studyGroups { get; set; }
 
         public virtual ICollection<Device> Devices { get; set; }
     }

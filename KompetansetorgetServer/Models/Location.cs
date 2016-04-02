@@ -11,8 +11,8 @@ namespace KompetansetorgetServer.Models
     public class Location
     {
         [Key]
-        public string IdLocation { get; set; }
-        public string Name { get; set; }
-
+        public string id { get; set; }
+        public string name { get; set; }
+        public virtual ICollection<Job> Jobs { get; set; }
     }
 }

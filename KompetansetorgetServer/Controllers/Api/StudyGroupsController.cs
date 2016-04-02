@@ -13,51 +13,53 @@ using KompetansetorgetServer.Models;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
-    public class Study_groupController : ApiController
+    public class StudyGroupsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: api/Study_group
-        public IQueryable GetStudy_group()
+        // GET: api/StudyGroups
+        public IQueryable GetStudyGroup()
         {
-            return db.Study_group.Select(s => new
+            
+            return db.studyGroup.Select(s => new
             {
-                s.IdStudy_group,
-                s.Name
+                s.id,
+                s.name
             });
         }
 
-        // GET: api/Study_group/5
-        [ResponseType(typeof(Study_group))]
-        public async Task<IHttpActionResult> GetStudy_group(string id)
+        // GET: api/StudyGroups/5
+        [ResponseType(typeof(StudyGroup))]
+        public async Task<IHttpActionResult> GetStudyGroup(string id)
         {
-            Study_group study_group = await db.Study_group.FindAsync(id);
-            if (study_group == null)
+            StudyGroup studyGroup = await db.studyGroup.FindAsync(id);
+            if (studyGroup == null)
             {
                 return NotFound();
             }
 
-            return Ok( new {
-                study_group.IdStudy_group,
-                study_group.Name
+            return Ok(new
+            {
+                studyGroup.id,
+                studyGroup.name
             });
         }
 
-        // PUT: api/Study_group/5
+        // PUT: api/StudyGroups/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutStudy_group(string id, Study_group study_group)
+        public async Task<IHttpActionResult> PutStudyGroup(string id, StudyGroup studyGroup)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != study_group.IdStudy_group)
+            if (id != studyGroup.id)
             {
                 return BadRequest();
             }
 
-            db.Entry(study_group).State = EntityState.Modified;
+            db.Entry(studyGroup).State = EntityState.Modified;
 
             try
             {
@@ -65,7 +67,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!Study_groupExists(id))
+                if (!StudyGroupExists(id))
                 {
                     return NotFound();
                 }
@@ -78,16 +80,16 @@ namespace KompetansetorgetServer.Controllers.Api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Study_group
-        [ResponseType(typeof(Study_group))]
-        public async Task<IHttpActionResult> PostStudy_group(Study_group study_group)
+        // POST: api/StudyGroups
+        [ResponseType(typeof(StudyGroup))]
+        public async Task<IHttpActionResult> PostStudyGroup(StudyGroup studyGroup)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Study_group.Add(study_group);
+            db.studyGroup.Add(studyGroup);
 
             try
             {
@@ -95,7 +97,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch (DbUpdateException)
             {
-                if (Study_groupExists(study_group.IdStudy_group))
+                if (StudyGroupExists(studyGroup.id))
                 {
                     return Conflict();
                 }
@@ -105,23 +107,23 @@ namespace KompetansetorgetServer.Controllers.Api
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = study_group.IdStudy_group }, study_group);
+            return CreatedAtRoute("DefaultApi", new { id = studyGroup.id }, studyGroup);
         }
 
-        // DELETE: api/Study_group/5
-        [ResponseType(typeof(Study_group))]
-        public async Task<IHttpActionResult> DeleteStudy_group(string id)
+        // DELETE: api/StudyGroups/5
+        [ResponseType(typeof(StudyGroup))]
+        public async Task<IHttpActionResult> DeleteStudyGroup(string id)
         {
-            Study_group study_group = await db.Study_group.FindAsync(id);
-            if (study_group == null)
+            StudyGroup studyGroup = await db.studyGroup.FindAsync(id);
+            if (studyGroup == null)
             {
                 return NotFound();
             }
 
-            db.Study_group.Remove(study_group);
+            db.studyGroup.Remove(studyGroup);
             await db.SaveChangesAsync();
 
-            return Ok(study_group);
+            return Ok(studyGroup);
         }
 
         protected override void Dispose(bool disposing)
@@ -133,9 +135,9 @@ namespace KompetansetorgetServer.Controllers.Api
             base.Dispose(disposing);
         }
 
-        private bool Study_groupExists(string id)
+        private bool StudyGroupExists(string id)
         {
-            return db.Study_group.Count(e => e.IdStudy_group == id) > 0;
+            return db.studyGroup.Count(e => e.id == id) > 0;
         }
     }
 }

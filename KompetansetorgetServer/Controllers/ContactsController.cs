@@ -15,20 +15,20 @@ namespace KompetansetorgetServer.Controllers
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: Contacts
+        // GET: contacts
         public async Task<ActionResult> Index()
         {
-            return View(await db.Contacts.ToListAsync());
+            return View(await db.contacts.ToListAsync());
         }
 
-        // GET: Contacts/Details/5
+        // GET: contacts/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contact contact = await db.Contacts.FindAsync(id);
+            Contact contact = await db.contacts.FindAsync(id);
             if (contact == null)
             {
                 return HttpNotFound();
@@ -36,22 +36,22 @@ namespace KompetansetorgetServer.Controllers
             return View(contact);
         }
 
-        // GET: Contacts/Create
+        // GET: contacts/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Contacts/Create
+        // POST: contacts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdContact,Name,Position,Phone,Mail")] Contact contact)
+        public async Task<ActionResult> Create([Bind(Include = "id,name,position,phone,email")] Contact contact)
         {
             if (ModelState.IsValid)
             {
-                db.Contacts.Add(contact);
+                db.contacts.Add(contact);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -59,14 +59,14 @@ namespace KompetansetorgetServer.Controllers
             return View(contact);
         }
 
-        // GET: Contacts/Edit/5
+        // GET: contacts/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contact contact = await db.Contacts.FindAsync(id);
+            Contact contact = await db.contacts.FindAsync(id);
             if (contact == null)
             {
                 return HttpNotFound();
@@ -74,12 +74,12 @@ namespace KompetansetorgetServer.Controllers
             return View(contact);
         }
 
-        // POST: Contacts/Edit/5
+        // POST: contacts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdContact,Name,Position,Phone,Mail")] Contact contact)
+        public async Task<ActionResult> Edit([Bind(Include = "id,name,position,phone,email")] Contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -90,14 +90,14 @@ namespace KompetansetorgetServer.Controllers
             return View(contact);
         }
 
-        // GET: Contacts/Delete/5
+        // GET: contacts/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contact contact = await db.Contacts.FindAsync(id);
+            Contact contact = await db.contacts.FindAsync(id);
             if (contact == null)
             {
                 return HttpNotFound();
@@ -105,13 +105,13 @@ namespace KompetansetorgetServer.Controllers
             return View(contact);
         }
 
-        // POST: Contacts/Delete/5
+        // POST: contacts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Contact contact = await db.Contacts.FindAsync(id);
-            db.Contacts.Remove(contact);
+            Contact contact = await db.contacts.FindAsync(id);
+            db.contacts.Remove(contact);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

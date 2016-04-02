@@ -11,112 +11,80 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Company.Name)
+            @Html.DisplayNameFor(model => model.title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Company.Name)
+            @Html.DisplayFor(model => model.title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Contact.Name)
+            @Html.DisplayNameFor(model => model.description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Contact.Name)
+            @Html.DisplayFor(model => model.description)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.JobType.Name)
+            @Html.DisplayNameFor(model => model.webpage)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.JobType.Name)
+            @Html.DisplayFor(model => model.webpage)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Location.Name)
+            @Html.DisplayNameFor(model => model.linkedInProfile)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Location.Name)
+            @Html.DisplayFor(model => model.linkedInProfile)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.expiryDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.expiryDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.stepsToApply)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.stepsToApply)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Webpage)
+            @Html.DisplayNameFor(model => model.created)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Webpage)
+            @Html.DisplayFor(model => model.created)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LinkedIn_profile)
+            @Html.DisplayNameFor(model => model.published)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LinkedIn_profile)
+            @Html.DisplayFor(model => model.published)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Expiry_date)
+            @Html.DisplayNameFor(model => model.modified)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Expiry_date)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Steps_to_apply)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Steps_to_apply)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Published)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Published)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Modified)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Modified)
+            @Html.DisplayFor(model => model.modified)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Uuid }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.uuid }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

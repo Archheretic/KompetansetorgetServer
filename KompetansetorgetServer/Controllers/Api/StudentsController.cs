@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KompetansetorgetServer.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
@@ -17,27 +18,51 @@ namespace KompetansetorgetServer.Controllers.Api
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: api/Students
-        public IQueryable GetStudents()
+        // GET: api/students?fields=token
+        public IQueryable Get(string fields = "")
         {
-            //return db.Students;
-
-            return db.Students.Select(s => new
+            if (!fields.Equals("token"))
             {
-                s.Username,
-                s.Name,
-                s.Email,
-                Devices = s.Devices.Select(st => new {st.IdDevice}),
-                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
+                return GetStudents();
+            }
+
+            //string[] extraFields = fields.Split('+');
+
+            return db.students.Select(s => new
+            {
+                s.username,
+                s.name,
+                s.email,
+                studyGroups = s.studyGroups.Select(st => new { st.id }),
+                devices = s.Devices.Select(st => new
+                {
+                    st.id,
+                    st.token
+                })
+                });
+         }
+
+        // GET: api/students
+        private IQueryable GetStudents()
+        {
+            //return db.students;
+
+            return db.students.Select(s => new
+            {
+                s.username,
+                s.name,
+                s.email,
+                studyGroups = s.studyGroups.Select(st => new { st.id }), 
+                devices = s.Devices.Select(st => new {st.id})
             });
 
         }
 
-        // GET: api/Students/5
+        // GET: api/students/5
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> GetStudent(string id)
         {
-            Student student = await db.Students.FindAsync(id);
+            Student student = await db.students.FindAsync(id);
             if (student == null)
             {
                 return NotFound();
@@ -45,15 +70,15 @@ namespace KompetansetorgetServer.Controllers.Api
 
             //return Ok(student);
             return Ok( new { 
-                student.Username,
-                student.Name,
-                student.Email,
-                Devices = student.Devices.Select(st => new { st.IdDevice }),
-                Study_groups = student.Study_groups.Select(st => new { st.IdStudy_group })
+                student.username,
+                student.name,
+                student.email,
+                Devices = student.Devices.Select(st => new { st.id }),
+                studyGroups = student.studyGroups.Select(st => new { st.id })
                 });
         }
 
-        // PUT: api/Students/5
+        // PUT: api/students/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutStudent(string id, Student student)
         {
@@ -62,7 +87,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (id != student.Username)
+            if (id != student.username)
             {
                 return BadRequest();
             }
@@ -88,7 +113,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Students
+        // POST: api/students
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> PostStudent(Student student)
         {
@@ -97,7 +122,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            db.Students.Add(student);
+            db.students.Add(student);
 
             try
             {
@@ -105,7 +130,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch (DbUpdateException)
             {
-                if (StudentExists(student.Username))
+                if (StudentExists(student.username))
                 {
                     return Conflict();
                 }
@@ -115,20 +140,20 @@ namespace KompetansetorgetServer.Controllers.Api
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = student.Username }, student);
+            return CreatedAtRoute("DefaultApi", new { id = student.username }, student);
         }
 
-        // DELETE: api/Students/5
+        // DELETE: api/students/5
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> DeleteStudent(string id)
         {
-            Student student = await db.Students.FindAsync(id);
+            Student student = await db.students.FindAsync(id);
             if (student == null)
             {
                 return NotFound();
             }
 
-            db.Students.Remove(student);
+            db.students.Remove(student);
             await db.SaveChangesAsync();
 
             return Ok(student);
@@ -145,7 +170,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         private bool StudentExists(string id)
         {
-            return db.Students.Count(e => e.Username == id) > 0;
+            return db.students.Count(e => e.username == id) > 0;
         }
     }
 }

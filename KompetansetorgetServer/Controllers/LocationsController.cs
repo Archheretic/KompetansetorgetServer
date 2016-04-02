@@ -15,20 +15,20 @@ namespace KompetansetorgetServer.Controllers
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: Locations
+        // GET: locations
         public async Task<ActionResult> Index()
         {
-            return View(await db.Locations.ToListAsync());
+            return View(await db.locations.ToListAsync());
         }
 
-        // GET: Locations/Details/5
+        // GET: locations/Details/5
         public async Task<ActionResult> Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location location = await db.Locations.FindAsync(id);
+            Location location = await db.locations.FindAsync(id);
             if (location == null)
             {
                 return HttpNotFound();
@@ -36,22 +36,22 @@ namespace KompetansetorgetServer.Controllers
             return View(location);
         }
 
-        // GET: Locations/Create
+        // GET: locations/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Locations/Create
+        // POST: locations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdLocation,Name")] Location location)
+        public async Task<ActionResult> Create([Bind(Include = "id,name")] Location location)
         {
             if (ModelState.IsValid)
             {
-                db.Locations.Add(location);
+                db.locations.Add(location);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -59,14 +59,14 @@ namespace KompetansetorgetServer.Controllers
             return View(location);
         }
 
-        // GET: Locations/Edit/5
+        // GET: locations/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location location = await db.Locations.FindAsync(id);
+            Location location = await db.locations.FindAsync(id);
             if (location == null)
             {
                 return HttpNotFound();
@@ -74,12 +74,12 @@ namespace KompetansetorgetServer.Controllers
             return View(location);
         }
 
-        // POST: Locations/Edit/5
+        // POST: locations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdLocation,Name")] Location location)
+        public async Task<ActionResult> Edit([Bind(Include = "id,name")] Location location)
         {
             if (ModelState.IsValid)
             {
@@ -90,14 +90,14 @@ namespace KompetansetorgetServer.Controllers
             return View(location);
         }
 
-        // GET: Locations/Delete/5
+        // GET: locations/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Location location = await db.Locations.FindAsync(id);
+            Location location = await db.locations.FindAsync(id);
             if (location == null)
             {
                 return HttpNotFound();
@@ -105,13 +105,13 @@ namespace KompetansetorgetServer.Controllers
             return View(location);
         }
 
-        // POST: Locations/Delete/5
+        // POST: locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Location location = await db.Locations.FindAsync(id);
-            db.Locations.Remove(location);
+            Location location = await db.locations.FindAsync(id);
+            db.locations.Remove(location);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

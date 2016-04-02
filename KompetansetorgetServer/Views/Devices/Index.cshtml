@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<KompetansetorgetServer.Models.Device>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.title = "Index";
 }
 
 <h2>Index</h2>
@@ -12,10 +12,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Token)
+            @Html.DisplayNameFor(model => model.token)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DeviceType)
+            @Html.DisplayNameFor(model => model.deviceType)
         </th>
         <th></th>
     </tr>
@@ -23,15 +23,15 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Token)
+            @Html.DisplayFor(modelItem => item.token)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DeviceType)
+            @Html.DisplayFor(modelItem => item.deviceType)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdDevice }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdDevice }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdDevice })
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
         </td>
     </tr>
 }

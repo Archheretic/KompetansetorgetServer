@@ -15,20 +15,20 @@ namespace KompetansetorgetServer.Controllers
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: JobTypes
+        // GET: jobTypes
         public async Task<ActionResult> Index()
         {
-            return View(await db.JobTypes.ToListAsync());
+            return View(await db.jobTypes.ToListAsync());
         }
 
-        // GET: JobTypes/Details/5
+        // GET: jobTypes/Details/5
         public async Task<ActionResult> Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobType jobType = await db.JobTypes.FindAsync(id);
+            JobType jobType = await db.jobTypes.FindAsync(id);
             if (jobType == null)
             {
                 return HttpNotFound();
@@ -36,22 +36,22 @@ namespace KompetansetorgetServer.Controllers
             return View(jobType);
         }
 
-        // GET: JobTypes/Create
+        // GET: jobTypes/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: JobTypes/Create
+        // POST: jobTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "IdJobType,Name")] JobType jobType)
+        public async Task<ActionResult> Create([Bind(Include = "id,name")] JobType jobType)
         {
             if (ModelState.IsValid)
             {
-                db.JobTypes.Add(jobType);
+                db.jobTypes.Add(jobType);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -59,14 +59,14 @@ namespace KompetansetorgetServer.Controllers
             return View(jobType);
         }
 
-        // GET: JobTypes/Edit/5
+        // GET: jobTypes/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobType jobType = await db.JobTypes.FindAsync(id);
+            JobType jobType = await db.jobTypes.FindAsync(id);
             if (jobType == null)
             {
                 return HttpNotFound();
@@ -74,12 +74,12 @@ namespace KompetansetorgetServer.Controllers
             return View(jobType);
         }
 
-        // POST: JobTypes/Edit/5
+        // POST: jobTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "IdJobType,Name")] JobType jobType)
+        public async Task<ActionResult> Edit([Bind(Include = "id,name")] JobType jobType)
         {
             if (ModelState.IsValid)
             {
@@ -90,14 +90,14 @@ namespace KompetansetorgetServer.Controllers
             return View(jobType);
         }
 
-        // GET: JobTypes/Delete/5
+        // GET: jobTypes/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobType jobType = await db.JobTypes.FindAsync(id);
+            JobType jobType = await db.jobTypes.FindAsync(id);
             if (jobType == null)
             {
                 return HttpNotFound();
@@ -105,13 +105,13 @@ namespace KompetansetorgetServer.Controllers
             return View(jobType);
         }
 
-        // POST: JobTypes/Delete/5
+        // POST: jobTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            JobType jobType = await db.JobTypes.FindAsync(id);
-            db.JobTypes.Remove(jobType);
+            JobType jobType = await db.jobTypes.FindAsync(id);
+            db.jobTypes.Remove(jobType);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

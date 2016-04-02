@@ -11,17 +11,18 @@ namespace KompetansetorgetServer.Models
     public class Company
     {
         [Key]
-        [Column("IdCompany")]
-        public string IdCompany { get; set; }
+        public string id { get; set; }
 
-        public string Name { get; set; }
-        public string Adress { get; set; }
-        public string Url { get; set; }
-        public string Facebook { get; set; }
-        public string LinkedIn { get; set; }
-        public string Description { get; set; }
-        public string Logo { get; set; }
+        public string name { get; set; }
+        public string adress { get; set; }
+        public string url { get; set; }
+        public string facebook { get; set; }
+        public string linkedIn { get; set; }
+        public string description { get; set; }
+        public string logo { get; set; }
 
-     }
+        public virtual ICollection<Job> Jobs { get; set; }
+
+    }
 
 }

@@ -17,38 +17,38 @@ namespace KompetansetorgetServer.Controllers.Api
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: api/Devices
+        // GET: api/devices
         public IQueryable GetDevices()
         {
-            //return db.Devices;
-            return db.Devices.Select(d => new
+            //return db.devices;
+            return db.devices.Select(d => new
             {
-                d.IdDevice,
-                d.DeviceType,
-                Student = d.Student.Username,
-                d.Token
+                d.id,
+                d.deviceType,
+                Student = d.Student.username,
+                d.token
             });
         }
 
-        // GET: api/Devices/5
+        // GET: api/devices/5
         [ResponseType(typeof(Device))]
         public async Task<IHttpActionResult> GetDevice(string id)
         {
-            Device device = await db.Devices.FindAsync(id);
+            Device device = await db.devices.FindAsync(id);
             if (device == null)
             {
                 return NotFound();
             }
 
             return Ok( new {
-                device.IdDevice,
-                device.DeviceType,
-                Student = device.Student.Username,
-                device.Token
+                device.id,
+                device.deviceType,
+                Student = device.Student.username,
+                device.token
             });
         }
 
-        // PUT: api/Devices/5
+        // PUT: api/devices/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutDevice(string id, Device device)
         {
@@ -57,7 +57,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (id != device.IdDevice)
+            if (id != device.id)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Devices
+        // POST: api/devices
         [ResponseType(typeof(Device))]
         public async Task<IHttpActionResult> PostDevice(Device device)
         {
@@ -92,7 +92,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            db.Devices.Add(device);
+            db.devices.Add(device);
 
             try
             {
@@ -100,7 +100,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch (DbUpdateException)
             {
-                if (DeviceExists(device.IdDevice))
+                if (DeviceExists(device.id))
                 {
                     return Conflict();
                 }
@@ -110,20 +110,20 @@ namespace KompetansetorgetServer.Controllers.Api
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = device.IdDevice }, device);
+            return CreatedAtRoute("DefaultApi", new { id = device.id }, device);
         }
 
-        // DELETE: api/Devices/5
+        // DELETE: api/devices/5
         [ResponseType(typeof(Device))]
         public async Task<IHttpActionResult> DeleteDevice(string id)
         {
-            Device device = await db.Devices.FindAsync(id);
+            Device device = await db.devices.FindAsync(id);
             if (device == null)
             {
                 return NotFound();
             }
 
-            db.Devices.Remove(device);
+            db.devices.Remove(device);
             await db.SaveChangesAsync();
 
             return Ok(device);
@@ -140,7 +140,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         private bool DeviceExists(string id)
         {
-            return db.Devices.Count(e => e.IdDevice == id) > 0;
+            return db.devices.Count(e => e.id == id) > 0;
         }
     }
 }

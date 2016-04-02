@@ -80,7 +80,7 @@ namespace KompetansetorgetServer.PushNotifications
 
         static void ChannelCreated(object sender, IPushChannel pushChannel)
         {
-            Debug.WriteLine("Channel Created for: " + sender);
+            Debug.WriteLine("Channel created for: " + sender);
         }
     }
 
@@ -155,7 +155,7 @@ public void PushToAndroid()
         "password");
     pushBroker.RegisterAppleService(appleSettings);
     var appleNotification = new AppleNotification ()
-        .ForDeviceToken ("Device Token HERE")
+        .ForDeviceToken ("Device token HERE")
         .WithAlert ("Hello world!")
         .WithBadge (3)
         .WithSound("sound.caf");

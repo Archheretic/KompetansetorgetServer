@@ -13,29 +13,36 @@ using KompetansetorgetServer.Models;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
-    public class TypesController : ApiController
+    public class JobTypesController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: api/Types
-        public IQueryable<JobType> GetJobTypes() { 
-            return db.JobTypes;
+        // GET: api/jobTypes
+        public IQueryable GetJobTypes() { 
+            return db.jobTypes.Select(jt => new
+            {
+                jt.id,
+                jt.name
+            });
         }
 
-        // GET: api/Types/5
+        // GET: api/jobTypes/5
         [ResponseType(typeof(JobType))]
         public async Task<IHttpActionResult> GetJobType(string id)
         {
-            JobType jobType = await db.JobTypes.FindAsync(id);
+            JobType jobType = await db.jobTypes.FindAsync(id);
             if (jobType == null)
             {
                 return NotFound();
             }
 
-            return Ok(jobType);
+            return Ok( new {
+                jobType.id,
+                jobType.name
+            });
         }
 
-        // PUT: api/Types/5
+        // PUT: api/jobTypes/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutJobType(string id, JobType jobType)
         {
@@ -44,7 +51,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (id != jobType.IdJobType)
+            if (id != jobType.id)
             {
                 return BadRequest();
             }
@@ -70,7 +77,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Types
+        // POST: api/jobTypes
         [ResponseType(typeof(JobType))]
         public async Task<IHttpActionResult> PostJobType(JobType jobType)
         {
@@ -79,7 +86,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            db.JobTypes.Add(jobType);
+            db.jobTypes.Add(jobType);
 
             try
             {
@@ -87,7 +94,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch (DbUpdateException)
             {
-                if (JobTypeExists(jobType.IdJobType))
+                if (JobTypeExists(jobType.id))
                 {
                     return Conflict();
                 }
@@ -97,20 +104,20 @@ namespace KompetansetorgetServer.Controllers.Api
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = jobType.IdJobType }, jobType);
+            return CreatedAtRoute("DefaultApi", new { id = jobType.id }, jobType);
         }
 
-        // DELETE: api/Types/5
+        // DELETE: api/jobTypes/5
         [ResponseType(typeof(JobType))]
         public async Task<IHttpActionResult> DeleteJobType(string id)
         {
-            JobType jobType = await db.JobTypes.FindAsync(id);
+            JobType jobType = await db.jobTypes.FindAsync(id);
             if (jobType == null)
             {
                 return NotFound();
             }
 
-            db.JobTypes.Remove(jobType);
+            db.jobTypes.Remove(jobType);
             await db.SaveChangesAsync();
 
             return Ok(jobType);
@@ -127,7 +134,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         private bool JobTypeExists(string id)
         {
-            return db.JobTypes.Count(e => e.IdJobType == id) > 0;
+            return db.jobTypes.Count(e => e.id == id) > 0;
         }
     }
 }

@@ -12,43 +12,31 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Company.Name)
+            @Html.DisplayNameFor(model => model.title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Contact.Name)
+            @Html.DisplayNameFor(model => model.description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.JobType.Name)
+            @Html.DisplayNameFor(model => model.webpage)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Location.Name)
+            @Html.DisplayNameFor(model => model.linkedInProfile)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.expiryDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.stepsToApply)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Webpage)
+            @Html.DisplayNameFor(model => model.created)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LinkedIn_profile)
+            @Html.DisplayNameFor(model => model.published)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Expiry_date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Steps_to_apply)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Published)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Modified)
+            @Html.DisplayNameFor(model => model.modified)
         </th>
         <th></th>
     </tr>
@@ -56,48 +44,36 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Company.Name)
+            @Html.DisplayFor(modelItem => item.title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Contact.Name)
+            @Html.DisplayFor(modelItem => item.description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.JobType.Name)
+            @Html.DisplayFor(modelItem => item.webpage)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Location.Name)
+            @Html.DisplayFor(modelItem => item.linkedInProfile)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.DisplayFor(modelItem => item.expiryDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.DisplayFor(modelItem => item.stepsToApply)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Webpage)
+            @Html.DisplayFor(modelItem => item.created)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LinkedIn_profile)
+            @Html.DisplayFor(modelItem => item.published)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Expiry_date)
+            @Html.DisplayFor(modelItem => item.modified)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Steps_to_apply)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Published)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Modified)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Uuid }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Uuid }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Uuid })
+            @Html.ActionLink("Edit", "Edit", new { id=item.uuid }) |
+            @Html.ActionLink("Details", "Details", new { id=item.uuid }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.uuid })
         </td>
     </tr>
 }

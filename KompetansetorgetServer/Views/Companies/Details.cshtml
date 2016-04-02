@@ -1,7 +1,7 @@
 ﻿@model KompetansetorgetServer.Models.Company
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.title = "Details";
 }
 
 <h2>Details</h2>
@@ -11,64 +11,64 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Adress)
+            @Html.DisplayNameFor(model => model.adress)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Adress)
+            @Html.DisplayFor(model => model.adress)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Url)
+            @Html.DisplayNameFor(model => model.url)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Url)
+            @Html.DisplayFor(model => model.url)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Facebook)
+            @Html.DisplayNameFor(model => model.facebook)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Facebook)
+            @Html.DisplayFor(model => model.facebook)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LinkedIn)
+            @Html.DisplayNameFor(model => model.linkedIn)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LinkedIn)
+            @Html.DisplayFor(model => model.linkedIn)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.description)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Logo)
+            @Html.DisplayNameFor(model => model.logo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Logo)
+            @Html.DisplayFor(model => model.logo)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IdCompany }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

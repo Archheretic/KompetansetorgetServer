@@ -17,17 +17,17 @@ namespace KompetansetorgetServer.Controllers.Api
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: api/Companies
+        // GET: api/companies
         public IQueryable<Company> GetCompanies()
         {
-            return db.Companies;
+            return db.companies;
         }
 
-        // GET: api/Companies/5
+        // GET: api/companies/5
         [ResponseType(typeof(Company))]
         public async Task<IHttpActionResult> GetCompany(string id)
         {
-            Company company = await db.Companies.FindAsync(id);
+            Company company = await db.companies.FindAsync(id);
             if (company == null)
             {
                 return NotFound();
@@ -36,7 +36,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return Ok(company);
         }
 
-        // PUT: api/Companies/5
+        // PUT: api/companies/5
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutCompany(string id, Company company)
         {
@@ -45,7 +45,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (id != company.IdCompany)
+            if (id != company.id)
             {
                 return BadRequest();
             }
@@ -71,7 +71,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Companies
+        // POST: api/companies
         [ResponseType(typeof(Company))]
         public async Task<IHttpActionResult> PostCompany(Company company)
         {
@@ -80,7 +80,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            db.Companies.Add(company);
+            db.companies.Add(company);
 
             try
             {
@@ -88,7 +88,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch (DbUpdateException)
             {
-                if (CompanyExists(company.IdCompany))
+                if (CompanyExists(company.id))
                 {
                     return Conflict();
                 }
@@ -98,20 +98,20 @@ namespace KompetansetorgetServer.Controllers.Api
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = company.IdCompany }, company);
+            return CreatedAtRoute("DefaultApi", new { id = company.id }, company);
         }
 
-        // DELETE: api/Companies/5
+        // DELETE: api/companies/5
         [ResponseType(typeof(Company))]
         public async Task<IHttpActionResult> DeleteCompany(string id)
         {
-            Company company = await db.Companies.FindAsync(id);
+            Company company = await db.companies.FindAsync(id);
             if (company == null)
             {
                 return NotFound();
             }
 
-            db.Companies.Remove(company);
+            db.companies.Remove(company);
             await db.SaveChangesAsync();
 
             return Ok(company);
@@ -128,7 +128,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         private bool CompanyExists(string id)
         {
-            return db.Companies.Count(e => e.IdCompany == id) > 0;
+            return db.companies.Count(e => e.id == id) > 0;
         }
     }
 }

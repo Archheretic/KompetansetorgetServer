@@ -15,20 +15,20 @@ namespace KompetansetorgetServer.Controllers
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: Students
+        // GET: students
         public async Task<ActionResult> Index()
         {
-            return View(await db.Students.ToListAsync());
+            return View(await db.students.ToListAsync());
         }
 
-        // GET: Students/Details/5
+        // GET: students/Details/5
         public async Task<ActionResult> Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await db.students.FindAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -36,22 +36,22 @@ namespace KompetansetorgetServer.Controllers
             return View(student);
         }
 
-        // GET: Students/Create
+        // GET: students/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Students/Create
+        // POST: students/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Username,Name,Email")] Student student)
+        public async Task<ActionResult> Create([Bind(Include = "username,name,email")] Student student)
         {
             if (ModelState.IsValid)
             {
-                db.Students.Add(student);
+                db.students.Add(student);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -59,14 +59,14 @@ namespace KompetansetorgetServer.Controllers
             return View(student);
         }
 
-        // GET: Students/Edit/5
+        // GET: students/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await db.students.FindAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -74,12 +74,12 @@ namespace KompetansetorgetServer.Controllers
             return View(student);
         }
 
-        // POST: Students/Edit/5
+        // POST: students/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Username,Name,Email")] Student student)
+        public async Task<ActionResult> Edit([Bind(Include = "username,name,email")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -90,14 +90,14 @@ namespace KompetansetorgetServer.Controllers
             return View(student);
         }
 
-        // GET: Students/Delete/5
+        // GET: students/Delete/5
         public async Task<ActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = await db.Students.FindAsync(id);
+            Student student = await db.students.FindAsync(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -105,13 +105,13 @@ namespace KompetansetorgetServer.Controllers
             return View(student);
         }
 
-        // POST: Students/Delete/5
+        // POST: students/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(string id)
         {
-            Student student = await db.Students.FindAsync(id);
-            db.Students.Remove(student);
+            Student student = await db.students.FindAsync(id);
+            db.students.Remove(student);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

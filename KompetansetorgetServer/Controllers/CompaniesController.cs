@@ -14,20 +14,20 @@ namespace KompetansetorgetServer.Controllers
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-        // GET: Companies
+        // GET: companies
         public ActionResult Index()
         {
-            return View(db.Companies.ToList());
+            return View(db.companies.ToList());
         }
 
-        // GET: Companies/Details/5
+        // GET: companies/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
+            Company company = db.companies.Find(id);
             if (company == null)
             {
                 return HttpNotFound();
@@ -35,22 +35,22 @@ namespace KompetansetorgetServer.Controllers
             return View(company);
         }
 
-        // GET: Companies/Create
+        // GET: companies/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Companies/Create
+        // POST: companies/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCompany,Name,Adress,Url,Facebook,LinkedIn,Description,Logo")] Company company)
+        public ActionResult Create([Bind(Include = "id,name,adress,url,facebook,linkedIn,description,logo")] Company company)
         {
             if (ModelState.IsValid)
             {
-                db.Companies.Add(company);
+                db.companies.Add(company);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -58,14 +58,14 @@ namespace KompetansetorgetServer.Controllers
             return View(company);
         }
 
-        // GET: Companies/Edit/5
+        // GET: companies/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
+            Company company = db.companies.Find(id);
             if (company == null)
             {
                 return HttpNotFound();
@@ -73,12 +73,12 @@ namespace KompetansetorgetServer.Controllers
             return View(company);
         }
 
-        // POST: Companies/Edit/5
+        // POST: companies/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdCompany,Name,Adress,Url,Facebook,LinkedIn,Description,Logo")] Company company)
+        public ActionResult Edit([Bind(Include = "id,name,adress,url,facebook,linkedIn,description,logo")] Company company)
         {
             if (ModelState.IsValid)
             {
@@ -89,14 +89,14 @@ namespace KompetansetorgetServer.Controllers
             return View(company);
         }
 
-        // GET: Companies/Delete/5
+        // GET: companies/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
+            Company company = db.companies.Find(id);
             if (company == null)
             {
                 return HttpNotFound();
@@ -104,13 +104,13 @@ namespace KompetansetorgetServer.Controllers
             return View(company);
         }
 
-        // POST: Companies/Delete/5
+        // POST: companies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Company company = db.Companies.Find(id);
-            db.Companies.Remove(company);
+            Company company = db.companies.Find(id);
+            db.companies.Remove(company);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

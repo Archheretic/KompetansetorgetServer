@@ -19,27 +19,56 @@ namespace KompetansetorgetServer.Controllers.Api
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
         // [HttpGet, Route("api/jobs")]
-        public IQueryable Get(string types = "", string study_group = "", string locations = "", 
-            string sortOrder = "", string sortBy = "")
+        // Activates the correct method based on query string parameters.
+        // At the moment you can not use a combination of different strings (other then orderBy and sortBy)
+        public IQueryable Get(string types = "", string studyGroups = "", string locations = "",
+            string title = "", string orderBy = "", string sortBy = "")
         {
-            if (!sortOrder.IsNullOrWhiteSpace() && !sortBy.IsNullOrWhiteSpace())
-            {
-                return GetJobsSorted(sortOrder, sortBy);
-            }
-
             if (!types.IsNullOrWhiteSpace())
             {
-                return GetJobByType(types);
+                IQueryable<Job> jobs = GetJobsByType(types);
+                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                {
+                   return GetJobsSorted(jobs, orderBy, sortBy);
+                }
+                return GetJobsSerialized(jobs);
+
             }
 
-            if (!study_group.IsNullOrWhiteSpace())
+            if (!studyGroups.IsNullOrWhiteSpace())
             {
-                return GetJobByStudy(study_group);
+
+                IQueryable<Job> jobs = GetJobsByStudy(studyGroups);
+                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                    {
+                    return GetJobsSorted(jobs, orderBy, sortBy);
+                }
+                return GetJobsSerialized(jobs);
             }
 
             if (!locations.IsNullOrWhiteSpace())
             {
-                return GetJobByLocation(locations);
+                IQueryable<Job> jobs = GetJobsByLocation(locations);
+                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                {
+                    return GetJobsSorted(jobs, orderBy, sortBy);
+                }
+                return GetJobsSerialized(jobs);
+            }
+
+            if (!title.IsNullOrWhiteSpace())
+            {
+                IQueryable<Job> jobs = GetJobsByTitle(title);
+                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                {
+                    return GetJobsSorted(jobs, orderBy, sortBy);
+                }
+                return GetJobsSerialized(jobs); 
+            }
+
+            if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                {
+                return GetJobsSorted(orderBy, sortBy);
             }
 
             return GetJobs();
@@ -53,8 +82,8 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <returns></returns>
         private IQueryable GetJobs()
         {
-            var jobs = from job in db.Jobs select job;
-            return GetJobSerialized(jobs);
+            var jobs = from job in db.jobs select job;
+            return GetJobsSerialized(jobs);
         }
 
         // GET: api/Jobs/5
@@ -62,7 +91,7 @@ namespace KompetansetorgetServer.Controllers.Api
         [ResponseType(typeof(Job))]
         public async Task<IHttpActionResult> GetJob(string id)
         {
-            Job job = await db.Jobs.FindAsync(id);
+            Job job = await db.jobs.FindAsync(id);
             if (job == null)
             {
                 return NotFound();
@@ -71,203 +100,274 @@ namespace KompetansetorgetServer.Controllers.Api
             //return Ok(job);
             return Ok(new
             {
-                job.Uuid,
-                job.Description,
-                job.Webpage,
-                job.Expiry_date,
-                job.Steps_to_apply,
-                job.Created,
-                job.Published,
-                job.Modified,
-                job.IdContact,
-                job.IdJobType,
-                job.IdLocation,
-                job.IdCompany,
-                Study_groups = job.Study_groups.Select(st => new { st.IdStudy_group })
-            });
+                job.uuid,
+                job.title,
+                job.description,
+                job.webpage,
+                job.linkedInProfile,
+                job.expiryDate,
+                job.stepsToApply,
+                job.created,
+                job.published,
+                job.modified,
+                companies = job.companies.Select(c => new { c.id }),
+                locations = job.locations.Select(l => new { l.id }),
+                jobTypes = job.jobTypes.Select(jt => new { jt.id }),
+                studyGroups = job.studyGroups.Select(st => new { st.id })                          
+        });
         }
 
         /// <summary>
-        /// Lists all jobs that contains that spesific Study_group. 
-        /// GET: api/jobs?study_group=datateknologi
-        /// GET: api/jobs?study_group=idrettsfag
+        /// Lists all jobs that contains that spesific Location. 
+        /// GET: api/jobs?locations=vestagder
+        /// GET: api/jobs?locations=austagder
         /// </summary>
-        /// <param name="study_group">the Study_group identificator</param>
+        /// <param name="locations">the locations identificator</param>
         /// <returns></returns> 
-       // [HttpGet, Route("api/jobs")]
-        private IQueryable GetJobByStudy(string study_group = "")
+        private IQueryable<Job> GetJobsByLocation(string locations = "")
         {
-            if (study_group.IsNullOrWhiteSpace())
-            {
-                return GetJobs();
-            }
-
-            var jobs = from job in db.Jobs               //IdStudy_group is a string primary key
-                       where job.Study_groups.Any(s => s.IdStudy_group.Equals(study_group))
+            var jobs = from job in db.jobs
+                       where job.locations.Any(l => l.id.Equals(locations))
                        select job;
 
-            return GetJobSerialized(jobs);
+            return jobs;
         }
 
+        /// <summary>
+        /// Lists all jobs that contains that spesific StudyGroup. 
+        /// GET: api/jobs?studyGroups=datateknologi
+        /// GET: api/jobs?studyGroups=idrettsfag
+        /// </summary>
+        /// <param name="studyGroup">the StudyGroup identificator</param>
+        /// <returns></returns> 
+       // [HttpGet, Route("api/jobs")]
+        private IQueryable<Job> GetJobsByStudy(string studyGroups = "")
+        {
+            var jobs = from job in db.jobs               
+                       where job.studyGroups.Any(s => s.id.Equals(studyGroups))
+                       select job;
+
+            return jobs;
+        }
 
         /// <summary>
-        /// Lists all jobs that contains that spesific Type (full time and part time jobs). 
+        /// List all jobs that contain that exact title (could be improved upon)
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        private IQueryable<Job> GetJobsByTitle(string title)
+        {
+            // Delimiter % should be reviewed for change.
+            title = title.Replace("%", " ");
+            var jobs = from job in db.jobs               
+                       where job.title.Equals(title)
+                       select job;
+            
+            return jobs;
+        }
+    
+
+        /// <summary>
+        /// Lists all jobs that contains that spesific JobType (full time and part time jobs). 
         /// GET: api/jobs?types=heltid
         /// GET: api/jobs?types=deltid
         /// </summary>
-        /// <param name="types">the JobTypes identificator</param>
+        /// <param name="types">the jobTypes identificator</param>
         /// <returns></returns> 
        // [HttpGet, Route("api/jobs")]
-        private IQueryable GetJobByType(string types = "")
+        private IQueryable<Job> GetJobsByType(string types = "")
         {
-            if (types.IsNullOrWhiteSpace())
-            {
-                return GetJobs();
-            }
-
-            var jobs = from job in db.Jobs               
-                       where job.IdJobType.Equals(types)
+            var jobs = from job in db.jobs               
+                       where job.jobTypes.Any(jt => jt.id.Equals(types))
                        select job;
 
-            return GetJobSerialized(jobs);
+            return jobs;
         }
 
 
         /// <summary>
-        /// Lists all jobs that contains that spesific Location. 
-        /// GET: api/jobs?locations=vestagder
-        /// GET: api/jobs?locations=austagder
+        /// Serializes the job object for json.
         /// </summary>
-        /// <param name="locations">the Locations identificator</param>
+        /// <param name="jobs"></param>
         /// <returns></returns> 
-        private IQueryable GetJobByLocation(string locations = "")
+        private IQueryable GetJobsSerialized(IQueryable<Job> jobs)
         {
-            if (locations.IsNullOrWhiteSpace())
+            return jobs.Select(j => new
             {
-                return GetJobs();
-            }
-
-            var jobs = from job in db.Jobs           
-                       where job.IdLocation.Equals(locations)
-                       select job;
-            
-            return GetJobSerialized(jobs);
-        }
-
-
-        /// <summary>
-        /// Lists all jobs that contains that spesific Location. 
-        /// GET: api/jobs?locations=vestagder
-        /// GET: api/jobs?locations=austagder
-        /// </summary>
-        /// <param name="locations">the Locations identificator</param>
-        /// <returns></returns> 
-        private IQueryable GetJobSerialized(IQueryable<Job> jobs)
-        {
-            return jobs.Select(s => new
-            {
-                s.Uuid,
-                s.Description,
-                s.Webpage,
-                s.Expiry_date,
-                s.Steps_to_apply,
-                s.Created,
-                s.Published,
-                s.Modified,
-                s.IdContact,
-                s.IdJobType,
-                s.IdLocation,
-                s.IdCompany,
-                Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
+                j.uuid,
+                j.title,
+                j.description,
+                j.webpage,
+                j.linkedInProfile,
+                j.expiryDate,
+                j.stepsToApply,
+                j.created,
+                j.published,
+                j.modified,
+                companies = j.companies.Select(c => new { c.id }),
+                locations = j.locations.Select(l => new { l.id }),
+                jobTypes = j.jobTypes.Select(jt => new { jt.id }),
+                studyGroups = j.studyGroups.Select(st => new { st.id })
             });
-            
         }
-
 
         /// <summary>
         /// List jobs in a ascending or descending order based on sortBy parameter.
-        /// GET: api/jobs/?sortorder=asc&sortby=types
-        /// GET: api/jobs/?sortorder=desc&sortby=types
-        /// GET: api/jobs/?sortorder=desc&sortby=locations
-        /// GET: api/jobs/?sortorder=desc&sortby=study_group
+        /// Examples for use:
+        /// GET: api/jobs/?location=vestagder&orderby=asc&sortby=published
+        /// GET: api/jobs/?type=deltid&orderby=desc&sortby=expirydate
+        /// GET: api/jobs/?studygroup=datateknologi&orderby=desc&sortby=locations
+        /// GET: api/jobs/?title="IT PT&orderby=desc&sortby=studyGroups
         /// </summary>
-        /// <param name="sortOrder"></param>
-        /// <param name="sortBy"></param>
+        /// <param name="queryResult">A result of a query in table Jobs</param>
+        /// <param name="orderBy">asc = ascending 
+        ///                       desc = descending</param>
+        /// <param name="sortBy">published = the date a job was published
+        ///                      expirydate = the last date to apply for the job</param>
         /// <returns></returns>
-        private IQueryable GetJobsSorted(string sortOrder = "", string sortBy = "")
+        private IQueryable GetJobsSorted(IQueryable<Job> queryResult, string orderBy = "", string sortBy = "")
         {
-            if (sortOrder.IsNullOrWhiteSpace() || sortBy.IsNullOrWhiteSpace())
+            var jobs = queryResult.Select(j => new
             {
-                return GetJobs();
-            }
-
-            if (!sortOrder.Equals("desc") && !sortOrder.Equals("asc"))
-            {
-                return GetJobs();
-            }
-
-            var queryResult = from job in db.Jobs select job;
-
-            // Won't work due to incompatible return type.
-            //GetJobSerialized(jobs1)
-
-            var jobs = queryResult.Select(s => new
-                {
-                    s.Uuid,
-                    s.Description,
-                    s.Webpage,
-                    s.Expiry_date,
-                    s.Steps_to_apply,
-                    s.Created,
-                    s.Published,
-                    s.Modified,
-                    s.IdContact,
-                    s.IdJobType,
-                    s.IdLocation,
-                    s.IdCompany,
-                    Study_groups = s.Study_groups.Select(st => new { st.IdStudy_group })
+                j.uuid,
+                j.title,
+                j.description,
+                j.webpage,
+                j.linkedInProfile,
+                j.expiryDate,
+                j.stepsToApply,
+                j.created,
+                j.published,
+                j.modified,
+                companies = j.companies.Select(c => new { c.id }),
+                locations = j.locations.Select(l => new { l.id }),
+                jobTypes = j.jobTypes.Select(jt => new { jt.id }),
+                studyGroups = j.studyGroups.Select(st => new { st.id })
             });
 
-
-
-            if (sortOrder.Equals("desc"))
+            if (orderBy.Equals("desc"))
             {
                 switch (sortBy)
                 {
-                    case "types":
-                        jobs = jobs.OrderByDescending(j => j.IdJobType );
+                    case "expirydate":
+                        jobs = jobs.OrderByDescending(j => j.expiryDate);
                         return jobs;
-                    case "locations":
-                        jobs = jobs.OrderByDescending(j => j.IdLocation);
+                    case "published":
+                        jobs = jobs.OrderByDescending(j => j.published);
                         return jobs;
-                    case "study_group":
 
-                        jobs = jobs.OrderByDescending(j => j.Study_groups.Select(sg => new { sg.IdStudy_group }));
-                        //jobs = jobs.OrderByDescending(j => j.Study_groups.IdStudy_group);
-                        //jobs = jobs.OrderByDescending(j => j.Study_groups.Select(sg => new { sg.IdStudy_group }));
-                        return jobs;
                     default:
                         return GetJobs();
                 }
             }
 
-            else
+            switch (sortBy)
+            {
+                case "expirydate":
+                    jobs = jobs.OrderBy(j => j.expiryDate);
+                    return jobs;
+                case "published":
+                    jobs = jobs.OrderBy(j => j.published);
+                    return jobs;
+
+                default:
+                    return GetJobs();
+            }
+        }
+
+        /// <summary>
+        /// List jobs in a ascending or descending order based on sortBy parameter.
+        /// GET: api/jobs/?orderby=asc&sortby=published
+        /// GET: api/jobs/?orderby=desc&sortby=expirydate
+        /// 
+        /// Deprecated, no longer working:
+        /// GET: api/jobs/?orderby=desc&sortby=locations
+        /// GET: api/jobs/?orderby=desc&sortby=studyGroups
+        /// </summary>
+        /// <param name="orderBy"></param>
+        /// <param name="sortBy"></param>
+        /// <returns></returns>
+        private IQueryable GetJobsSorted(string orderBy = "", string sortBy = "")
+        {
+
+            var queryResult = from job in db.jobs select job;
+
+            // Won't work due to incompatible return type.
+            //GetJobsSerialized(jobs1)
+
+            var jobs = queryResult.Select(j => new
+                {
+                j.uuid,
+                j.title,
+                j.description,
+                j.webpage,
+                j.linkedInProfile,
+                j.expiryDate,
+                j.stepsToApply,
+                j.created,
+                j.published,
+                j.modified,
+                companies = j.companies.Select(c => new { c.id }),
+                locations = j.locations.Select(l => new { l.id }),
+                jobTypes = j.jobTypes.Select(jt => new { jt.id }),
+                studyGroups = j.studyGroups.Select(st => new { st.id })
+            });
+
+            if (orderBy.Equals("desc"))
             {
                 switch (sortBy)
                 {
+                    case "expirydate":
+                        jobs = jobs.OrderByDescending(j => j.expiryDate);
+                        return jobs;
+                    case "published":
+                        jobs = jobs.OrderByDescending(j => j.published);
+                        return jobs;
+
+                    /*
                     case "types":
-                        jobs = jobs.OrderBy(j => j.IdJobType);
+                        jobs = jobs.OrderByDescending(j => j.uuid );
                         return jobs;
                     case "locations":
-                        jobs = jobs.OrderBy(j => j.IdLocation);
+                        jobs = jobs.OrderByDescending(j => j.uuid);
                         return jobs;
-                    case "study_group":
-                        jobs = jobs.OrderBy(j => j.Study_groups);
-                        return jobs;
+                    case "studyGroups":
+
+                        jobs = jobs.OrderByDescending(j => j.studyGroups.Select(sg => new { sg.id }));
+                        //jobs = jobs.OrderByDescending(j => j.studyGroups.id);
+                        //jobs = jobs.OrderByDescending(j => j.studyGroups.Select(sg => new { sg.id }));
+                        return jobs; 
+                        */
                     default:
                         return GetJobs();
                 }
             }
+
+            switch (sortBy)
+            {
+                case "expirydate":
+                    jobs = jobs.OrderBy(j => j.expiryDate);
+                    return jobs;
+                case "published":
+                    jobs = jobs.OrderBy(j => j.published);
+                    return jobs;
+                    
+                // These are Not working anymore
+                /*
+                case "types":
+                    jobs = jobs.OrderBy(j => j.jobTypes);
+                    return jobs;
+                case "locations":
+                    jobs = jobs.OrderBy(j => j.locations);
+                    return jobs;
+                case "studygroups":
+                    jobs = jobs.OrderBy(j => j.studyGroups);
+                    return jobs;
+                    */
+
+                default:
+                    return GetJobs();
+            }      
         }
 
 
@@ -280,7 +380,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (id != job.Uuid)
+            if (id != job.uuid)
             {
                 return BadRequest();
             }
@@ -315,7 +415,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            db.Jobs.Add(job);
+            db.jobs.Add(job);
 
             try
             {
@@ -323,7 +423,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch (DbUpdateException)
             {
-                if (JobExists(job.Uuid))
+                if (JobExists(job.uuid))
                 {
                     return Conflict();
                 }
@@ -333,20 +433,20 @@ namespace KompetansetorgetServer.Controllers.Api
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = job.Uuid }, job);
+            return CreatedAtRoute("DefaultApi", new { id = job.uuid }, job);
         }
 
         // DELETE: api/Jobs/5
         [ResponseType(typeof(Job))]
         public async Task<IHttpActionResult> DeleteJob(string id)
         {
-            Job job = await db.Jobs.FindAsync(id);
+            Job job = await db.jobs.FindAsync(id);
             if (job == null)
             {
                 return NotFound();
             }
 
-            db.Jobs.Remove(job);
+            db.jobs.Remove(job);
             await db.SaveChangesAsync();
 
             return Ok(job);
@@ -363,7 +463,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         private bool JobExists(string id)
         {
-            return db.Jobs.Count(e => e.Uuid == id) > 0;
+            return db.jobs.Count(e => e.uuid == id) > 0;
         }
     }
 }
