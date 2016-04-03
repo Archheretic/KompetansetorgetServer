@@ -25,7 +25,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 d.id,
                 d.deviceType,
-                Student = d.Student.username,
+                //student = d.Student.username,
                 d.token
             });
         }
@@ -43,7 +43,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return Ok( new {
                 device.id,
                 device.deviceType,
-                Student = device.Student.username,
+                //student = device.Student.username,
                 device.token
             });
         }
