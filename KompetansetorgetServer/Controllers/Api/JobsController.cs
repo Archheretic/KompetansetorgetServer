@@ -21,7 +21,7 @@ namespace KompetansetorgetServer.Controllers.Api
         // [HttpGet, Route("api/jobs")]
         // Activates the correct method based on query string parameters.
         // At the moment you can not use a combination of different strings (other then orderBy and sortBy)
-        public IQueryable Get(string types = "", string studyGroups = "", string locations = "",
+        public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, string locations = "",
             string title = "", string orderBy = "", string sortBy = "")
         {
             if (!types.IsNullOrWhiteSpace())
@@ -35,9 +35,9 @@ namespace KompetansetorgetServer.Controllers.Api
 
             }
 
-            if (!studyGroups.IsNullOrWhiteSpace())
+            if (studyGroups.Length != 0)
             {
-
+                int i = studyGroups.Length;
                 IQueryable<Job> jobs = GetJobsByStudy(studyGroups);
                 if (orderBy.Equals("desc") || orderBy.Equals("asc"))
                     {
@@ -138,14 +138,16 @@ namespace KompetansetorgetServer.Controllers.Api
         /// Lists all jobs that contains that spesific StudyGroup. 
         /// GET: api/jobs?studyGroups=datateknologi
         /// GET: api/jobs?studyGroups=idrettsfag
+        /// Also supports combinations:
+        /// GET: api/jobs/?studygroups=idrettsfag&studygroups=lærerutdanning
         /// </summary>
-        /// <param name="studyGroup">the StudyGroup identificator</param>
+        /// <param name="studyGroups">the StudyGroup identificator</param>
         /// <returns></returns> 
        // [HttpGet, Route("api/jobs")]
-        private IQueryable<Job> GetJobsByStudy(string studyGroups = "")
+        private IQueryable<Job> GetJobsByStudy(string[] studyGroups = null)
         {
             var jobs = from job in db.jobs               
-                       where job.studyGroups.Any(s => s.id.Equals(studyGroups))
+                       where job.studyGroups.Any(s => studyGroups.Contains(s.id))
                        select job;
 
             return jobs;
