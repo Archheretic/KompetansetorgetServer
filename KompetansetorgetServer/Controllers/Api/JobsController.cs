@@ -112,6 +112,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 job.published,
                 job.modified,
                 companies = job.companies.Select(c => new { c.id }),
+                contacts = job.contacts.Select(c => new { c.id }),
                 locations = job.locations.Select(l => new { l.id }),
                 jobTypes = job.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = job.studyGroups.Select(st => new { st.id })                          
