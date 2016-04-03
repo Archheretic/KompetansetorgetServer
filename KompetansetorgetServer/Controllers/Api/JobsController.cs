@@ -88,6 +88,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         // GET: api/Jobs/5
         // Example: /api/jobs/2c70edff-edbe-4d6d-8e79-10a47f330feb
+        [HttpGet, Route("api/jobs/{id}")]
         [ResponseType(typeof(Job))]
         public async Task<IHttpActionResult> GetJob(string id)
         {
@@ -216,8 +217,7 @@ namespace KompetansetorgetServer.Controllers.Api
         /// Examples for use:
         /// GET: api/jobs/?location=vestagder&orderby=asc&sortby=published
         /// GET: api/jobs/?type=deltid&orderby=desc&sortby=expirydate
-        /// GET: api/jobs/?studygroup=datateknologi&orderby=desc&sortby=locations
-        /// GET: api/jobs/?title="IT PT&orderby=desc&sortby=studyGroups
+
         /// </summary>
         /// <param name="queryResult">A result of a query in table Jobs</param>
         /// <param name="orderBy">asc = ascending 
