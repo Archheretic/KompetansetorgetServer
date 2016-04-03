@@ -18,9 +18,19 @@ namespace KompetansetorgetServer.Controllers.Api
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
         // GET: api/companies
-        public IQueryable<Company> GetCompanies()
+        public IQueryable GetCompanies()
         {
-            return db.companies;
+            return db.companies.Select(c => new
+            {
+                c.id,
+                c.name,
+                c.adress,
+                c.url,
+                c.facebook,
+                c.linkedIn,
+                c.description,
+                c.logo     
+             });
         }
 
         // GET: api/companies/5
@@ -33,7 +43,16 @@ namespace KompetansetorgetServer.Controllers.Api
                 return NotFound();
             }
 
-            return Ok(company);
+            return Ok(new {
+                company.id,
+                company.name,
+                company.adress,
+                company.url,
+                company.facebook,
+                company.linkedIn,
+                company.description,
+                company.logo
+            });
         }
 
         // PUT: api/companies/5
