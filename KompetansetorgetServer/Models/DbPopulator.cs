@@ -13,7 +13,8 @@ namespace KompetansetorgetServer.Models
         // Populates all the tables in the correct order.
         public void PopulateAll()
         {
-            
+            PopulateStudent2();
+            /*
             PopulateLocation();
             PopulateStudy_group();
             PopulateDevice();
@@ -22,7 +23,7 @@ namespace KompetansetorgetServer.Models
             PopulateContact();
             PopulateCompany();
             PopulateJob();
-            
+            */
             //temp();
         }
     
@@ -105,6 +106,24 @@ namespace KompetansetorgetServer.Models
             Device htc = db.devices.First(x => x.id.Equals("HT451WM08832"));
             student.Devices.Add(htc);
             student.studyGroups.Add(data);
+            student.studyGroups.Add(idrett);
+            db.students.Add(student);
+            //htc.Student = student;
+            db.SaveChanges();
+        }
+
+        private void PopulateStudent2()
+        {
+            Student student = new Student()
+            {
+                username = "test14",
+                name = "Test tester",
+                email = "test14@uia.no"
+
+            };
+            StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrettsfag"));
+           // Device htc = db.devices.First(x => x.id.Equals("HT451WM08832"));
+           // student.Devices.Add(htc);
             student.studyGroups.Add(idrett);
             db.students.Add(student);
             //htc.Student = student;

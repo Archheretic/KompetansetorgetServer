@@ -59,8 +59,9 @@ namespace KompetansetorgetServer.Controllers.Api
         }
 
         // GET: api/students/5
+        [HttpGet, Route("api/{jobs}/{id}")]
         [ResponseType(typeof(Student))]
-        public async Task<IHttpActionResult> GetStudent(string id)
+        public async Task<IHttpActionResult> GetStudent(string id, string fields = "")
         {
             Student student = await db.students.FindAsync(id);
             if (student == null)
@@ -68,14 +69,27 @@ namespace KompetansetorgetServer.Controllers.Api
                 return NotFound();
             }
 
+            if (!fields.Equals("token")) { 
             //return Ok(student);
-            return Ok( new { 
+                return Ok( new { 
+                    student.username,
+                    student.name,
+                    student.email,
+                    devices = student.Devices.Select(d => new { d.id }),
+                    studyGroups = student.studyGroups.Select(st => new { st.id })
+                });
+            }
+
+            return Ok(new
+            {
                 student.username,
                 student.name,
                 student.email,
-                Devices = student.Devices.Select(st => new { st.id }),
+                devices = student.Devices.Select(d => new { d.id, d.token }),
                 studyGroups = student.studyGroups.Select(st => new { st.id })
-                });
+            });
+
+
         }
 
         // PUT: api/students/5
