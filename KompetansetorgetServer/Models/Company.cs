@@ -22,6 +22,7 @@ namespace KompetansetorgetServer.Models
         public string logo { get; set; }
 
         public virtual ICollection<Job> Jobs { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
 
     }
 

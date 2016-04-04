@@ -13,8 +13,8 @@ namespace KompetansetorgetServer.Models
         // Populates all the tables in the correct order.
         public void PopulateAll()
         {
-            PopulateStudent2();
-            /*
+            //PopulateStudent2();
+
             PopulateLocation();
             PopulateStudy_group();
             PopulateDevice();
@@ -23,7 +23,11 @@ namespace KompetansetorgetServer.Models
             PopulateContact();
             PopulateCompany();
             PopulateJob();
-            */
+
+            
+            PopulateDegree();
+            PopulateCourse();
+            PopulateProject();
             //temp();
         }
     
@@ -68,9 +72,37 @@ namespace KompetansetorgetServer.Models
                 name = "Lærerutdanning og pedagogikk"
             };
 
+            StudyGroup helse = new StudyGroup()
+            {
+                id = "helse",
+                name = "Helse- og sosialfag"
+            };
+
+            StudyGroup ingenior = new StudyGroup()
+            {
+                id = "ingeniør",
+                name = "Ingeniør og teknologiske fag"
+            };
+
+            StudyGroup samfunnsfag = new StudyGroup()
+            {
+                id = "samfunnsfag",
+                name = "Samfunnsfag"
+            };
+
+            StudyGroup realfag = new StudyGroup()
+            {
+                id = "realfag",
+                name = "Realfag"
+            };
+
             db.studyGroup.Add(idrett);
             db.studyGroup.Add(data);
             db.studyGroup.Add(ped);
+            db.studyGroup.Add(helse);
+            db.studyGroup.Add(ingenior);
+            db.studyGroup.Add(samfunnsfag);
+            db.studyGroup.Add(realfag);
 
             db.SaveChanges();
 
@@ -145,8 +177,24 @@ namespace KompetansetorgetServer.Models
                 name = "Deltid"
             };
 
+            JobType fagl = new JobType()
+            {
+                id = "faglærer",
+                name = "Fra faglærer"
+            };
+
+            JobType virksomhet = new JobType()
+            {
+                id = "virksomhet",
+                name = "Fra virksomhet"
+            };
+
+
             db.jobTypes.Add(heltid);
             db.jobTypes.Add(deltid);
+            db.jobTypes.Add(fagl);
+            db.jobTypes.Add(virksomhet);
+
             db.SaveChanges();
 
         }
@@ -194,10 +242,43 @@ namespace KompetansetorgetServer.Models
 
             };
 
+            Contact larsen = new Contact()
+            {
+                id = 5,
+                name = "Jarl Larsen",
+                position = "privatperson",
+                phone = "",
+                email = "jarl.larsen@gmail.com"
+            };
+
+            Contact olsen = new Contact()
+            {
+                id = 6,
+                name = "Esben Moland Olsen",
+                position = "",
+                phone = "",
+                email = "esben.m.olsen@uia.no"
+            };
+
+            Contact flato = new Contact()
+            {
+                id = 7,
+                name = "Maja Flåto",
+                position = "",
+                phone = "958 75 141",
+                email = "maja.flato@husbanken.no"
+            };
+
+
             db.contacts.Add(andersen);
             db.contacts.Add(mikkelsen);
             db.contacts.Add(syvertsen);
             db.contacts.Add(nilsen);
+            db.contacts.Add(larsen);
+            db.contacts.Add(olsen);
+            db.contacts.Add(flato);
+
+
             db.SaveChanges();
 
         }
@@ -258,10 +339,62 @@ namespace KompetansetorgetServer.Models
 
             };
 
+            Company privat = new Company()
+            {
+                id = "privat",
+                name = "Privatperson",
+                adress = "",
+                url = "",
+                facebook = "",
+                linkedIn = "",
+                description = "Privatperson.",
+                logo = "http://kompetansetorget.uia.no/extension/kompetansetorget/design/kompetansetorget/images/logo-virksomhet.jpg"
+            };
+
+            Company husbanken = new Company()
+            {
+                id = "husbanken",
+                name = "Husbanken",
+                adress = "",
+                url = "http://kompetansetorget.uia.no/virksomheter/husbanken",
+                facebook = "",
+                linkedIn = "",
+                description = "Husbanken er statens sentrale organ for gjennomføring av norsk boligpolitikk.\n" 
+                + "Økt bosetting av vanskeligstilte på boligmarkedet, herunder forebygging og bekjempelse av bostedsløshet," +
+                " er en av Husbankens viktigste målsettinger. I tillegg har Husbanken ansvar for å bidra til at det bygges " +
+                "flere universelt utformede og miljøvennlige boliger.\n" + "Husbanken disponerer økonomiske virkemidler, " +
+                "bistår med informasjon, kompetanseoppbygging og kunnskapsutvikling innenfor by-, bolig- og områdeutvikling," +
+                " samt boligsosialt arbeid.",
+                logo = "http://kompetansetorget.uia.no/extension/kompetansetorget/design/kompetansetorget/images/logo-virksomhet.jpg"
+            };
+
+            Company uia = new Company()
+            {
+                id = "uia",
+                name = "Universitetet i Agder",
+                adress = "",
+                url = "",
+                facebook = "",
+                linkedIn = "",
+                description = "Universitetet i Agder har rundt 10.000 studenter" +
+                              " og 1.100 ansatte fordelt på Campus Kristiansand" +
+                              " og Campus Grimstad. Universitetet i Agder tilbyr " +
+                              "mer enn 150 studier og har et aktivt og ledende " +
+                              "forskermiljø. Vi vektlegger respekt, åpenhet og " +
+                              "evnen til å vise engasjement og stolthet over både " +
+                              "egne og andres resultater. Våre ansatte og studenter " +
+                              "trives godt og har stort faglig utbytte av virksomheten " +
+                              "på våre topp moderne og funksjonelle campuser.",
+                logo = "http://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter-internt/universitetet-i-agder/18076-2-nor-NO/universitetet-i-agder_width-4.jpg"
+            };
+
             db.companies.Add(stamina);
             db.companies.Add(snekkern);
             db.companies.Add(spicheren);
             db.companies.Add(nav);
+            db.companies.Add(privat);
+            db.companies.Add(husbanken);
+            db.companies.Add(uia);
             db.SaveChanges();
 
         }
@@ -401,9 +534,202 @@ namespace KompetansetorgetServer.Models
             //return RedirectToAction("About", "Home");
         }
 
+
+        private void PopulateDegree()
+        {
+            Degree bachelor = new Degree()
+            {
+                id = "bachelor",
+                name = "Bachelor"
+            };
+
+            Degree master = new Degree()
+            {
+                id = "master",
+                name = "Master"
+            };
+
+            db.degrees.Add(bachelor);
+            db.degrees.Add(master);
+            db.SaveChanges();
+        }
+
+        private void PopulateCourse()
+        {
+            Course dat304 = new Course()
+            {
+                id = "DAT-304",
+                name = "DAT-304 - Dataing., bachelor"
+            };
+
+            Course is304 = new Course()
+            {
+                id = "IS-304",
+                name = "IS-304 - Informasjonssys., bachelor"
+            };
+
+            db.courses.Add(dat304);
+            db.courses.Add(is304);
+            db.SaveChanges();
+        }
+
+        private void PopulateProject()
+        {
+            DateTime now = DateTime.Now;
+
+            Project pro1 = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Morseffekter på eggstørrelse hos hummer",
+                description = "En storvokst hummer vil produsere langt flere egg enn en liten hummer" +
+                              " som gyter for første gang i livet. Dette gjelder også mange andre arter" +
+                              " av fisk og krepsdyr i havet, noe som gjør at store individer kan være " +
+                              "spesielt verdifulle å ta vare på i bestander som høstes av oss mennesker." +
+                              " I tillegg kan det være slikt at store individer produserer avkom av høyere " +
+                              "kvalitet, som vokser og overlever bedre enn avkom fra små individer. " +
+                              "Eggstørrelse er ofte en god indikator på kvalitet hos avkom, ettersom " +
+                              "store egg typisk vil resultere i store larver/yngel. Denne oppgaven " +
+                              "handler om å kvantifisere slike morseffekter på eggstørrelse hos hummer," +
+                              " der Havforskningsinstituttet i Flødevigen har samlet inn data gjennom flere år. " +
+                              "Dataene består av merket hummer som ofte gjenfanges flere ganger, slik at man kan" +
+                              " måle eggstørrelse hos den samme hunnen flere ganger i hennes liv. I tillegg til å " +
+                              "benytte eksisterende data blir det mulighet for å delta på feltarbeid med merking" +
+                              " og registrering av hummer høsten 2016.",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/morseffekter-paa-eggstoerrelse-hos-hummer",
+                stepsToApply = "",
+                expiryDate = now.AddDays(20),
+                created = now,
+                published = now,
+                modified = now,
+                status = "Ledig"
+            };
+
+            Contact contact6 = db.contacts.First(x => x.id == 6);
+            Company uia = db.companies.First(x => x.id.Equals("uia"));
+            Degree bachelor = db.degrees.First(x => x.id.Equals("bachelor"));
+            StudyGroup realfag = db.studyGroup.First(x => x.id.Equals("realfag"));
+            JobType fagl = db.jobTypes.First(x => x.id.Equals("faglærer"));
+
+            pro1.contacts.Add(contact6);
+            pro1.studyGroups.Add(realfag);
+
+            pro1.degrees.Add(bachelor);
+            pro1.jobTypes.Add(fagl);
+            pro1.companies.Add(uia);
+
+            db.projects.Add(pro1);
+            db.SaveChanges();
+
+            Project pro2 = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Strømavleser vha gammel mobil",
+                description = "Om ikke lenge vil alle boenheter få nye strømmålere " +
+                              "som er digitale og kommuniserer direkte med " +
+                              "strømleverandør slik at man ikke trenger rapportere " +
+                              "målerstand hver måned. Teknologien vil også gjøre det " +
+                              "teknisk mulig for forbrukeren å følge med på strømforbruk " +
+                              "per minutt/time/dag/måned - dersom man bare får tilgang til " +
+                              "avleserdata. Da kan man også tilpasse sitt forbruk til tider " +
+                              "på døgnet da prisen per kWh er lavest siden strømleverandøren " +
+                              "også kan vite hvor mye strøm som brukes per minutt/time.\n" + 
+                              "Frem til disse nye avleserne kommer, er det både a) vanskelig å" +
+                              " følge med på eget forbruk og b) fortsatt nødvendig å gå til " +
+                              "sikringsskapet for å lese av (ideelt sett) en gang i måneden for" +
+                              " å rapportere inn forbruk.\n" + "Oppgaven går ut på å automatisere" +
+                              " avlesingen vha en gammel mobil med kamera men uten SIM kort. " +
+                              "Det finnes allerede APPer (i hvert fall for Android) der en " +
+                              "smartphone kan strømme bilder fra kamera over WiFi. Da vil det " +
+                              "f.eks. være mulig å hente bildet hvert minutt, kjøre OCR på bildet" +
+                              " for å så kunne skrive det avleste forbruket til en fil. Så kan man" +
+                              " analysere avlesningene over tid for å finne forbruk per " +
+                              "min/time/døgn/måned/år.\n" + 
+                              "Oppgaven går altså ut på å sette alt dette sammen: mobil + " +
+                              "WiFi + hente bilde + OCR + lagre tid+avlest verdi til fil." +
+                              "\n" + "Utfordringen i oppgaven ligger nok mest i å finne en plattform (Linux?)" +
+                              " der man kan få tak et OCR program/modul og da kun trenger å scripte prosessen og " +
+                              "trigge den regulært (crontab?).\n" + "Oppgaven kan utvides ved å analysere (og teste?)" +
+                              " mulige bruksområder som å koble avlesningen mot smarthus systemer for å styre " +
+                              "f.eks. vaskemaskiner eller el-bil lader basert på svingninger i strømprisen." +
+                              " El-bilen skal jo ha 100% strøm kl.08:00, så man kan ikke sette en absolutt" +
+                              " grense på hvor lav strømprisen må være for å lade. Da kan historiske svingninger " +
+                              "(siste x dagene) brukes for å predikere når i løpet av det neste døgnet man antar" +
+                              " det vil være lurt å lade.",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/stroemavleser-vha-gammel-mobil",
+                stepsToApply = "",
+                expiryDate = now.AddDays(21),
+                created = now.AddDays(1),
+                published = now.AddDays(1),
+                modified = now.AddDays(1),
+                status = "Ledig"
+            };
+
+            Contact contact5 = db.contacts.First(x => x.id == 5);
+            Company privat = db.companies.First(x => x.id.Equals("privat"));
+            StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
+            JobType virk = db.jobTypes.First(x => x.id.Equals("virksomhet"));
+            Course dat304 = db.courses.First(x => x.id.Equals("DAT-304"));
+            Course is304 = db.courses.First(x => x.id.Equals("IS-304"));
+
+            pro2.degrees.Add(bachelor);
+            pro2.contacts.Add(contact5);
+            pro2.studyGroups.Add(data);
+            pro2.courses.Add(dat304);
+            pro2.courses.Add(is304);
+            pro2.jobTypes.Add(virk);
+            pro2.companies.Add(privat);
+
+            db.projects.Add(pro2);
+            db.SaveChanges();
+
+            Project pro3 = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Husbankens stipend til masteroppgaver 2016",
+                description = "<b>Ønsker du å skrive en masteroppgave innenfor tema bolig og boligsosialt arbeid?<b>\n" +
+                "Husbanken deler også i 2016 ut stipender. Stipendene er aktuelle for studenter som ønsker å skrive " +
+                              "en masteroppgave med tema knyttet til bolig og boligsosialt arbeid. Alle studenter som" +
+                              " er tilknyttet høgskole eller universitet i Norge kan søke.\n" + "Tematikken for oppgaven" +
+                              " må knyttes til enten boligsosialt arbeid, bomiljø, boligrelatert universell utforming " +
+                              "og/eller boligrelatert energi/miljø.\n" + "Tildeling av stipend på opptil kr. 30 000" +
+                              " vurderes på grunnlag av masteroppgavens relevans for Husbankens arbeidsfelt, studentens" +
+                              " faglige kvalifikasjoner og prosjektbeskrivelse.\n" + "<b>Søknadsfrister: 1. mars 2016 og " +
+                              "1. november 2016<b>\n" + "Mer informasjon om stipendet finner du " +
+                              "på&nbsp;<a href=\"http://www.husbanken.no/boligsosialt-arbeid/stipendutlysning2014/\" " +
+                              "target=\"_self\">Husbankens nettsider</a>" ,
+            
+                webpage = "http://kompetansetorget.uia.no/oppgaver/stroemavleser-vha-gammel-mobil",
+                stepsToApply = "",
+                expiryDate = now.AddDays(22),
+                created = now.AddDays(2),
+                published = now.AddDays(2),
+                modified = now.AddDays(2),
+                status = "Ledig"
+            };
+
+            Contact contact7 = db.contacts.First(x => x.id == 7);
+            Company husb = db.companies.First(x => x.id.Equals("husbanken"));
+            StudyGroup ing = db.studyGroup.First(x => x.id.Equals("ingeniør"));
+            StudyGroup helse = db.studyGroup.First(x => x.id.Equals("helse"));
+            StudyGroup samf = db.studyGroup.First(x => x.id.Equals("samfunnsfag"));
+
+
+            pro3.contacts.Add(contact7);
+            pro3.studyGroups.Add(ing);
+            pro3.studyGroups.Add(helse);
+            pro3.studyGroups.Add(samf);
+
+            pro3.jobTypes.Add(virk);
+            pro3.companies.Add(husb);
+
+            db.projects.Add(pro3);
+            db.SaveChanges();
+
+        }
+
         private void temp()
         {
-            
+
             Contact nilsen = new Contact()
             {
                 id = 4,
@@ -431,7 +757,7 @@ namespace KompetansetorgetServer.Models
             };
             db.companies.Add(stamina);
             db.SaveChanges();
-            
+
             Location location = db.locations.First(x => x.id.Equals("austagder"));
             StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
             StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrettsfag"));
@@ -468,5 +794,6 @@ namespace KompetansetorgetServer.Models
             db.jobs.Add(job4);
             db.SaveChanges();
         }
+
     }
 }

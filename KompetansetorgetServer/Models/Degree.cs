@@ -7,17 +7,12 @@ using System.Web;
 
 namespace KompetansetorgetServer.Models
 {
-    [Table("Contact")]
-    public class Contact
+    [Table("Degree")]
+    public class Degree
     {
         [Key]
-        public int id { get; set; }
-        public string name { get; set; }
-        public string position { get; set; }
-        public string phone { get; set; }
-        public string email { get; set; }
-
-        public virtual ICollection<Job> Jobs { get; set; }
+        public string id { get; set; } // e.g bachelor
+        public string name { get; set; } // e.g Bachelor
         public virtual ICollection<Project> Projects { get; set; }
     }
 }

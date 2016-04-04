@@ -34,5 +34,11 @@ namespace KompetansetorgetServer.Models
         public System.Data.Entity.DbSet<KompetansetorgetServer.Models.StudyGroup> studyGroup { get; set; }
 
         public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Job> jobs { get; set; }
+
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Course> courses { get; set; }
+
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Project> projects { get; set; }
+
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Degree> degrees { get; set; }
     }
 }

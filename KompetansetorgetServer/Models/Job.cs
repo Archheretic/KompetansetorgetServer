@@ -19,7 +19,6 @@ namespace KompetansetorgetServer.Models
             locations = new HashSet<Location>();
             studyGroups = new HashSet<StudyGroup>();
             jobTypes = new HashSet<JobType>();
-
         }
 
         [Key]

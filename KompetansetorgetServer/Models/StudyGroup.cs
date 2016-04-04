@@ -11,9 +11,11 @@ namespace KompetansetorgetServer.Models
     public class StudyGroup
     {
         [Key]
-        public string id { get; set; } // administrasjon
+        public string id { get; set; } // e.g administrasjon
         public string name { get; set; }
         public virtual ICollection<Job> Jobs { get; set; }
         public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
+
     }
 }
