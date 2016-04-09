@@ -100,8 +100,8 @@ namespace KompetansetorgetServer.Controllers.Api
         // GET: api/Jobs/5
         // Example: /api/jobs/2c70edff-edbe-4d6d-8e79-10a47f330feb
         [HttpGet, Route("api/v1/jobs/{id}")]
-        [ResponseType(typeof(Job))]
-        public async Task<IHttpActionResult> GetJob(string id)
+        [ResponseType(typeof (Job))]
+        public async Task<IHttpActionResult> GetJob(string id, string minNot = "")
         {
             Job job = await db.jobs.FindAsync(id);
             if (job == null)
@@ -109,25 +109,40 @@ namespace KompetansetorgetServer.Controllers.Api
                 return NotFound();
             }
 
-            //return Ok(job);
-            return Ok(new
+
+            if (!minNot.Equals("true"))
             {
-                job.uuid,
-                job.title,
-                job.description,
-                job.webpage,
-                job.linkedInProfile,
-                job.expiryDate,
-                job.stepsToApply,
-                job.created,
-                job.published,
-                job.modified,
-                companies = job.companies.Select(c => new { c.id }),
-                contacts = job.contacts.Select(c => new { c.id }),
-                locations = job.locations.Select(l => new { l.id }),
-                jobTypes = job.jobTypes.Select(jt => new { jt.id }),
-                studyGroups = job.studyGroups.Select(st => new { st.id })                          
-        });
+                //return Ok(job);
+                return Ok(new
+                {
+                    job.uuid,
+                    job.title,
+                    job.description,
+                    job.webpage,
+                    job.linkedInProfile,
+                    job.expiryDate,
+                    job.stepsToApply,
+                    job.created,
+                    job.published,
+                    job.modified,
+                    companies = job.companies.Select(c => new {c.id}),
+                    contacts = job.contacts.Select(c => new {c.id}),
+                    locations = job.locations.Select(l => new {l.id}),
+                    jobTypes = job.jobTypes.Select(jt => new {jt.id}),
+                    studyGroups = job.studyGroups.Select(st => new {st.id})
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    job.uuid,
+                    job.title,
+                    job.webpage,
+                    job.published,
+                    companies = job.companies.Select(c => new {c.id, c.name, c.logo})
+                });
+            }
         }
 
         /// <summary>

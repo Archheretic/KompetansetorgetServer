@@ -101,7 +101,7 @@ namespace KompetansetorgetServer.Controllers.Api
         // Example: /api/projects/    2c70edff-edbe-4d6d-8e79-10a47f330feb
         [HttpGet, Route("api/v1/projects/{id}")]
         [ResponseType(typeof(Project))]
-        public async Task<IHttpActionResult> GetProject(string id)
+        public async Task<IHttpActionResult> GetProject(string id, string minNot = "")
         {
             Project project = await db.projects.FindAsync(id);
             if (project == null)
@@ -109,28 +109,41 @@ namespace KompetansetorgetServer.Controllers.Api
                 return NotFound();
             }
 
-            //return Ok(project);
-            return Ok(new
+            if (!minNot.Equals("true"))
             {
-                project.uuid,
-                project.title,
-                project.description,
-                project.webpage,
-                project.linkedInProfile,            
-                project.stepsToApply,
-                project.created,
-                project.published,
-                project.modified,
-                project.status,
-                project.tutor,
-                companies = project.companies.Select(c => new { c.id }),
-                contacts = project.contacts.Select(c => new { c.id }),
-                courses = project.courses.Select(c => new { c.id }),
-                approvedCourses = project.approvedCourses.Select(c => new { c.id }),
-                degrees = project.degrees.Select(d => new { d.id }),
-                jobTypes = project.jobTypes.Select(jt => new { jt.id }),
-                studyGroups = project.studyGroups.Select(st => new { st.id })
-            });
+                return Ok(new
+                {
+                    project.uuid,
+                    project.title,
+                    project.description,
+                    project.webpage,
+                    project.linkedInProfile,
+                    project.stepsToApply,
+                    project.created,
+                    project.published,
+                    project.modified,
+                    project.status,
+                    project.tutor,
+                    companies = project.companies.Select(c => new {c.id}),
+                    contacts = project.contacts.Select(c => new {c.id}),
+                    courses = project.courses.Select(c => new {c.id}),
+                    approvedCourses = project.approvedCourses.Select(c => new {c.id}),
+                    degrees = project.degrees.Select(d => new {d.id}),
+                    jobTypes = project.jobTypes.Select(jt => new {jt.id}),
+                    studyGroups = project.studyGroups.Select(st => new {st.id})
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    project.uuid,
+                    project.title,
+                    project.webpage,              
+                    project.published,
+                    companies = project.companies.Select(c => new { c.id, c.name, c.logo })
+                });
+            }
         }
 
         /// <summary>
