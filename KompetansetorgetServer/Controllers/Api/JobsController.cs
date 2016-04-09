@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.UI.WebControls.WebParts;
 using KompetansetorgetServer.Models;
 using Microsoft.Ajax.Utilities;
 
@@ -22,7 +23,7 @@ namespace KompetansetorgetServer.Controllers.Api
         // Activates the correct method based on query string parameters.
         // At the moment you can not use a combination of different strings (other then orderBy and sortBy)
         public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, string locations = "",
-            string title = "", string orderBy = "", string sortBy = "")
+            string titles = "", string orderBy = "", string sortBy = "")
         {
             if (!types.IsNullOrWhiteSpace())
             {
@@ -56,9 +57,9 @@ namespace KompetansetorgetServer.Controllers.Api
                 return GetJobsSerialized(jobs);
             }
 
-            if (!title.IsNullOrWhiteSpace())
+            if (!titles.IsNullOrWhiteSpace())
             {
-                IQueryable<Job> jobs = GetJobsByTitle(title);
+                IQueryable<Job> jobs = GetJobsByTitle(titles);
                 if (orderBy.Equals("desc") || orderBy.Equals("asc"))
                 {
                     return GetJobsSorted(jobs, orderBy, sortBy);
@@ -88,7 +89,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         // GET: api/Jobs/5
         // Example: /api/jobs/2c70edff-edbe-4d6d-8e79-10a47f330feb
-        [HttpGet, Route("api/jobs/{id}")]
+        [HttpGet, Route("api/v1/jobs/{id}")]
         [ResponseType(typeof(Job))]
         public async Task<IHttpActionResult> GetJob(string id)
         {
@@ -159,12 +160,12 @@ namespace KompetansetorgetServer.Controllers.Api
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
-        private IQueryable<Job> GetJobsByTitle(string title)
+        private IQueryable<Job> GetJobsByTitle(string titles)
         {
             // Delimiter % should be reviewed for change.
-            title = title.Replace("%", " ");
+            titles = titles.Replace("%", " ");
             var jobs = from job in db.jobs               
-                       where job.title.Equals(title)
+                       where job.title.Equals(titles)
                        select job;
             
             return jobs;

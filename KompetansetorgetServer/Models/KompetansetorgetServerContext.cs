@@ -40,5 +40,7 @@ namespace KompetansetorgetServer.Models
         public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Project> projects { get; set; }
 
         public System.Data.Entity.DbSet<KompetansetorgetServer.Models.Degree> degrees { get; set; }
+
+        public System.Data.Entity.DbSet<KompetansetorgetServer.Models.ApprovedCourse> approvedCourses { get; set; }
     }
 }

@@ -269,6 +269,15 @@ namespace KompetansetorgetServer.Models
                 email = "maja.flato@husbanken.no"
             };
 
+            Contact fensli = new Contact()
+            {
+                id = 8,
+                name = "Rune Werner Fensli",
+                position = "",
+                phone = "",
+                email = "rune.fensli@uia.no"
+            };
+
 
             db.contacts.Add(andersen);
             db.contacts.Add(mikkelsen);
@@ -277,7 +286,7 @@ namespace KompetansetorgetServer.Models
             db.contacts.Add(larsen);
             db.contacts.Add(olsen);
             db.contacts.Add(flato);
-
+            db.contacts.Add(fensli);
 
             db.SaveChanges();
 
@@ -571,10 +580,29 @@ namespace KompetansetorgetServer.Models
             db.courses.Add(dat304);
             db.courses.Add(is304);
             db.SaveChanges();
+
+            ApprovedCourse dat3041 = new ApprovedCourse()
+            {
+                id = "DAT-304",
+                name = "DAT-304 - Dataing., bachelor"
+            };
+
+            ApprovedCourse is3041 = new ApprovedCourse()
+            {
+                id = "IS-304",
+                name = "IS-304 - Informasjonssys., bachelor"
+            };
+
+            db.approvedCourses.Add(dat3041);
+            db.approvedCourses.Add(is3041);
+            db.SaveChanges();
         }
 
         private void PopulateProject()
         {
+
+            
+            
             DateTime now = DateTime.Now;
 
             Project pro1 = new Project()
@@ -597,7 +625,7 @@ namespace KompetansetorgetServer.Models
                               " og registrering av hummer høsten 2016.",
                 webpage = "http://kompetansetorget.uia.no/oppgaver/morseffekter-paa-eggstoerrelse-hos-hummer",
                 stepsToApply = "",
-                expiryDate = now.AddDays(20),
+                tutor = "",
                 created = now,
                 published = now,
                 modified = now,
@@ -657,7 +685,7 @@ namespace KompetansetorgetServer.Models
                               " det vil være lurt å lade.",
                 webpage = "http://kompetansetorget.uia.no/oppgaver/stroemavleser-vha-gammel-mobil",
                 stepsToApply = "",
-                expiryDate = now.AddDays(21),
+                tutor = "",
                 created = now.AddDays(1),
                 published = now.AddDays(1),
                 modified = now.AddDays(1),
@@ -700,7 +728,7 @@ namespace KompetansetorgetServer.Models
             
                 webpage = "http://kompetansetorget.uia.no/oppgaver/stroemavleser-vha-gammel-mobil",
                 stepsToApply = "",
-                expiryDate = now.AddDays(22),
+                tutor = "",
                 created = now.AddDays(2),
                 published = now.AddDays(2),
                 modified = now.AddDays(2),
@@ -724,6 +752,51 @@ namespace KompetansetorgetServer.Models
 
             db.projects.Add(pro3);
             db.SaveChanges();
+           
+            Contact contact8 = db.contacts.First(x => x.id == 8);
+            ApprovedCourse dat3041 = db.approvedCourses.First(x => x.id.Equals("DAT-304"));
+            now = DateTime.Now;
+
+
+            Project pro4 = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "APP for pasienter med hjemmemåling av INR, blodfortynnende faktor",
+                description = "Sørlandet Sykehus ved Kardiolog Jarle Jortveit ønsker utviklet en funksjonell" +
+                              " APP basert på norske krav for samhandling mellom hjemmeboende pasient og " +
+                              "helsetjenestene.\n" + "Jarle Jortveit <Jarle.Jortveit@sshf.no> skrev:\n" + 
+                              "Jeg er ansvarlig for opplæring av pasienter i hjemmemåling INR/egendosering " +
+                              "marevan i Aust-Agder. Savner en app for mobiltelefon hvor målinger, målområde" +
+                              " og dosering kan registreres. INR nivå, tid innenfor terapeutisk nivå, endring" +
+                              " i dosering etc vil alltid kunne være tilgjengelig. Basert på ukedose og målområde" +
+                              " kan muligens også forslag til endring i dose gis, samt anbefalinger ved lav/høy INR," +
+                              " kontaktinfo til behandlingsanvarlig lege etc. Jeg har testet det som finnes av" +
+                              " «utenlandske» apper, men disse er etter min oppfatning ikke gode og er heller ikke " +
+                              "tilpasset norske forhold. Kan dette være en mulig studentoppgave?\n" + "Oppgaven vil" +
+                              " bli løst gjennom et nært samarbeid med Senter for eHelse ved Universitetet i Agder, " +
+                              "kontaktpersoner: Martin Gerdes, Arne Wiklund, Rune Fensli.\n" + "Oppgaven har klare" +
+                              " synergier til pågående forskningsprosjekter ved Senter for eHelse, og det kan påregnes" +
+                              " god backing fra senterets medarbeidere gjennom prosjektet.",
+
+                webpage = "http://kompetansetorget.uia.no/oppgaver/stroemavleser-vha-gammel-mobil",
+                stepsToApply = "",
+                tutor = "",
+                created = now.AddDays(2),
+                published = now.AddDays(2),
+                modified = now.AddDays(2),
+                status = "Ledig"
+            };
+
+            pro4.contacts.Add(contact8);
+            pro4.studyGroups.Add(data);
+            pro4.courses.Add(dat304);
+            pro4.approvedCourses.Add(dat3041);
+            pro4.jobTypes.Add(fagl);
+            pro4.companies.Add(uia);
+
+            db.projects.Add(pro4);
+            db.SaveChanges();
+            
 
         }
 

@@ -59,7 +59,7 @@ namespace KompetansetorgetServer.Controllers.Api
         }
 
         // GET: api/students/5
-        [HttpGet, Route("api/students/{id}")]
+        [HttpGet, Route("api/v1/students/{id}")]
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> GetStudent(string id, string fields = "")
         {

@@ -23,7 +23,7 @@ namespace KompetansetorgetServer.Controllers.Api
         // Activates the correct method based on query string parameters.
         // At the moment you can not use a combination of different strings (other then orderBy and sortBy)
         public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, string courses = "",
-            string title = "", string orderBy = "", string sortBy = "")
+            string titles = "", string orderBy = "", string sortBy = "")
         {
             if (!types.IsNullOrWhiteSpace())
             {
@@ -57,9 +57,9 @@ namespace KompetansetorgetServer.Controllers.Api
                 return GetProjectsSerialized(projects);
             }
 
-            if (!title.IsNullOrWhiteSpace())
+            if (!titles.IsNullOrWhiteSpace())
             {
-                IQueryable<Project> projects = GetProjectsByTitle(title);
+                IQueryable<Project> projects = GetProjectsByTitle(titles);
                 if (orderBy.Equals("desc") || orderBy.Equals("asc"))
                 {
                     return GetProjectsSorted(projects, orderBy, sortBy);
@@ -89,7 +89,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         // GET: api/Projects/5
         // Example: /api/projects/    2c70edff-edbe-4d6d-8e79-10a47f330feb
-        [HttpGet, Route("api/projects/{id}")]
+        [HttpGet, Route("api/v1/projects/{id}")]
         [ResponseType(typeof(Project))]
         public async Task<IHttpActionResult> GetProject(string id)
         {
@@ -106,16 +106,17 @@ namespace KompetansetorgetServer.Controllers.Api
                 project.title,
                 project.description,
                 project.webpage,
-                project.linkedInProfile,
-                project.expiryDate,
+                project.linkedInProfile,            
                 project.stepsToApply,
                 project.created,
                 project.published,
                 project.modified,
                 project.status,
+                project.tutor,
                 companies = project.companies.Select(c => new { c.id }),
                 contacts = project.contacts.Select(c => new { c.id }),
                 courses = project.courses.Select(c => new { c.id }),
+                approvedCourses = project.approvedCourses.Select(c => new { c.id }),
                 degrees = project.degrees.Select(d => new { d.id }),
                 jobTypes = project.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = project.studyGroups.Select(st => new { st.id })
@@ -159,15 +160,17 @@ namespace KompetansetorgetServer.Controllers.Api
 
         /// <summary>
         /// List all projects that contain that exact title (could be improved upon)
+        /// 
+        /// GET: api/projects?titles=Morseffekter%på%eggstørrelse%hos%hummer
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
-        private IQueryable<Project> GetProjectsByTitle(string title)
+        private IQueryable<Project> GetProjectsByTitle(string titles)
         {
             // Delimiter % should be reviewed for change.
-            title = title.Replace("%", " ");
+            titles = titles.Replace("%", " ");
             var projects = from project in db.projects
-                       where project.title.Equals(title)
+                       where project.title.Equals(titles)
                        select project;
 
             return projects;
@@ -206,14 +209,15 @@ namespace KompetansetorgetServer.Controllers.Api
                 p.description,
                 p.webpage,
                 p.linkedInProfile,
-                p.expiryDate,
                 p.stepsToApply,
                 p.created,
                 p.published,
                 p.modified,
                 p.status,
+                p.tutor,
                 companies = p.companies.Select(c => new { c.id }),
                 courses = p.courses.Select(l => new { l.id }),
+                approvedCourses = p.approvedCourses.Select(c => new { c.id }),
                 degrees = p.degrees.Select(d => new { d.id }),
                 jobTypes = p.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = p.studyGroups.Select(st => new { st.id })
@@ -242,14 +246,15 @@ namespace KompetansetorgetServer.Controllers.Api
                 p.description,
                 p.webpage,
                 p.linkedInProfile,
-                p.expiryDate,
                 p.stepsToApply,
                 p.created,
                 p.published,
                 p.modified,
                 p.status,
+                p.tutor,
                 companies = p.companies.Select(c => new { c.id }),
                 courses = p.courses.Select(l => new { l.id }),
+                approvedCourses = p.approvedCourses.Select(c => new { c.id }),
                 degrees = p.degrees.Select(d => new { d.id }),
                 jobTypes = p.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = p.studyGroups.Select(st => new { st.id })
@@ -259,9 +264,6 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 switch (sortBy)
                 {
-                    case "expirydate":
-                        projects = projects.OrderByDescending(j => j.expiryDate);
-                        return projects;
                     case "published":
                         projects = projects.OrderByDescending(j => j.published);
                         return projects;
@@ -273,9 +275,6 @@ namespace KompetansetorgetServer.Controllers.Api
 
             switch (sortBy)
             {
-                case "expirydate":
-                    projects = projects.OrderBy(j => j.expiryDate);
-                    return projects;
                 case "published":
                     projects = projects.OrderBy(j => j.published);
                     return projects;
@@ -309,14 +308,15 @@ namespace KompetansetorgetServer.Controllers.Api
                 p.description,
                 p.webpage,
                 p.linkedInProfile,
-                p.expiryDate,
                 p.stepsToApply,
                 p.created,
                 p.published,
                 p.modified,
                 p.status,
+                p.tutor,
                 companies = p.companies.Select(c => new { c.id }),
                 courses = p.courses.Select(l => new { l.id }),
+                approvedCourses = p.approvedCourses.Select(c => new { c.id }),
                 degrees = p.degrees.Select(d => new { d.id }),
                 jobTypes = p.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = p.studyGroups.Select(st => new { st.id })
@@ -326,9 +326,6 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 switch (sortBy)
                 {
-                    case "expirydate":
-                        projects = projects.OrderByDescending(j => j.expiryDate);
-                        return projects;
                     case "published":
                         projects = projects.OrderByDescending(j => j.published);
                         return projects;
@@ -339,9 +336,6 @@ namespace KompetansetorgetServer.Controllers.Api
 
             switch (sortBy)
             {
-                case "expirydate":
-                    projects = projects.OrderBy(j => j.expiryDate);
-                    return projects;
                 case "published":
                     projects = projects.OrderBy(j => j.published);
                     return projects;

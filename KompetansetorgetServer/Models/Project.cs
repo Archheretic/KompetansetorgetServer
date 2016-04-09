@@ -15,6 +15,7 @@ namespace KompetansetorgetServer.Models
             companies = new HashSet<Company>();
             contacts = new HashSet<Contact>();
             courses = new HashSet<Course>();
+            approvedCourses = new HashSet<ApprovedCourse>();
             studyGroups = new HashSet<StudyGroup>();
             jobTypes = new HashSet<JobType>();
             degrees = new HashSet<Degree>();
@@ -27,10 +28,7 @@ namespace KompetansetorgetServer.Models
         public string webpage { get; set; }
         public string linkedInProfile { get; set; }
         public string status { get; set; }
-
-        [Column(TypeName = "datetime2")]
-        public DateTime expiryDate { get; set; }
-
+        public string tutor { get; set; }
         public string stepsToApply { get; set; }
 
         [Column(TypeName = "datetime2")]
@@ -47,6 +45,8 @@ namespace KompetansetorgetServer.Models
         public virtual ICollection<Contact> contacts { get; set; }
 
         public virtual ICollection<Course> courses { get; set; }
+
+        public virtual ICollection<ApprovedCourse> approvedCourses { get; set; }
 
         public virtual ICollection<Degree> degrees { get; set; }
 

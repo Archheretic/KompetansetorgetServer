@@ -7,13 +7,12 @@ using System.Web;
 
 namespace KompetansetorgetServer.Models
 {
-    [Table("Course")]
-    public class Course
+    [Table("ApprovedCourse")]
+    public class ApprovedCourse
     {
         [Key]
         public string id { get; set; }
         public string name { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
     }
-
 }
