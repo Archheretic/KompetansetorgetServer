@@ -22,7 +22,7 @@ namespace KompetansetorgetServer.Controllers.Api
         // [HttpGet, Route("api/projects")]
         // Activates the correct method based on query string parameters.
         // At the moment you can not use a combination of different strings (other then orderBy and sortBy)
-        public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, string courses = "",
+        public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, [FromUri] string[] fields = null, string courses = "",
             string titles = "", string orderBy = "", string sortBy = "")
         {
             if (!types.IsNullOrWhiteSpace())
@@ -45,6 +45,16 @@ namespace KompetansetorgetServer.Controllers.Api
                     return GetProjectsSorted(projects, orderBy, sortBy);
                 }
                 return GetProjectsSerialized(projects);
+            }
+
+            if (fields.Length == 2)
+            {
+                if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
+                {
+                    return GetProjects();
+                }
+                // int i = studyGroups.Length;
+                return GetProjectsWithFields(fields);
             }
 
             if (!courses.IsNullOrWhiteSpace())
@@ -192,6 +202,37 @@ namespace KompetansetorgetServer.Controllers.Api
                        select project;
 
             return projects;
+        }
+
+        /// <summary>
+        /// Lists all projects with the respective companies names and logo. 
+        /// GET: api/projects?fields=cname&fields=clogo
+        /// </summary>
+        private IQueryable GetProjectsWithFields(String[] fields)
+        {
+            var projects = from project in db.projects select project;
+
+            return projects.Select(p => new
+            {
+                p.uuid,
+                p.title,
+                p.description,
+                p.webpage,
+                p.linkedInProfile,
+                p.stepsToApply,
+                p.created,
+                p.published,
+                p.modified,
+                p.status,
+                p.tutor,
+                companies = p.companies.Select(c => new { c.id, c.name, c.logo }),
+                courses = p.courses.Select(l => new { l.id }),
+                approvedCourses = p.approvedCourses.Select(c => new { c.id }),
+                degrees = p.degrees.Select(d => new { d.id }),
+                jobTypes = p.jobTypes.Select(jt => new { jt.id }),
+                studyGroups = p.studyGroups.Select(st => new { st.id })
+            });
+
         }
 
 

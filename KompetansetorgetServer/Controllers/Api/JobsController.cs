@@ -23,7 +23,7 @@ namespace KompetansetorgetServer.Controllers.Api
         // Activates the correct method based on query string parameters.
         // At the moment you can not use a combination of different strings (other then orderBy and sortBy)
         public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, string locations = "",
-            string titles = "", string orderBy = "", string sortBy = "")
+            string titles = "", string orderBy = "", string sortBy = "", [FromUri] string[] fields = null)
         {
             if (!types.IsNullOrWhiteSpace())
             {
@@ -38,13 +38,23 @@ namespace KompetansetorgetServer.Controllers.Api
 
             if (studyGroups.Length != 0)
             {
-                int i = studyGroups.Length;
+               // int i = studyGroups.Length;
                 IQueryable<Job> jobs = GetJobsByStudy(studyGroups);
                 if (orderBy.Equals("desc") || orderBy.Equals("asc"))
                     {
                     return GetJobsSorted(jobs, orderBy, sortBy);
                 }
                 return GetJobsSerialized(jobs);
+            }
+
+            if (fields.Length == 2)
+            {
+                if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
+                {
+                    return GetJobs();
+                }
+                // int i = studyGroups.Length;
+                return GetJobsWithFields(fields);
             }
 
             if (!locations.IsNullOrWhiteSpace())
@@ -189,6 +199,33 @@ namespace KompetansetorgetServer.Controllers.Api
             return jobs;
         }
 
+        /// <summary>
+        /// Lists all jobs with the respective companies names and logo. 
+        /// GET: api/jobs?fields=cname&fields=clogo
+        /// </summary>
+        private IQueryable GetJobsWithFields(String[] fields)
+        {
+            var jobs = from job in db.jobs select job;
+
+            return jobs.Select(j => new
+            {
+                j.uuid,
+                j.title,
+                j.description,
+                j.webpage,
+                j.linkedInProfile,
+                j.expiryDate,
+                j.stepsToApply,
+                j.created,
+                j.published,
+                j.modified,
+                companies = j.companies.Select(c => new { c.id, c.name, c.logo }),
+                locations = j.locations.Select(l => new { l.id }),
+                jobTypes = j.jobTypes.Select(jt => new { jt.id }),
+                studyGroups = j.studyGroups.Select(st => new { st.id })
+            });
+
+        }
 
         /// <summary>
         /// Serializes the job object for json.
