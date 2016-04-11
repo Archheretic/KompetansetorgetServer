@@ -18,10 +18,16 @@ namespace KompetansetorgetServer.PushNotifications
 
         public void SendMessageToAllAndroid(string message)
         {
+            string message1 = "Ny stilling registert";
+            string uuid = "c32c5b2b-4e3a-4e07-bc39-1b5c3ff82aab";
+            string type = "project";
+
             var jGcmData = new JObject();
             var jData = new JObject();
 
-            jData.Add("message", message);
+            jData.Add("message", message1);
+            jData.Add("uuid", uuid);
+            jData.Add("type", type);
             jGcmData.Add("to", "/topics/global");
             jGcmData.Add("data", jData);
 
