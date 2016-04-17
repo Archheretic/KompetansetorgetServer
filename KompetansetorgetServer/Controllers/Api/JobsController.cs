@@ -21,16 +21,17 @@ namespace KompetansetorgetServer.Controllers.Api
 
         // [HttpGet, Route("api/jobs")]
         // Activates the correct method based on query string parameters.
-        // At the moment you can not use a combination of different strings (other then orderBy and sortBy)
+        // At the moment you can not use a combination of different strings (other then sortBy)
         public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, string locations = "",
-            string titles = "", string orderBy = "", string sortBy = "", [FromUri] string[] fields = null)
+            string titles = "", string sortBy = "", [FromUri] string[] fields = null)
         {
             if (!types.IsNullOrWhiteSpace())
             {
                 IQueryable<Job> jobs = GetJobsByType(types);
-                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                if (sortBy.Equals("published") || sortBy.Equals("-published")
+                    || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
                 {
-                   return GetJobsSorted(jobs, orderBy, sortBy);
+                   return GetJobsSorted(jobs, sortBy);
                 }
                 return GetJobsSerialized(jobs);
 
@@ -40,9 +41,10 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                // int i = studyGroups.Length;
                 IQueryable<Job> jobs = GetJobsByStudy(studyGroups);
-                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
-                    {
-                    return GetJobsSorted(jobs, orderBy, sortBy);
+                if (sortBy.Equals("published") || sortBy.Equals("-published")
+                    || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
+                {
+                    return GetJobsSorted(jobs, sortBy);
                 }
                 return GetJobsSerialized(jobs);
             }
@@ -60,9 +62,10 @@ namespace KompetansetorgetServer.Controllers.Api
             if (!locations.IsNullOrWhiteSpace())
             {
                 IQueryable<Job> jobs = GetJobsByLocation(locations);
-                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                if (sortBy.Equals("published") || sortBy.Equals("-published")
+                    || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
                 {
-                    return GetJobsSorted(jobs, orderBy, sortBy);
+                    return GetJobsSorted(jobs, sortBy);
                 }
                 return GetJobsSerialized(jobs);
             }
@@ -70,16 +73,18 @@ namespace KompetansetorgetServer.Controllers.Api
             if (!titles.IsNullOrWhiteSpace())
             {
                 IQueryable<Job> jobs = GetJobsByTitle(titles);
-                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                if (sortBy.Equals("published") || sortBy.Equals("-published")
+                    || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
                 {
-                    return GetJobsSorted(jobs, orderBy, sortBy);
+                    return GetJobsSorted(jobs, sortBy);
                 }
                 return GetJobsSerialized(jobs); 
             }
 
-            if (orderBy.Equals("desc") || orderBy.Equals("asc"))
-                {
-                return GetJobsSorted(orderBy, sortBy);
+            if (sortBy.Equals("published") || sortBy.Equals("-published")
+                || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
+            {
+                return GetJobsSorted(sortBy);
             }
 
             return GetJobs();
@@ -271,17 +276,18 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <summary>
         /// List jobs in a ascending or descending order based on sortBy parameter.
         /// Examples for use:
-        /// GET: api/jobs/?location=vestagder&orderby=asc&sortby=published
-        /// GET: api/jobs/?type=deltid&orderby=desc&sortby=expirydate
-
+        /// GET: api/jobs/?location=vestagder&sortby=published (oldest to newest)
+        /// GET: api/jobs/?location=vestagder&sortby=-published (newest to oldest)
+        /// GET: api/jobs/?type=deltid&sortby=expirydate (oldest to newest)
+        /// GET: api/jobs/?type=deltid&sortby=-expirydate (newest to oldest)
         /// </summary>
         /// <param name="queryResult">A result of a query in table Jobs</param>
-        /// <param name="orderBy">asc = ascending 
-        ///                       desc = descending</param>
-        /// <param name="sortBy">published = the date a job was published
-        ///                      expirydate = the last date to apply for the job</param>
+        /// <param name="sortBy">published = the date a job was published.
+        ///                      expirydate = the last date to apply for the job.
+        ///                      -published = newest to oldest
+        ///                      -expirydate = newest to oldest.</param>
         /// <returns></returns>
-        private IQueryable GetJobsSorted(IQueryable<Job> queryResult, string orderBy = "", string sortBy = "")
+        private IQueryable GetJobsSorted(IQueryable<Job> queryResult, string sortBy = "")
         {
             var jobs = queryResult.Select(j => new
             {
@@ -301,49 +307,71 @@ namespace KompetansetorgetServer.Controllers.Api
                 studyGroups = j.studyGroups.Select(st => new { st.id })
             });
 
-            if (orderBy.Equals("desc"))
-            {
-                switch (sortBy)
-                {
-                    case "expirydate":
-                        jobs = jobs.OrderByDescending(j => j.expiryDate);
-                        return jobs;
-                    case "published":
-                        jobs = jobs.OrderByDescending(j => j.published);
-                        return jobs;
-
-                    default:
-                        return GetJobs();
-                }
-            }
-
             switch (sortBy)
             {
                 case "expirydate":
-                    jobs = jobs.OrderBy(j => j.expiryDate);
+                    jobs = jobs.OrderByDescending(j => j.expiryDate);
                     return jobs;
                 case "published":
+                    jobs = jobs.OrderByDescending(j => j.published);
+                    return jobs;
+
+                case "-expirydate":
+                    jobs = jobs.OrderBy(j => j.expiryDate);
+                    return jobs;
+                case "-published":
                     jobs = jobs.OrderBy(j => j.published);
                     return jobs;
 
                 default:
                     return GetJobs();
             }
-        }
+            /*
+                if (orderBy.Equals("desc"))
+                {
+                    switch (sortBy)
+                    {
+                        case "expirydate":
+                            jobs = jobs.OrderByDescending(j => j.expiryDate);
+                            return jobs;
+                        case "published":
+                            jobs = jobs.OrderByDescending(j => j.published);
+                            return jobs;
+
+                        default:
+                            return GetJobs();
+                    }
+                }
+
+                switch (sortBy)
+                {
+                    case "expirydate":
+                        jobs = jobs.OrderBy(j => j.expiryDate);
+                        return jobs;
+                    case "published":
+                        jobs = jobs.OrderBy(j => j.published);
+                        return jobs;
+
+                    default:
+                        return GetJobs();
+                }
+
+                */
+            }
 
         /// <summary>
         /// List jobs in a ascending or descending order based on sortBy parameter.
-        /// GET: api/jobs/?orderby=asc&sortby=published
-        /// GET: api/jobs/?orderby=desc&sortby=expirydate
+        /// GET: api/jobs/?sortby=published oldest to newest
+        /// GET: api/jobs/?sortby=-published newest to oldest
+        /// GET: api/jobs/?sortby=expirydate
         /// 
         /// Deprecated, no longer working:
-        /// GET: api/jobs/?orderby=desc&sortby=locations
-        /// GET: api/jobs/?orderby=desc&sortby=studyGroups
+        /// GET: api/jobs/?sortby=locations
+        /// GET: api/jobs/?sortby=studyGroups
         /// </summary>
-        /// <param name="orderBy"></param>
         /// <param name="sortBy"></param>
         /// <returns></returns>
-        private IQueryable GetJobsSorted(string orderBy = "", string sortBy = "")
+        private IQueryable GetJobsSorted(string sortBy = "")
         {
 
             var queryResult = from job in db.jobs select job;
@@ -368,62 +396,25 @@ namespace KompetansetorgetServer.Controllers.Api
                 jobTypes = j.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = j.studyGroups.Select(st => new { st.id })
             });
-
-            if (orderBy.Equals("desc"))
-            {
-                switch (sortBy)
-                {
-                    case "expirydate":
-                        jobs = jobs.OrderByDescending(j => j.expiryDate);
-                        return jobs;
-                    case "published":
-                        jobs = jobs.OrderByDescending(j => j.published);
-                        return jobs;
-
-                    /*
-                    case "types":
-                        jobs = jobs.OrderByDescending(j => j.uuid );
-                        return jobs;
-                    case "locations":
-                        jobs = jobs.OrderByDescending(j => j.uuid);
-                        return jobs;
-                    case "studyGroups":
-
-                        jobs = jobs.OrderByDescending(j => j.studyGroups.Select(sg => new { sg.id }));
-                        //jobs = jobs.OrderByDescending(j => j.studyGroups.id);
-                        //jobs = jobs.OrderByDescending(j => j.studyGroups.Select(sg => new { sg.id }));
-                        return jobs; 
-                        */
-                    default:
-                        return GetJobs();
-                }
-            }
-
             switch (sortBy)
             {
                 case "expirydate":
-                    jobs = jobs.OrderBy(j => j.expiryDate);
+                    jobs = jobs.OrderByDescending(j => j.expiryDate);
                     return jobs;
                 case "published":
+                    jobs = jobs.OrderByDescending(j => j.published);
+                    return jobs;
+
+                case "-expirydate":
+                    jobs = jobs.OrderBy(j => j.expiryDate);
+                    return jobs;
+                case "-published":
                     jobs = jobs.OrderBy(j => j.published);
                     return jobs;
-                    
-                // These are Not working anymore
-                /*
-                case "types":
-                    jobs = jobs.OrderBy(j => j.jobTypes);
-                    return jobs;
-                case "locations":
-                    jobs = jobs.OrderBy(j => j.locations);
-                    return jobs;
-                case "studygroups":
-                    jobs = jobs.OrderBy(j => j.studyGroups);
-                    return jobs;
-                    */
 
                 default:
                     return GetJobs();
-            }      
+            }
         }
 
 

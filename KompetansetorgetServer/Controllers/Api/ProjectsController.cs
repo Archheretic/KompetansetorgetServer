@@ -21,16 +21,16 @@ namespace KompetansetorgetServer.Controllers.Api
         
         // [HttpGet, Route("api/projects")]
         // Activates the correct method based on query string parameters.
-        // At the moment you can not use a combination of different strings (other then orderBy and sortBy)
+        // At the moment you can not use a combination of different strings (other then sortBy)
         public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, [FromUri] string[] fields = null, string courses = "",
-            string titles = "", string orderBy = "", string sortBy = "")
+            string titles = "", string sortBy = "")
         {
             if (!types.IsNullOrWhiteSpace())
             {
                 IQueryable<Project> projects = GetProjectsByType(types);
-                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                if (sortBy.Equals("published") || sortBy.Equals("-published"))
                 {
-                    return GetProjectsSorted(projects, orderBy, sortBy);
+                    return GetProjectsSorted(projects, sortBy);
                 }
                 return GetProjectsSerialized(projects);
 
@@ -40,9 +40,9 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 int i = studyGroups.Length;
                 IQueryable<Project> projects = GetProjectsByStudy(studyGroups);
-                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                if (sortBy.Equals("published") || sortBy.Equals("-published"))
                 {
-                    return GetProjectsSorted(projects, orderBy, sortBy);
+                    return GetProjectsSorted(projects, sortBy);
                 }
                 return GetProjectsSerialized(projects);
             }
@@ -60,9 +60,9 @@ namespace KompetansetorgetServer.Controllers.Api
             if (!courses.IsNullOrWhiteSpace())
             {
                 IQueryable<Project> projects = GetProjectsByCourse(courses);
-                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                if (sortBy.Equals("published") || sortBy.Equals("-published"))
                 {
-                    return GetProjectsSorted(projects, orderBy, sortBy);
+                    return GetProjectsSorted(projects, sortBy);
                 }
                 return GetProjectsSerialized(projects);
             }
@@ -70,16 +70,16 @@ namespace KompetansetorgetServer.Controllers.Api
             if (!titles.IsNullOrWhiteSpace())
             {
                 IQueryable<Project> projects = GetProjectsByTitle(titles);
-                if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+                if (sortBy.Equals("published") || sortBy.Equals("-published"))
                 {
-                    return GetProjectsSorted(projects, orderBy, sortBy);
+                    return GetProjectsSorted(projects, sortBy);
                 }
                 return GetProjectsSerialized(projects);
             }
 
-            if (orderBy.Equals("desc") || orderBy.Equals("asc"))
+            if (sortBy.Equals("published") || sortBy.Equals("-published"))
             {
-                return GetProjectsSorted(orderBy, sortBy);
+                return GetProjectsSorted(sortBy);
             }
 
             return GetProjects();
@@ -281,9 +281,8 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <summary>
         /// List projects in a ascending or descending order based on sortBy parameter.
         /// Examples for use:
-        /// GET: api/projects/?course=IS-202&orderby=asc&sortby=published
-        /// GET: api/projects/?type=deltid&orderby=desc&sortby=expirydate
-
+        /// GET: api/projects/?course=IS-202&sortby=published   descending (oldest to newest)
+        /// GET: api/projects/?course=IS-202&sortby=-published  ascending (newest to oldest)
         /// </summary>
         /// <param name="queryResult">A result of a query in table Projects</param>
         /// <param name="orderBy">asc = ascending 
@@ -291,7 +290,7 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <param name="sortBy">published = the date a project was published
         ///                      expirydate = the last date to apply for the project</param>
         /// <returns></returns>
-        private IQueryable GetProjectsSorted(IQueryable<Project> queryResult, string orderBy = "", string sortBy = "")
+        private IQueryable GetProjectsSorted(IQueryable<Project> queryResult, string sortBy = "")
         {
             var projects = queryResult.Select(p => new
             {
@@ -314,6 +313,20 @@ namespace KompetansetorgetServer.Controllers.Api
                 studyGroups = p.studyGroups.Select(st => new { st.id })
             });
 
+            switch (sortBy)
+            { 
+                case "published":
+                projects = projects.OrderByDescending(j => j.published);
+                return projects;
+
+                case "-published":
+                    projects = projects.OrderBy(j => j.published);
+                    return projects;
+
+                default:
+                return GetProjects();
+            }
+            /*
             if (orderBy.Equals("desc"))
             {
                 switch (sortBy)
@@ -336,18 +349,19 @@ namespace KompetansetorgetServer.Controllers.Api
                 default:
                     return GetProjects();
             }
+
+            */
         }
 
         /// <summary>
         /// List projects in a ascending or descending order based on sortBy parameter.
-        /// GET: api/projects/?orderby=asc&sortby=published
-        /// GET: api/projects/?orderby=desc&sortby=expirydate
+        /// GET: api/projects/?orderby=sortby=-published  ascending (newest to oldest)
+        /// GET: api/projects/?orderby=sortby=published   descending (oldest to newest)
         /// 
         /// </summary>
-        /// <param name="orderBy"></param>
         /// <param name="sortBy"></param>
         /// <returns></returns>
-        private IQueryable GetProjectsSorted(string orderBy = "", string sortBy = "")
+        private IQueryable GetProjectsSorted(string sortBy = "")
         {
 
             var queryResult = from project in db.projects select project;
@@ -376,23 +390,16 @@ namespace KompetansetorgetServer.Controllers.Api
                 studyGroups = p.studyGroups.Select(st => new { st.id })
             });
 
-            if (orderBy.Equals("desc"))
-            {
-                switch (sortBy)
-                {
-                    case "published":
-                        projects = projects.OrderByDescending(j => j.published);
-                        return projects;
-                    default:
-                        return GetProjects();
-                }
-            }
-
             switch (sortBy)
             {
                 case "published":
+                    projects = projects.OrderByDescending(j => j.published);
+                    return projects;
+
+                case "-published":
                     projects = projects.OrderBy(j => j.published);
                     return projects;
+
                 default:
                     return GetProjects();
             }
