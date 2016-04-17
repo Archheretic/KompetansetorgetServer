@@ -129,7 +129,19 @@ namespace KompetansetorgetServer.Controllers
         public ActionResult TestPushToViktor()
         {
             Push p = new Push();
-            p.PushToAndroid();
+            string vToken =
+                "cMpKlAeCYZE:APA91bHR93f2MrYJfM3WpSDfzhfDu4mFwLVUPVHez47Mq8qoMp7p-Fnl3kFaF8F0QAxqr6S-rinrRLdddi2gXnD0h5_QmAz2XYIjsnXQ2ARLZMTWveT9amKxp53ZeLgZ527vmbxYEROm";
+            p.PushToAndroid(vToken);
+            return RedirectToAction("About", "Home");
+        }
+
+        public ActionResult TestPushToNadia()
+        {
+            Push p = new Push();
+            string nToken =
+     "erFSVhQN-Qc:APA91bGGzos4X2Hh4np_swN6U15_8U1mCOXekMT95k4evG2S1TvT67DgzQ5gXEv8_9uSRhCveP99jqMAygGSyp1TxQomegJpzLd-iXQQvPAf99D5DPZr6cYpLwz7ezyQfASQuMQnB6Im";
+
+            p.PushToAndroid(nToken);
             return RedirectToAction("About", "Home");
         }
 

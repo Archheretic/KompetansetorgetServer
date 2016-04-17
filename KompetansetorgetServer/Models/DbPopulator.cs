@@ -420,6 +420,7 @@ namespace KompetansetorgetServer.Models
                 title = "Database ansvarlig",
                 description = "Database ansvarlig for Snekkern",
                 webpage = "http://snekkern.no/",
+                linkedInProfile = "",
                 stepsToApply = "Send email",
                 expiryDate = now.AddDays(20),
                 created = now,
@@ -456,6 +457,7 @@ namespace KompetansetorgetServer.Models
                 title = "PT",
                 description = "Er du vår nye mest selgende PT?!?!1",
                 webpage = "http://spicheren.no/",
+                linkedInProfile = "",
                 stepsToApply = "Send email",
                 expiryDate = now.AddDays(21),
                 created = now.AddDays(1),
@@ -487,6 +489,7 @@ namespace KompetansetorgetServer.Models
                 title = "IT og kursanvarlig",
                 description = "IT og opplæring",
                 webpage = "http://nav.no/",
+                linkedInProfile = "",
                 stepsToApply = "Send email",
                 expiryDate = now.AddDays(22),
                 created = now.AddDays(2),
@@ -515,6 +518,7 @@ namespace KompetansetorgetServer.Models
                 title = "IT PT",
                 description = "Er du vår nye høyteknologiske IT PT?!",
                 webpage = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad",
+                linkedInProfile = "",
                 stepsToApply = "Send email",
                 expiryDate = now.AddDays(23),
                 created = now.AddDays(3),
@@ -624,6 +628,7 @@ namespace KompetansetorgetServer.Models
                               "benytte eksisterende data blir det mulighet for å delta på feltarbeid med merking" +
                               " og registrering av hummer høsten 2016.",
                 webpage = "http://kompetansetorget.uia.no/oppgaver/morseffekter-paa-eggstoerrelse-hos-hummer",
+                linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",
                 created = now,
@@ -684,6 +689,7 @@ namespace KompetansetorgetServer.Models
                               "(siste x dagene) brukes for å predikere når i løpet av det neste døgnet man antar" +
                               " det vil være lurt å lade.",
                 webpage = "http://kompetansetorget.uia.no/oppgaver/stroemavleser-vha-gammel-mobil",
+                linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",
                 created = now.AddDays(1),
@@ -726,7 +732,8 @@ namespace KompetansetorgetServer.Models
                               "på&nbsp;<a href=\"http://www.husbanken.no/boligsosialt-arbeid/stipendutlysning2014/\" " +
                               "target=\"_self\">Husbankens nettsider</a>" ,
             
-                webpage = "http://kompetansetorget.uia.no/oppgaver/stroemavleser-vha-gammel-mobil",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/husbankens-stipend-til-masteroppgaver-2016",
+                linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",
                 created = now.AddDays(2),
@@ -778,7 +785,8 @@ namespace KompetansetorgetServer.Models
                               " synergier til pågående forskningsprosjekter ved Senter for eHelse, og det kan påregnes" +
                               " god backing fra senterets medarbeidere gjennom prosjektet.",
 
-                webpage = "http://kompetansetorget.uia.no/oppgaver/stroemavleser-vha-gammel-mobil",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/app-for-pasienter-med-hjemmemaaling-av-inr-blodfortynnende-faktor",
+                linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",
                 created = now.AddDays(2),
@@ -845,6 +853,7 @@ namespace KompetansetorgetServer.Models
                 title = "IT PT",
                 description = "Er du vår nye høyteknologiske IT PT?!",
                 webpage = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad",
+                linkedInProfile = "",
                 stepsToApply = "Send email",
                 expiryDate = now.AddDays(24),
                 created = now.AddDays(4),

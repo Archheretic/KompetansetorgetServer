@@ -14,7 +14,7 @@ namespace KompetansetorgetServer.PushNotifications
 {
     public class Push
     {
-        public void PushToAndroid()
+        public void PushToAndroid(string myAuthToken)
         {
             //Create our push services broker
             var push = new PushBroker();
@@ -29,13 +29,13 @@ namespace KompetansetorgetServer.PushNotifications
             push.OnChannelCreated += ChannelCreated;
             push.OnChannelDestroyed += ChannelDestroyed;
 
-            string myAuthToken =
-            "f1NihVZfat0:APA91bE7vk55QCEbQzjYfI0jUv1bdCTP9ciK27AXXutSsXfJcOmAZCt8vRxFrMHHslo6DbVZyNKRMdxfYN6np1NJ9DR6Tz20SV9hInGlia7ftgq0o-mimw_UI7cUfE9wi4FzQJgND7y5";
+           // string myAuthToken =
+           // "f1NihVZfat0:APA91bE7vk55QCEbQzjYfI0jUv1bdCTP9ciK27AXXutSsXfJcOmAZCt8vRxFrMHHslo6DbVZyNKRMdxfYN6np1NJ9DR6Tz20SV9hInGlia7ftgq0o-mimw_UI7cUfE9wi4FzQJgND7y5";
 
             push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyDIbpRonx7yh3NKBAr4rAzmfmIFeEWRTfE"));
 
             push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
-                                  .WithJson(@"{""message"":""Hello World!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""project"",""uuid"":""c1db5671-f841-4ada-90e0-b4aa51471d31""}"));
+                                  .WithJson(@"{""message"":""Ny stilling registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""project"",""uuid"":""c1db5671-f841-4ada-90e0-b4aa51471d31""}"));
 
 
             //Stop and wait for the queues to drains before it dispose 
