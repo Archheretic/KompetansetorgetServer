@@ -192,8 +192,8 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <returns></returns>
         private IQueryable<Job> GetJobsByTitle(string titles)
         {
-            // Delimiter % should be reviewed for change.
-            titles = titles.Replace("%", " ");
+            // White space Delimiter + removed.
+            titles = titles.Replace("+", " ");
             var jobs = from job in db.jobs               
                        where job.title.Equals(titles)
                        select job;

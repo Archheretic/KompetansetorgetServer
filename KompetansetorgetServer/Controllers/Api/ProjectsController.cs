@@ -184,14 +184,14 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <summary>
         /// List all projects that contain that exact title (could be improved upon)
         /// 
-        /// GET: api/projects?titles=Morseffekter%på%eggstørrelse%hos%hummer
+        /// GET: api/projects?titles=Morseffekter+på+eggstørrelse+hos+hummer
         /// </summary>
         /// <param name="title"></param>
         /// <returns></returns>
         private IQueryable<Project> GetProjectsByTitle(string titles)
         {
-            // Delimiter % should be reviewed for change.
-            titles = titles.Replace("%", " ");
+            // White space delimiter + replaced.
+            titles = titles.Replace("+", " ");
             var projects = from project in db.projects
                        where project.title.Equals(titles)
                        select project;
