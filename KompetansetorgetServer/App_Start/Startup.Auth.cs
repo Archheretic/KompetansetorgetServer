@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -6,6 +8,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using KompetansetorgetServer.Models;
+using Microsoft.Owin.Security.OAuth;
 
 namespace KompetansetorgetServer
 {
@@ -58,11 +61,16 @@ namespace KompetansetorgetServer
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+
+            // This information should be stored more securely in a real application
+            // For example in Web.config file (which should NOT be tracked by Git).
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "976073814766-r22dv36d9ge8dh2l6sq270d7ujv9hkqo.apps.googleusercontent.com",
+                ClientSecret = "GV9LzxAfdAkCsJCixl6hwdGW"
+            });
         }
+
+
     }
 }

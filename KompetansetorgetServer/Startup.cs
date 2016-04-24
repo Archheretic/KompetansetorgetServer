@@ -8,7 +8,9 @@ namespace KompetansetorgetServer
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
+            //ConfigureAuth(app);
+            ConfigureOAuth(app);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
         }
     }
 }

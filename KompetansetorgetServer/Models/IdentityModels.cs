@@ -21,7 +21,7 @@ namespace KompetansetorgetServer.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("KompetansetorgetServerContext", throwIfV1Schema: false)
         {
         }
 

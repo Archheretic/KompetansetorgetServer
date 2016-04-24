@@ -14,6 +14,7 @@ using Microsoft.Ajax.Utilities;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
+    [Authorize]
     public class StudentsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();

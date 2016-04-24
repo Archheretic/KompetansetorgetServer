@@ -11,6 +11,7 @@ using KompetansetorgetServer.Models;
 
 namespace KompetansetorgetServer.Controllers
 {
+    [Authorize]
     public class StudentsController : Controller
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
