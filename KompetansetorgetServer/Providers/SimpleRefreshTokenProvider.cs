@@ -1,4 +1,7 @@
-﻿using KompetansetorgetServer.Entities;
+﻿/*
+Used for implementation of Refresh tokens, which is not essential for this project at this moment.
+
+using KompetansetorgetServer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,4 +87,7 @@ namespace KompetansetorgetServer.Providers
         }
 
     }
+    
 }
+
+*/

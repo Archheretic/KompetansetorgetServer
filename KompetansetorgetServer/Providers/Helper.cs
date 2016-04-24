@@ -6,6 +6,11 @@ using System.Web;
 
 namespace KompetansetorgetServer.Providers
 {
+    /// <summary>
+    /// Helper class for encrypting things that should not be unencrypted in the database,
+    /// like password, client secrets etc...
+    /// Should considering implementing salt, if used in a real application.
+    /// </summary>
     public class Helper
     {
         public static string GetHash(string input)

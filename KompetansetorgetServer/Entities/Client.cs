@@ -7,6 +7,7 @@ using KompetansetorgetServer.Models;
 
 namespace KompetansetorgetServer.Entities
 {
+    /*
     public class Client
     {
         [Key]
@@ -38,4 +39,5 @@ namespace KompetansetorgetServer.Entities
         [Required]
         public string ProtectedTicket { get; set; }
     }
+    */
 }

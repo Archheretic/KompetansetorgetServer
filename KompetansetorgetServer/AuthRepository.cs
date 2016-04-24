@@ -10,6 +10,9 @@ using KompetansetorgetServer.Models;
 
 namespace KompetansetorgetServer
 {
+    /// <summary>
+    /// This class is used in conjuction with asp.net identity for handling users authentication.
+    /// </summary>
     public class AuthRepository : IDisposable
     {
         private AuthContext _ctx;
@@ -22,6 +25,43 @@ namespace KompetansetorgetServer
             _userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(_ctx));
         }
 
+        /// <summary>
+        /// Finds a user with that spesific loginInfo
+        /// </summary>
+        /// <param name="loginInfo"></param>
+        /// <returns></returns>
+        public async Task<IdentityUser> FindAsync(UserLoginInfo loginInfo)
+        {
+            IdentityUser user = await _userManager.FindAsync(loginInfo);
+
+            return user;
+        }
+
+        /// <summary>
+        /// Creates a new user in the databaser.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> CreateAsync(IdentityUser user)
+        {
+            var result = await _userManager.CreateAsync(user);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Adds login information to the user (id and login provider)
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        public async Task<IdentityResult> AddLoginAsync(string userId, UserLoginInfo login)
+        {
+            var result = await _userManager.AddLoginAsync(userId, login);
+
+            return result;
+        }
+
         public void Dispose()
         {
             _ctx.Dispose();
@@ -29,6 +69,8 @@ namespace KompetansetorgetServer
 
         }
 
+        // This code is used if differentiation between clients (mobile, javascript, desktop) is advantageous
+        /*
         public Client FindClient(string clientId)
         {
             var client = _ctx.Clients.Find(clientId);
@@ -36,6 +78,8 @@ namespace KompetansetorgetServer
             return client;
         }
 
+
+        // These methods are for implementation of Refresh tokens, its coupled with the Client implementation
         public async Task<bool> AddRefreshToken(RefreshToken token)
         {
 
@@ -81,29 +125,10 @@ namespace KompetansetorgetServer
         {
             return _ctx.RefreshTokens.ToList();
         }
+        */
 
-        public async Task<IdentityUser> FindAsync(UserLoginInfo loginInfo)
-        {
-            IdentityUser user = await _userManager.FindAsync(loginInfo);
 
-            return user;
-        }
-
-        public async Task<IdentityResult> CreateAsync(IdentityUser user)
-        {
-            var result = await _userManager.CreateAsync(user);
-
-            return result;
-        }
-
-        public async Task<IdentityResult> AddLoginAsync(string userId, UserLoginInfo login)
-        {
-            var result = await _userManager.AddLoginAsync(userId, login);
-
-            return result;
-        }
-
-        /* Used for local login */
+        /* Used for local login 
         public async Task<IdentityResult> RegisterUser(UserModel userModel)
         {
             IdentityUser user = new IdentityUser
@@ -122,6 +147,6 @@ namespace KompetansetorgetServer
 
             return user;
         }
-        
+        */
     }
 }

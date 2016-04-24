@@ -19,6 +19,10 @@ namespace KompetansetorgetServer
         public static GoogleOAuth2AuthenticationOptions googleAuthOptions { get; private set; }
         public static FacebookAuthenticationOptions facebookAuthOptions { get; private set; }
 
+        /// <summary>
+        /// Configures OAuth and the Authetication providers
+        /// </summary>
+        /// <param name="app"></param>
         public void ConfigureOAuth(IAppBuilder app)
         {
             //use a cookie to temporarily store information about a user logging in with a third party login provider
@@ -30,8 +34,8 @@ namespace KompetansetorgetServer
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
-                Provider = new SimpleAuthorizationServerProvider(),
-                RefreshTokenProvider = new SimpleRefreshTokenProvider()
+                //Provider = new SimpleAuthorizationServerProvider(),
+                //RefreshTokenProvider = new SimpleRefreshTokenProvider()
             };
 
             // Token Generation

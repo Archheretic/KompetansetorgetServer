@@ -15,7 +15,10 @@ namespace KompetansetorgetServer
         {
         }
 
+        /* Used for Client and RefreshTokens implementation. Which is not essential for this project at this moment.
+
         public DbSet<Client> Clients { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        */
     }
 }

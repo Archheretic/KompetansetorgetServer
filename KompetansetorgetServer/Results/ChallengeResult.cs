@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace KompetansetorgetServer.Results
 { 
+    /*
     public class ChallengeResult : IHttpActionResult
     {
         public string LoginProvider { get; set; }
@@ -31,4 +32,5 @@ namespace KompetansetorgetServer.Results
             return Task.FromResult(response);
         }
     }  
+    */
 }

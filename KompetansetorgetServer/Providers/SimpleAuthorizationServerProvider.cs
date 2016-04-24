@@ -11,6 +11,7 @@ using KompetansetorgetServer.Entities;
 
 namespace KompetansetorgetServer.Providers
 {
+    /*
     public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -115,7 +116,7 @@ namespace KompetansetorgetServer.Providers
             context.Validated(ticket);
 
         }
-        */
+        
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
@@ -148,4 +149,5 @@ namespace KompetansetorgetServer.Providers
             return Task.FromResult<object>(null);
         }
     }
+*/
 }

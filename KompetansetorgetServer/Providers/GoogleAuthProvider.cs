@@ -8,6 +8,9 @@ using Microsoft.Owin.Security.Google;
 
 namespace KompetansetorgetServer.Providers
 {
+    /// <summary>
+    /// Is used as "provider" by  Startup.OAuth.ConfigureOAuth()
+    /// </summary>
     public class GoogleAuthProvider : IGoogleOAuth2AuthenticationProvider
     {
         public void ApplyRedirect(GoogleOAuth2ApplyRedirectContext context)
