@@ -25,31 +25,7 @@ namespace KompetansetorgetServer.Controllers.Api
         public AccountController()
         {
             _repo = new AuthRepository();
-        }
-
-        /*
-        // POST api/Account/Register
-        [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(UserModel userModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            IdentityResult result = await _repo.RegisterUser(userModel);
-
-            IHttpActionResult errorResult = GetErrorResult(result);
-
-            if (errorResult != null)
-            {
-                return errorResult;
-            }
-
-            return Ok();
-        }
-        */
+        }  
 
         protected override void Dispose(bool disposing)
         {
@@ -310,7 +286,6 @@ namespace KompetansetorgetServer.Controllers.Api
                     {
                         return null;
                     }
-
                 }
 
             }
@@ -464,4 +439,32 @@ namespace KompetansetorgetServer.Controllers.Api
 
     }
 
+    /*
+    // POST api/Account/Register
+    /// <summary>
+    /// Used for registering local accounts
+    /// </summary>
+    /// <param name="userModel"></param>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [Route("Register")]
+    public async Task<IHttpActionResult> Register(UserModel userModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        IdentityResult result = await _repo.RegisterUser(userModel);
+
+        IHttpActionResult errorResult = GetErrorResult(result);
+
+        if (errorResult != null)
+        {
+            return errorResult;
+        }
+
+        return Ok();
+    }
+    */
 }

@@ -103,7 +103,7 @@ namespace KompetansetorgetServer
             return result;
         }
 
-        /* Used for local login
+        /* Used for local login */
         public async Task<IdentityResult> RegisterUser(UserModel userModel)
         {
             IdentityUser user = new IdentityUser
@@ -122,6 +122,6 @@ namespace KompetansetorgetServer
 
             return user;
         }
-        */
+        
     }
 }

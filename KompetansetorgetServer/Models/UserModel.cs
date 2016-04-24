@@ -6,6 +6,10 @@ using System.Web;
 
 namespace KompetansetorgetServer.Models
 {
+    /// <summary>
+    /// This class is only used for local registering and login, and is not an essential part of this project.
+    /// Since this project only needs external registering/login it can indeed be removed, but I've saved it just in case...
+    /// </summary>
     public class UserModel
     {
         [Required]
