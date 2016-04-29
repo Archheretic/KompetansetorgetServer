@@ -115,7 +115,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 {
                     project.uuid,
                     project.title,
-                    project.description,
+                    //project.description,
                     project.webpage,
                     project.linkedInProfile,
                     project.stepsToApply,
@@ -144,6 +144,20 @@ namespace KompetansetorgetServer.Controllers.Api
                     companies = project.companies.Select(c => new { c.id, c.name, c.logo })
                 });
             }
+        }
+
+        [HttpGet, Route("api/v1/project/lastmodifed")]
+        [ResponseType(typeof(Project))]
+        public async Task<IHttpActionResult> GetLastModified()
+        {
+            //var lastModified = (from j in db.jobs where MAX(j.modified) select j);
+            Project project = db.projects.OrderByDescending(p => p.modified).First();
+
+            return Ok(new
+            {
+                project.uuid,
+                project.modified
+            });
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -90,6 +91,20 @@ namespace KompetansetorgetServer.Controllers.Api
             return GetJobs();
         }
 
+        [HttpGet, Route("api/v1/jobs/lastmodifed")]
+        [ResponseType(typeof(Job))]
+        public async Task<IHttpActionResult> GetLastModified()
+        {
+            //var lastModified = (from j in db.jobs where MAX(j.modified) select j);
+            Job job = db.jobs.OrderByDescending(j => j.modified).First();
+
+            return Ok(new
+            {
+             job.uuid,
+             job.modified      
+            });
+        }
+
         // GET: api/Jobs
         //public IQueryable<Job> GetJobs()
         /// <summary>
@@ -122,7 +137,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 {
                     job.uuid,
                     job.title,
-                    job.description,
+                    //job.description,
                     job.webpage,
                     job.linkedInProfile,
                     job.expiryDate,
