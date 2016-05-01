@@ -303,7 +303,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 jobs = from job in db.jobs
                            where job.studyGroups.Any(s => studyGroups.Contains(s.id))
-                           where job.locations.Any(l => l.id.Equals(types))
+                           where job.locations.Any(l => l.id.Equals(locations))
                            select job;
             }
 
