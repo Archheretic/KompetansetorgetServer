@@ -28,12 +28,12 @@ namespace KompetansetorgetServer.Controllers.Api
             string titles = "", string sortBy = "")
         {
 
-            if ((studyGroups != null && !types.IsNullOrWhiteSpace()) || 
-                (studyGroups != null && !courses.IsNullOrWhiteSpace()) || 
+            if ((studyGroups.Length != 0 && !types.IsNullOrWhiteSpace()) || 
+                (studyGroups.Length != 0 && !courses.IsNullOrWhiteSpace()) || 
                 (!types.IsNullOrWhiteSpace() && !courses.IsNullOrWhiteSpace()))
             {
                 IQueryable<Project> projects = GetProjectsByMultiFilter(types, studyGroups, courses);
-                if (fields != null && fields.Length == 2)
+                if (fields.Length == 2)
                 {
                     if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
                     {
@@ -55,7 +55,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
             }
 
-            if (studyGroups != null && studyGroups.Length != 0)
+            if (studyGroups.Length != 0)
             {
                 int i = studyGroups.Length;
                 IQueryable<Project> projects = GetProjectsByStudy(studyGroups);
@@ -86,7 +86,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return GetProjectsSerialized(projects);
             }
 
-            if (fields != null && fields.Length == 2)
+            if (fields.Length == 2)
             {
                 if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
                 {

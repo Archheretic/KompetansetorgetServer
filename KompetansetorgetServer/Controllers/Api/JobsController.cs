@@ -28,12 +28,12 @@ namespace KompetansetorgetServer.Controllers.Api
             string titles = "", string sortBy = "", [FromUri] string[] fields = null)
         {
 
-            if ((studyGroups != null && !types.IsNullOrWhiteSpace()) ||
-                (studyGroups != null && !locations.IsNullOrWhiteSpace()) ||
+            if ((studyGroups.Length != 0 && !types.IsNullOrWhiteSpace()) ||
+                (studyGroups.Length != 0 && !locations.IsNullOrWhiteSpace()) ||
                 (!types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace()))
             {
                 IQueryable<Job> jobs = GetJobsByMultiFilter(types, studyGroups, locations);
-                if (fields != null && fields.Length == 2)
+                if (fields.Length == 2)
                 {
                     if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
                     {
@@ -282,7 +282,7 @@ namespace KompetansetorgetServer.Controllers.Api
         {
            
             IQueryable<Job> jobs = null;
-            if (studyGroups != null && !types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace())
+            if (studyGroups.Length != 0 && !types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace())
             {
                 jobs = from job in db.jobs
                            where job.studyGroups.Any(s => studyGroups.Contains(s.id))
@@ -299,7 +299,7 @@ namespace KompetansetorgetServer.Controllers.Api
                            select job;
             }
 
-            else if (studyGroups != null && !locations.IsNullOrWhiteSpace())
+            else if (studyGroups.Length != 0 && !locations.IsNullOrWhiteSpace())
             {
                 jobs = from job in db.jobs
                            where job.studyGroups.Any(s => studyGroups.Contains(s.id))
@@ -307,7 +307,7 @@ namespace KompetansetorgetServer.Controllers.Api
                            select job;
             }
 
-            else if (studyGroups != null && !types.IsNullOrWhiteSpace())
+            else if (studyGroups.Length != 0 && !types.IsNullOrWhiteSpace())
             {
                 jobs = from job in db.jobs
                            where job.studyGroups.Any(s => studyGroups.Contains(s.id))
