@@ -255,7 +255,12 @@ namespace KompetansetorgetServer.Controllers.Api
                 Provider = provider,
                 ExternalAccessToken = externalAccessToken
             };
-
+            Student student = new Student();
+            student.username = verifiedAccessToken.email;
+            student.email = verifiedAccessToken.email;
+            KompetansetorgetServerContext db = new KompetansetorgetServerContext();
+            db.students.Add(student);
+            db.SaveChanges();
             return await RegisterExternal(model);
         }
 

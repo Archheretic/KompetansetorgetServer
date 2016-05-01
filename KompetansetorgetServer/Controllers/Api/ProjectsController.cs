@@ -15,16 +15,34 @@ using Microsoft.Ajax.Utilities;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
+
     public class ProjectsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
-        
+
         // [HttpGet, Route("api/projects")]
         // Activates the correct method based on query string parameters.
-        // At the moment you can not use a combination of different strings (other then sortBy)
+        // At the moment you can only use a combination of different strings if not combined with sortBy.
+        /// Due to a realisation of need, all projects will be returned with fields clogo and cname regardless of if the call ask for it or not
         public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, [FromUri] string[] fields = null, string courses = "",
             string titles = "", string sortBy = "")
         {
+
+            if ((studyGroups != null && !types.IsNullOrWhiteSpace()) || 
+                (studyGroups != null && !courses.IsNullOrWhiteSpace()) || 
+                (!types.IsNullOrWhiteSpace() && !courses.IsNullOrWhiteSpace()))
+            {
+                IQueryable<Project> projects = GetProjectsByMultiFilter(types, studyGroups, courses);
+                if (fields != null && fields.Length == 2)
+                {
+                    if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
+                    {
+                        return GetSerializedWithFields(projects);
+                    }
+                }
+                return GetProjectsSerialized(projects);
+            }
+
             if (!types.IsNullOrWhiteSpace())
             {
                 IQueryable<Project> projects = GetProjectsByType(types);
@@ -32,11 +50,12 @@ namespace KompetansetorgetServer.Controllers.Api
                 {
                     return GetProjectsSorted(projects, sortBy);
                 }
+
                 return GetProjectsSerialized(projects);
 
             }
 
-            if (studyGroups.Length != 0)
+            if (studyGroups != null && studyGroups.Length != 0)
             {
                 int i = studyGroups.Length;
                 IQueryable<Project> projects = GetProjectsByStudy(studyGroups);
@@ -45,16 +64,6 @@ namespace KompetansetorgetServer.Controllers.Api
                     return GetProjectsSorted(projects, sortBy);
                 }
                 return GetProjectsSerialized(projects);
-            }
-
-            if (fields.Length == 2)
-            {
-                if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
-                {
-                    return GetProjects();
-                }
-                // int i = studyGroups.Length;
-                return GetProjectsWithFields(fields);
             }
 
             if (!courses.IsNullOrWhiteSpace())
@@ -75,6 +84,16 @@ namespace KompetansetorgetServer.Controllers.Api
                     return GetProjectsSorted(projects, sortBy);
                 }
                 return GetProjectsSerialized(projects);
+            }
+
+            if (fields != null && fields.Length == 2)
+            {
+                if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
+                {
+                    return GetProjects();
+                }
+                // int i = studyGroups.Length;
+                return GetProjectsWithFields(fields);
             }
 
             if (sortBy.Equals("published") || sortBy.Equals("-published"))
@@ -124,7 +143,7 @@ namespace KompetansetorgetServer.Controllers.Api
                     project.modified,
                     project.status,
                     project.tutor,
-                    companies = project.companies.Select(c => new {c.id}),
+                    companies = project.companies.Select(c => new { c.id, c.name, c.logo }),
                     contacts = project.contacts.Select(c => new {c.id}),
                     courses = project.courses.Select(c => new {c.id}),
                     approvedCourses = project.approvedCourses.Select(c => new {c.id}),
@@ -172,6 +191,45 @@ namespace KompetansetorgetServer.Controllers.Api
             var projects = from project in db.projects
                        where project.courses.Any(c => c.id.Equals(courses))
                        select project;
+
+            return projects;
+        }
+
+        private IQueryable<Project> GetProjectsByMultiFilter(string types = "", [FromUri] string[] studyGroups = null, string courses = "")
+        {
+            IQueryable<Project> projects = null;
+            if (studyGroups != null && !types.IsNullOrWhiteSpace() && !courses.IsNullOrWhiteSpace())
+            {
+                projects = from project in db.projects
+                           where project.studyGroups.Any(s => studyGroups.Contains(s.id))
+                           where project.courses.Any(c => c.id.Equals(courses))
+                           where project.jobTypes.Any(jt => jt.id.Equals(types))
+                           select project;
+            }
+
+            else if (!types.IsNullOrWhiteSpace() && !courses.IsNullOrWhiteSpace())
+            {
+                projects = from project in db.projects
+                           where project.courses.Any(c => c.id.Equals(courses))
+                           where project.jobTypes.Any(jt => jt.id.Equals(types))
+                           select project;
+            }
+
+            else if (studyGroups != null && !courses.IsNullOrWhiteSpace())
+            {
+                projects = from project in db.projects
+                           where project.studyGroups.Any(s => studyGroups.Contains(s.id))
+                           where project.courses.Any(c => c.id.Equals(courses))
+                           select project;
+            }
+
+            else if (studyGroups != null && !types.IsNullOrWhiteSpace())
+            {
+                projects = from project in db.projects
+                           where project.studyGroups.Any(s => studyGroups.Contains(s.id))
+                           where project.jobTypes.Any(jt => jt.id.Equals(types))
+                           select project;
+            }
 
             return projects;
         }
@@ -232,6 +290,36 @@ namespace KompetansetorgetServer.Controllers.Api
         }
 
         /// <summary>
+        /// Serializes Projects ands companies names and logo. 
+        /// GET: api/projects?fields=cname&fields=clogo
+        /// </summary>
+        private IQueryable GetSerializedWithFields(IQueryable<Project> projects)
+        {
+
+            return projects.Select(p => new
+            {
+                p.uuid,
+                p.title,
+                //p.description,  // No need for this field atm, + very much data
+                p.webpage,
+                p.linkedInProfile,
+                p.stepsToApply,
+                p.created,
+                p.published,
+                p.modified,
+                p.status,
+                p.tutor,
+                companies = p.companies.Select(c => new { c.id, c.name, c.logo }),
+                courses = p.courses.Select(l => new { l.id }),
+                approvedCourses = p.approvedCourses.Select(c => new { c.id }),
+                degrees = p.degrees.Select(d => new { d.id }),
+                jobTypes = p.jobTypes.Select(jt => new { jt.id }),
+                studyGroups = p.studyGroups.Select(st => new { st.id })
+            });
+
+        }
+
+        /// <summary>
         /// Lists all projects with the respective companies names and logo. 
         /// GET: api/projects?fields=cname&fields=clogo
         /// </summary>
@@ -243,7 +331,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 p.uuid,
                 p.title,
-                p.description,
+                //p.description,  // No need for this field atm, + very much data
                 p.webpage,
                 p.linkedInProfile,
                 p.stepsToApply,
@@ -274,7 +362,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 p.uuid,
                 p.title,
-                p.description,
+                //p.description,  // No need for this field atm, + very much data
                 p.webpage,
                 p.linkedInProfile,
                 p.stepsToApply,
@@ -283,7 +371,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 p.modified,
                 p.status,
                 p.tutor,
-                companies = p.companies.Select(c => new { c.id }),
+                companies = p.companies.Select(c => new { c.id, c.name, c.logo }),
                 courses = p.courses.Select(l => new { l.id }),
                 approvedCourses = p.approvedCourses.Select(c => new { c.id }),
                 degrees = p.degrees.Select(d => new { d.id }),
@@ -310,7 +398,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 p.uuid,
                 p.title,
-                p.description,
+                //p.description,  // No need for this field atm, + very much data
                 p.webpage,
                 p.linkedInProfile,
                 p.stepsToApply,
@@ -319,7 +407,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 p.modified,
                 p.status,
                 p.tutor,
-                companies = p.companies.Select(c => new { c.id }),
+                companies = p.companies.Select(c => new { c.id, c.name, c.logo }),
                 courses = p.courses.Select(l => new { l.id }),
                 approvedCourses = p.approvedCourses.Select(c => new { c.id }),
                 degrees = p.degrees.Select(d => new { d.id }),
@@ -387,7 +475,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 p.uuid,
                 p.title,
-                p.description,
+                //p.description,  // No need for this field atm, + very much data
                 p.webpage,
                 p.linkedInProfile,
                 p.stepsToApply,
@@ -396,7 +484,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 p.modified,
                 p.status,
                 p.tutor,
-                companies = p.companies.Select(c => new { c.id }),
+                companies = p.companies.Select(c => new { c.id, c.name, c.logo }),
                 courses = p.courses.Select(l => new { l.id }),
                 approvedCourses = p.approvedCourses.Select(c => new { c.id }),
                 degrees = p.degrees.Select(d => new { d.id }),

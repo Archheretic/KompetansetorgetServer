@@ -64,17 +64,18 @@ namespace KompetansetorgetServer.Controllers.Api
         [ResponseType(typeof(Student))]
         public async Task<IHttpActionResult> GetStudent(string id, string fields = "")
         {
-            Student student = await db.students.FindAsync(id);
+            string decodedId = Base64Decode(id);
+            Student student = await db.students.FindAsync(decodedId);
             if (student == null)
             {
                 return NotFound();
             }
 
-            if (!fields.Equals("token")) { 
+            if (!fields.ToLower().Equals("gcmtoken")) { 
             //return Ok(student);
                 return Ok( new { 
                     student.username,
-                    student.name,
+                    //student.name,
                     student.email,
                     devices = student.Devices.Select(d => new { d.id }),
                     studyGroups = student.studyGroups.Select(st => new { st.id })
@@ -84,7 +85,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return Ok(new
             {
                 student.username,
-                student.name,
+                //student.name,
                 student.email,
                 devices = student.Devices.Select(d => new { d.id, d.token }),
                 studyGroups = student.studyGroups.Select(st => new { st.id })
@@ -174,6 +175,12 @@ namespace KompetansetorgetServer.Controllers.Api
             return Ok(student);
         }
 
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -187,5 +194,7 @@ namespace KompetansetorgetServer.Controllers.Api
         {
             return db.students.Count(e => e.username == id) > 0;
         }
+
+
     }
 }

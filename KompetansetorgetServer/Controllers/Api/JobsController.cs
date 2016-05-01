@@ -22,10 +22,27 @@ namespace KompetansetorgetServer.Controllers.Api
 
         // [HttpGet, Route("api/jobs")]
         // Activates the correct method based on query string parameters.
-        // At the moment you can not use a combination of different strings (other then sortBy)
+        // At the moment you can only use a combination of different strings if not combined with sortBy.
+        /// Due to a realisation of need, all jobs will be returned with fields clogo and cname regardless of if the call ask for it or not
         public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, string locations = "",
             string titles = "", string sortBy = "", [FromUri] string[] fields = null)
         {
+
+            if ((studyGroups != null && !types.IsNullOrWhiteSpace()) ||
+                (studyGroups != null && !locations.IsNullOrWhiteSpace()) ||
+                (!types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace()))
+            {
+                IQueryable<Job> jobs = GetJobsByMultiFilter(types, studyGroups, locations);
+                if (fields != null && fields.Length == 2)
+                {
+                    if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
+                    {
+                        return GetSerializedWithFields(jobs);
+                    }
+                }
+                return GetJobsSerialized(jobs);
+            }
+
             if (!types.IsNullOrWhiteSpace())
             {
                 IQueryable<Job> jobs = GetJobsByType(types);
@@ -50,16 +67,6 @@ namespace KompetansetorgetServer.Controllers.Api
                 return GetJobsSerialized(jobs);
             }
 
-            if (fields.Length == 2)
-            {
-                if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
-                {
-                    return GetJobs();
-                }
-                // int i = studyGroups.Length;
-                return GetJobsWithFields(fields);
-            }
-
             if (!locations.IsNullOrWhiteSpace())
             {
                 IQueryable<Job> jobs = GetJobsByLocation(locations);
@@ -80,6 +87,16 @@ namespace KompetansetorgetServer.Controllers.Api
                     return GetJobsSorted(jobs, sortBy);
                 }
                 return GetJobsSerialized(jobs); 
+            }
+
+            if (fields.Length == 2)
+            {
+                if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
+                {
+                    return GetJobs();
+                }
+                // int i = studyGroups.Length;
+                return GetJobsWithFields(fields);
             }
 
             if (sortBy.Equals("published") || sortBy.Equals("-published")
@@ -145,7 +162,7 @@ namespace KompetansetorgetServer.Controllers.Api
                     job.created,
                     job.published,
                     job.modified,
-                    companies = job.companies.Select(c => new {c.id}),
+                    companies = job.companies.Select(c => new {c.id, c.name, c.logo }),
                     contacts = job.contacts.Select(c => new {c.id}),
                     locations = job.locations.Select(l => new {l.id}),
                     jobTypes = job.jobTypes.Select(jt => new {jt.id}),
@@ -246,7 +263,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 j.uuid,
                 j.title,
-                j.description,
+                //j.description,  // No need for this field atm, + very much data
                 j.webpage,
                 j.linkedInProfile,
                 j.expiryDate,
@@ -254,13 +271,79 @@ namespace KompetansetorgetServer.Controllers.Api
                 j.created,
                 j.published,
                 j.modified,
-                companies = j.companies.Select(c => new { c.id, c.name, c.logo }),
+                companies = j.companies.Select(c => new {c.id, c.name, c.logo}),
+                locations = j.locations.Select(l => new {l.id}),
+                jobTypes = j.jobTypes.Select(jt => new {jt.id}),
+                studyGroups = j.studyGroups.Select(st => new {st.id})
+            });
+        }
+
+        private IQueryable<Job> GetJobsByMultiFilter(string types = "", [FromUri] string[] studyGroups = null, string locations = "")
+        {
+           
+            IQueryable<Job> jobs = null;
+            if (studyGroups != null && !types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace())
+            {
+                jobs = from job in db.jobs
+                           where job.studyGroups.Any(s => studyGroups.Contains(s.id))
+                           where job.locations.Any(l => l.id.Equals(locations))
+                           where job.jobTypes.Any(jt => jt.id.Equals(types))
+                           select job;
+            }
+
+            else if (!types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace())
+            {
+                jobs = from job in db.jobs
+                           where job.locations.Any(l => l.id.Equals(locations))
+                           where job.jobTypes.Any(jt => jt.id.Equals(types))
+                           select job;
+            }
+
+            else if (studyGroups != null && !locations.IsNullOrWhiteSpace())
+            {
+                jobs = from job in db.jobs
+                           where job.studyGroups.Any(s => studyGroups.Contains(s.id))
+                           where job.locations.Any(l => l.id.Equals(types))
+                           select job;
+            }
+
+            else if (studyGroups != null && !types.IsNullOrWhiteSpace())
+            {
+                jobs = from job in db.jobs
+                           where job.studyGroups.Any(s => studyGroups.Contains(s.id))
+                           where job.jobTypes.Any(jt => jt.id.Equals(types))
+                           select job;
+            }
+
+            return jobs;
+        }
+        /// <summary>
+        /// Serializes the job object for json.
+        /// Also adds company name and logo
+        /// </summary>
+        /// <param name="jobs"></param>
+        /// <returns></returns> 
+        private IQueryable GetSerializedWithFields(IQueryable<Job> jobs)
+        {
+            return jobs.Select(j => new
+            {
+                j.uuid,
+                j.title,
+                //j.description,  // No need for this field atm, + very much data
+                j.webpage,
+                j.linkedInProfile,
+                j.expiryDate,
+                j.stepsToApply,
+                j.created,
+                j.published,
+                j.modified,
+                companies = j.companies.Select(c => new { c.id, c.name, c.logo}),
                 locations = j.locations.Select(l => new { l.id }),
                 jobTypes = j.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = j.studyGroups.Select(st => new { st.id })
             });
-
         }
+
 
         /// <summary>
         /// Serializes the job object for json.
@@ -273,7 +356,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 j.uuid,
                 j.title,
-                j.description,
+                //j.description,  // No need for this field atm, + very much data
                 j.webpage,
                 j.linkedInProfile,
                 j.expiryDate,
@@ -281,7 +364,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 j.created,
                 j.published,
                 j.modified,
-                companies = j.companies.Select(c => new { c.id }),
+                companies = j.companies.Select(c => new { c.id, c.name, c.logo }),
                 locations = j.locations.Select(l => new { l.id }),
                 jobTypes = j.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = j.studyGroups.Select(st => new { st.id })
@@ -308,7 +391,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 j.uuid,
                 j.title,
-                j.description,
+                //j.description,  // No need for this field atm, + very much data
                 j.webpage,
                 j.linkedInProfile,
                 j.expiryDate,
@@ -316,7 +399,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 j.created,
                 j.published,
                 j.modified,
-                companies = j.companies.Select(c => new { c.id }),
+                companies = j.companies.Select(c => new { c.id, c.name, c.logo }),
                 locations = j.locations.Select(l => new { l.id }),
                 jobTypes = j.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = j.studyGroups.Select(st => new { st.id })
@@ -398,7 +481,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 {
                 j.uuid,
                 j.title,
-                j.description,
+                //j.description,  // No need for this field atm, + very much data
                 j.webpage,
                 j.linkedInProfile,
                 j.expiryDate,
@@ -406,7 +489,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 j.created,
                 j.published,
                 j.modified,
-                companies = j.companies.Select(c => new { c.id }),
+                companies = j.companies.Select(c => new { c.id, c.name, c.logo }),
                 locations = j.locations.Select(l => new { l.id }),
                 jobTypes = j.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = j.studyGroups.Select(st => new { st.id })
