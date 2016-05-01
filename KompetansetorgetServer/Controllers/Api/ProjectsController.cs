@@ -198,7 +198,7 @@ namespace KompetansetorgetServer.Controllers.Api
         private IQueryable<Project> GetProjectsByMultiFilter(string types = "", [FromUri] string[] studyGroups = null, string courses = "")
         {
             IQueryable<Project> projects = null;
-            if (studyGroups != null && !types.IsNullOrWhiteSpace() && !courses.IsNullOrWhiteSpace())
+            if (studyGroups.Length != 0 && !types.IsNullOrWhiteSpace() && !courses.IsNullOrWhiteSpace())
             {
                 projects = from project in db.projects
                            where project.studyGroups.Any(s => studyGroups.Contains(s.id))
@@ -215,7 +215,7 @@ namespace KompetansetorgetServer.Controllers.Api
                            select project;
             }
 
-            else if (studyGroups != null && !courses.IsNullOrWhiteSpace())
+            else if (studyGroups.Length != 0 && !courses.IsNullOrWhiteSpace())
             {
                 projects = from project in db.projects
                            where project.studyGroups.Any(s => studyGroups.Contains(s.id))
@@ -223,7 +223,7 @@ namespace KompetansetorgetServer.Controllers.Api
                            select project;
             }
 
-            else if (studyGroups != null && !types.IsNullOrWhiteSpace())
+            else if (studyGroups.Length != 0 && !types.IsNullOrWhiteSpace())
             {
                 projects = from project in db.projects
                            where project.studyGroups.Any(s => studyGroups.Contains(s.id))
