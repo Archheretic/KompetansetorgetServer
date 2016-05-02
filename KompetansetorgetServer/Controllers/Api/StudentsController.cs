@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,14 +8,17 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KompetansetorgetServer.Models;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
-    [Authorize]
+    //[Authorize]
     public class StudentsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
@@ -91,7 +95,78 @@ namespace KompetansetorgetServer.Controllers.Api
                 studyGroups = student.studyGroups.Select(st => new { st.id })
             });
 
+            
+        }
 
+        // Post: api/students/{id}
+        [HttpPost, Route("api/v1/students/{id}")]
+        [ResponseType(typeof (Student))]
+        public async Task<IHttpActionResult> UpdateStudent(string id, [FromBody]dynamic raw)
+        {
+            string decodedId = Base64Decode(id);
+            Student student = await db.students.FindAsync(decodedId);
+            if (student == null)
+            {
+                // should return not authorized
+                return NotFound();
+            }
+
+            Dictionary<string, object> dict =
+                JsonConvert.DeserializeObject<Dictionary<string, object>>(raw.ToString());
+            // {"StudyGroup":[{"id":"idrettsfag"},{"id":"datateknologi"}]}
+            if (dict.ContainsKey("StudyGroup"))
+            {
+                JArray array = (JArray)dict["StudyGroup"];
+                List<StudyGroup> studyGroupIds = array.ToObject<List<StudyGroup>>();
+                UpdateStudyGroupStudent(studyGroupIds, student);
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        private void UpdateStudyGroupStudent(List<StudyGroup> studyGroups,Student student)
+        {
+
+            List<StudyGroup> oldStudyGroups = student.studyGroups.ToList();
+            if (oldStudyGroups.Count > 0)
+            {
+                // removes all old relations between student and studygroup
+                foreach (StudyGroup sg in oldStudyGroups)
+                {
+                    student.studyGroups.Remove(sg);
+                }
+
+                db.Entry(student).State = EntityState.Modified;
+                db.SaveChanges();
+                /*
+                db.students.Attach(student);
+                var entry1 = db.Entry(student);
+                entry1.Property(e => e.studyGroups).IsModified = true;
+                db.SaveChanges();
+                */
+            }
+
+            // creates new relations between the student and the studygroups provided
+            foreach (var study in studyGroups)
+            {
+                string id = study.id;
+                StudyGroup sg = db.studyGroup.First(x => x.id.Equals(id));
+                if (sg != null)
+                {
+                    student.studyGroups.Add(sg);
+                }
+            }
+            /*
+            db.students.Attach(student);
+            var entry2 = db.Entry(student);
+            entry2.Property(e => e.studyGroups).IsModified = true;
+            db.SaveChanges();
+            */
+
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+            
         }
 
         // PUT: api/students/5

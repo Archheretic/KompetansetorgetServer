@@ -211,8 +211,8 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <returns></returns>
         private JObject GenerateLocalAccessTokenResponse(string userName)
         {
-
-            var tokenExpiration = TimeSpan.FromDays(1);
+                               // This is a simple hack due to this backend being a disposable placeholder 
+            var tokenExpiration = TimeSpan.FromDays(180);
 
             ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
 
