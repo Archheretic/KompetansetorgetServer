@@ -15,7 +15,7 @@ using Microsoft.Ajax.Utilities;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
-
+    [Authorize]
     public class ProjectsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
@@ -165,17 +165,70 @@ namespace KompetansetorgetServer.Controllers.Api
             }
         }
 
-        [HttpGet, Route("api/v1/project/lastmodifed")]
-        [ResponseType(typeof(Project))]
-        public async Task<IHttpActionResult> GetLastModified()
+        //[AllowAnonymous]
+        [HttpGet, Route("api/v1/projects/lastmodified")]
+        [ResponseType(typeof(Job))]
+        public async Task<IHttpActionResult> GetLastModified(string types = "", [FromUri] string[] studyGroups = null,
+            string courses = "",
+            string titles = "")
         {
-            //var lastModified = (from j in db.jobs where MAX(j.modified) select j);
-            Project project = db.projects.OrderByDescending(p => p.modified).First();
+            if (studyGroups != null)
+            {
+                if ((studyGroups.Length != 0 && !types.IsNullOrWhiteSpace()) ||
+                    (studyGroups.Length != 0 && !courses.IsNullOrWhiteSpace()) ||
+                    (!types.IsNullOrWhiteSpace() && !courses.IsNullOrWhiteSpace()))
+                {
+                    IQueryable<Project> projects = GetProjectsByMultiFilter(types, studyGroups, courses);
+                    return await SerializeLastModified(projects);
+                }
 
+                if (studyGroups.Length != 0)
+                {
+                    // int i = studyGroups.Length;
+                    IQueryable<Project> projects = GetProjectsByStudy(studyGroups);
+                    return await SerializeLastModified(projects);
+                }
+
+            }
+
+            if (!types.IsNullOrWhiteSpace())
+            {
+                IQueryable<Project> projects = GetProjectsByType(types);
+                return await SerializeLastModified(projects);
+            }
+
+            if (!courses.IsNullOrWhiteSpace())
+            {
+                IQueryable<Project> projects = GetProjectsByCourse(courses);
+                return await SerializeLastModified(projects);
+            }
+
+            if (!titles.IsNullOrWhiteSpace())
+            {
+                IQueryable<Project> projects = GetProjectsByTitle(titles);
+                return await SerializeLastModified(projects);
+            }
+
+            int amountOfProjects = db.projects.Count();
+            Project project = db.projects.OrderByDescending(j => j.modified).First();
             return Ok(new
             {
                 project.uuid,
-                project.modified
+                project.modified,
+                amountOfProjects 
+            });
+
+        }
+
+        private async Task<IHttpActionResult> SerializeLastModified(IQueryable<Project> unserializedJobs)
+        {
+            var project = unserializedJobs.OrderByDescending(p => p.modified).First();
+            int amountOfProjects = unserializedJobs.Count();
+            return Ok(new
+            {
+                project.uuid,
+                project.modified,
+                amountOfProjects
             });
         }
 

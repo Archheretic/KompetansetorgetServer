@@ -18,7 +18,7 @@ using Newtonsoft.Json.Linq;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
-    //[Authorize]
+    [Authorize]
     public class StudentsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();

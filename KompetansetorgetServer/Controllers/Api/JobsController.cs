@@ -16,6 +16,7 @@ using Microsoft.Ajax.Utilities;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
+    [Authorize]
     public class JobsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
@@ -24,10 +25,10 @@ namespace KompetansetorgetServer.Controllers.Api
         // Activates the correct method based on query string parameters.
         // At the moment you can only use a combination of different strings if not combined with sortBy.
         /// Due to a realisation of need, all jobs will be returned with fields clogo and cname regardless of if the call ask for it or not
+        //[AllowAnonymous]
         public IQueryable Get(string types = "", [FromUri] string[] studyGroups = null, string locations = "",
             string titles = "", string sortBy = "", [FromUri] string[] fields = null)
         {
-
             if ((studyGroups.Length != 0 && !types.IsNullOrWhiteSpace()) ||
                 (studyGroups.Length != 0 && !locations.IsNullOrWhiteSpace()) ||
                 (!types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace()))
@@ -104,24 +105,73 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 return GetJobsSorted(sortBy);
             }
-
             return GetJobs();
         }
 
-        [HttpGet, Route("api/v1/jobs/lastmodifed")]
-        [ResponseType(typeof(Job))]
-        public async Task<IHttpActionResult> GetLastModified()
+        //[AllowAnonymous]
+        [HttpGet, Route("api/v1/jobs/lastmodified")]
+        [ResponseType(typeof (Job))]
+        public async Task<IHttpActionResult> GetLastModified(string types = "", [FromUri] string[] studyGroups = null,
+            string locations = "",
+            string titles = "")
         {
-            //var lastModified = (from j in db.jobs where MAX(j.modified) select j);
-            Job job = db.jobs.OrderByDescending(j => j.modified).First();
+            if (studyGroups != null)
+            {
+                if ((studyGroups.Length != 0 && !types.IsNullOrWhiteSpace()) ||
+                    (studyGroups.Length != 0 && !locations.IsNullOrWhiteSpace()) ||
+                    (!types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace()))
+                {
+                    IQueryable<Job> jobs = GetJobsByMultiFilter(types, studyGroups, locations);
+                    return await SerializeLastModified(jobs);
+                }
+                if (studyGroups.Length != 0)
+                {
+                    // int i = studyGroups.Length;
+                    IQueryable<Job> jobs = GetJobsByStudy(studyGroups);
+                    return await SerializeLastModified(jobs);
+                }
+            }
 
+            if (!types.IsNullOrWhiteSpace())
+            {
+                IQueryable<Job> jobs = GetJobsByType(types);
+                return await SerializeLastModified(jobs);
+            }
+
+            if (!locations.IsNullOrWhiteSpace())
+            {
+                IQueryable<Job> jobs = GetJobsByLocation(locations);
+                return await SerializeLastModified(jobs);
+            }
+
+            if (!titles.IsNullOrWhiteSpace())
+            {
+                IQueryable<Job> jobs = GetJobsByTitle(titles);
+                return await SerializeLastModified(jobs);
+            }
+            int amountOfJobs = db.jobs.Count();
+            Job job = db.jobs.OrderByDescending(j => j.modified).First();
+            return Ok(new
+            {
+                    job.uuid,
+                    job.modified,
+                    amountOfJobs
+            });
+            
+        }
+
+        private async Task<IHttpActionResult> SerializeLastModified(IQueryable<Job> unserializedJobs)
+            {
+            var job = unserializedJobs.OrderByDescending(j => j.modified).First();
+            int amountOfJobs = unserializedJobs.Count();
             return Ok(new
             {
              job.uuid,
-             job.modified      
+             job.modified,
+             amountOfJobs
             });
         }
-
+    
         // GET: api/Jobs
         //public IQueryable<Job> GetJobs()
         /// <summary>
@@ -136,6 +186,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
         // GET: api/Jobs/5
         // Example: /api/jobs/2c70edff-edbe-4d6d-8e79-10a47f330feb
+        // [Authorize(Users=id)]
         [HttpGet, Route("api/v1/jobs/{id}")]
         [ResponseType(typeof (Job))]
         public async Task<IHttpActionResult> GetJob(string id, string minNot = "")
