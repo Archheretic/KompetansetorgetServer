@@ -22,7 +22,8 @@ namespace KompetansetorgetServer.Controllers.Api
             return db.jobTypes.Select(jt => new
             {
                 jt.id,
-                jt.name
+                jt.name,
+                jt.type
             });
         }
 
@@ -38,7 +39,8 @@ namespace KompetansetorgetServer.Controllers.Api
 
             return Ok( new {
                 jobType.id,
-                jobType.name
+                jobType.name,
+                jobType.type
             });
         }
 
