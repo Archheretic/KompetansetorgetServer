@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -98,6 +99,7 @@ namespace KompetansetorgetServer.Controllers.Api
             
         }
 
+        [AllowAnonymous]
         // Post: api/students/{id}
         [HttpPost, Route("api/v1/students/{id}")]
         [ResponseType(typeof (Student))]
@@ -122,7 +124,37 @@ namespace KompetansetorgetServer.Controllers.Api
                 return Ok();
             }
 
+            if (dict.ContainsKey("Device"))
+            {
+                JArray array = (JArray)dict["Device"];
+                List<Device> devices = array.ToObject<List<Device>>();
+                InsertOrUpdateDeviceStudent(devices, student);
+                return Ok();
+            }
+
             return BadRequest();
+        }
+
+
+        private void InsertOrUpdateDeviceStudent(List<Device> devices, Student student)
+        {
+            // can only be one device atm, so hardcoding it...
+            Device newDevice = devices[0];
+            Device d = db.devices.First(x => x.id.Equals(newDevice.id));
+            if (d != null)
+            {
+                d.Student = student;
+                d.deviceType = newDevice.deviceType;
+                d.token = newDevice.token;
+                db.Entry(d).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        
+            else
+            {
+                newDevice.Student = student;
+                db.devices.Add(newDevice);
+            }
         }
 
         private void UpdateStudyGroupStudent(List<StudyGroup> studyGroups,Student student)

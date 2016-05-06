@@ -23,7 +23,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 jt.id,
                 jt.name,
-                jt.type
+               // jt.type
             });
         }
 
@@ -40,7 +40,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return Ok( new {
                 jobType.id,
                 jobType.name,
-                jobType.type
+               // jobType.type
             });
         }
 
