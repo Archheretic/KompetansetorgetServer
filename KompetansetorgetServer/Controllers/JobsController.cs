@@ -129,8 +129,8 @@ namespace KompetansetorgetServer.Controllers
         public ActionResult TestPushToViktor()
         {
             Push p = new Push();
-            string vToken =
-                "cMpKlAeCYZE:APA91bHR93f2MrYJfM3WpSDfzhfDu4mFwLVUPVHez47Mq8qoMp7p-Fnl3kFaF8F0QAxqr6S-rinrRLdddi2gXnD0h5_QmAz2XYIjsnXQ2ARLZMTWveT9amKxp53ZeLgZ527vmbxYEROm";
+            Device d = db.devices.First(x => x.id.Equals("HT451WM08832"));
+            string vToken = d.token;
             p.PushToAndroid(vToken);
             return RedirectToAction("About", "Home");
         }
