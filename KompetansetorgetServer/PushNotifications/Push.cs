@@ -14,7 +14,7 @@ namespace KompetansetorgetServer.PushNotifications
 {
     public class Push
     {
-        public void PushToAndroid(string myAuthToken)
+        public void PushToAndroid(string myAuthToken, string type)
         {
             //Create our push services broker
             var push = new PushBroker();
@@ -34,9 +34,21 @@ namespace KompetansetorgetServer.PushNotifications
 
             push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyDIbpRonx7yh3NKBAr4rAzmfmIFeEWRTfE"));
 
-            push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
-                                  .WithJson(@"{""message"":""Ny stilling registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""project"",""uuid"":""c1db5671-f841-4ada-90e0-b4aa51471d31""}"));
+            if (type == null)
+            {
+                push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
+                      .WithJson(@"{""message"":""Nytt oppgaveforslag registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""project"",""uuid"":""15b4b7e8-ef9a-49a6-95e6-691190c7d76f""}"));
+            }
 
+            else if (type == "project") { 
+            push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
+                                  .WithJson(@"{""message"":""Nytt oppgaveforslag registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""project"",""uuid"":""15b4b7e8-ef9a-49a6-95e6-691190c7d76f""}"));
+            }
+            else if (type == "job")
+            {
+                push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
+                                      .WithJson(@"{""message"":""Ny jobbstilling registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""job"",""uuid"":""4df3e40e-f245-4b6b-98e0-37700cf1f72b""}"));
+            }
 
             //Stop and wait for the queues to drains before it dispose 
             push.StopAllServices();

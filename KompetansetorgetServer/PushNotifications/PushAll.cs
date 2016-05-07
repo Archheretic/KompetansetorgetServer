@@ -25,7 +25,7 @@ namespace KompetansetorgetServer.PushNotifications
             var jGcmData = new JObject();
             var jData = new JObject();
 
-            jData.Add("message", message1);
+            jData.Add("message", message);
             jData.Add("uuid", uuid);
             jData.Add("type", type);
             jGcmData.Add("to", "/topics/global");

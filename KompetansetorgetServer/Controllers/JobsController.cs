@@ -126,12 +126,21 @@ namespace KompetansetorgetServer.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult TestPushToViktor()
+        public ActionResult TestPushJobToViktor()
         {
             Push p = new Push();
             Device d = db.devices.First(x => x.id.Equals("HT451WM08832"));
             string vToken = d.token;
-            p.PushToAndroid(vToken);
+            p.PushToAndroid(vToken, "job");
+            return RedirectToAction("About", "Home");
+        }
+
+        public ActionResult TestPushProjectToViktor()
+        {
+            Push p = new Push();
+            Device d = db.devices.First(x => x.id.Equals("HT451WM08832"));
+            string vToken = d.token;
+            p.PushToAndroid(vToken, "project");
             return RedirectToAction("About", "Home");
         }
 
@@ -141,7 +150,7 @@ namespace KompetansetorgetServer.Controllers
             string nToken =
      "erFSVhQN-Qc:APA91bGGzos4X2Hh4np_swN6U15_8U1mCOXekMT95k4evG2S1TvT67DgzQ5gXEv8_9uSRhCveP99jqMAygGSyp1TxQomegJpzLd-iXQQvPAf99D5DPZr6cYpLwz7ezyQfASQuMQnB6Im";
 
-            p.PushToAndroid(nToken);
+            p.PushToAndroid(nToken, null);
             return RedirectToAction("About", "Home");
         }
 

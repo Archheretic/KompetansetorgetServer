@@ -228,6 +228,7 @@ namespace KompetansetorgetServer.Controllers.Api
                     job.title,
                     job.webpage,
                     job.published,
+                    job.expiryDate,
                     companies = job.companies.Select(c => new {c.id, c.name, c.logo})
                 });
             }
