@@ -9,7 +9,7 @@ namespace KompetansetorgetServer.Models
     public class DbPopulator
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
-        
+
         // Populates all the tables in the correct order.
         public void PopulateAll()
         {
@@ -24,13 +24,13 @@ namespace KompetansetorgetServer.Models
             PopulateCompany();
             PopulateJob();
 
-            
+
             PopulateDegree();
             PopulateCourse();
             PopulateProject();
             //temp();
         }
-    
+
         //Populates the Location table
         private void PopulateLocation()
         {
@@ -40,13 +40,132 @@ namespace KompetansetorgetServer.Models
                 name = "Vest-Agder"
             };
 
+            Location ut = new Location()
+            {
+                id = "utlandet",
+                name = "Utlandet"
+            };
+
             Location aa = new Location()
             {
                 id = "austagder",
                 name = "Aust-Agder"
             };
+
+            Location aker = new Location()
+            {
+                id = "akershus",
+                name = "Akershus"
+            };
+
+
+            Location busk = new Location()
+            {
+                id = "buskerud",
+                name = "Buskerud"
+            };
+            Location finn = new Location()
+            {
+                id = "finnmark",
+                name = "Finnmark"
+            };
+
+            Location hed = new Location()
+            {
+                id = "hedmark",
+                name = "Hedmark"
+            };
+
+            Location hord = new Location()
+            {
+                id = "hordaland",
+                name = "Hordaland"
+            };
+            Location møre = new Location()
+            {
+                id = "møreogromsdal",
+                name = "Møre og Romsdal"
+            };
+            Location nordl = new Location()
+            {
+                id = "nordland",
+                name = "Nordland"
+            };
+            Location nordt = new Location()
+            {
+                id = "nordtrøndelag",
+                name = "Nord-Trøndelag"
+            };
+            Location opp = new Location()
+            {
+                id = "oppland",
+                name = "Oppland"
+            };
+            Location oslo = new Location()
+            {
+                id = "oslo",
+                name = "Oslo"
+            };
+            Location roga = new Location()
+            {
+                id = "rogaland",
+                name = "Rogaland"
+            };
+            Location sogn = new Location()
+            {
+                id = "sognogfjordane",
+                name = "Sogn og Fjordane"
+            };
+            Location sørt = new Location()
+            {
+                id = "sørtrøndelag",
+                name = "Sør-Trøndelag"
+            };
+            Location tele = new Location()
+            {
+                id = "telemark",
+                name = "Telemark"
+            };
+            Location troms = new Location()
+            {
+                id = "troms",
+                name = "Troms"
+            };
+            Location østf = new Location()
+            {
+                id = "østfold",
+                name = "Østfold"
+            };
+            Location vestf = new Location()
+            {
+                id = "vestfold",
+                name = "Vestfold"
+            };
+            Location svalb = new Location()
+            {
+                id = "svalbard",
+                name = "Svalbard"
+            };
+            db.locations.Add(ut);
             db.locations.Add(aa);
             db.locations.Add(va);
+            db.locations.Add(aker);
+            db.locations.Add(busk);
+            db.locations.Add(finn);
+            db.locations.Add(hed);
+            db.locations.Add(hord);
+            db.locations.Add(nordl);
+            db.locations.Add(nordt);
+            db.locations.Add(opp);
+            db.locations.Add(oslo);
+            db.locations.Add(roga);
+            db.locations.Add(sogn);
+            db.locations.Add(sørt);
+            db.locations.Add(tele);
+            db.locations.Add(troms);
+            db.locations.Add(vestf);
+            db.locations.Add(østf);
+            db.locations.Add(svalb);
             db.SaveChanges();
 
         }
@@ -56,19 +175,24 @@ namespace KompetansetorgetServer.Models
         {
             StudyGroup idrett = new StudyGroup()
             {
-                id = "idrettsfag",
+                id = "idrett",
                 name = "Idrettsfag"
             };
 
+            StudyGroup uspesifisert = new StudyGroup()
+            {
+                id = "uspesifisert",
+                name = "Uspesifisert"
+            };
             StudyGroup data = new StudyGroup()
             {
-                id = "datateknologi",
+                id = "data",
                 name = "Datateknologi"
             };
 
             StudyGroup ped = new StudyGroup()
             {
-                id = "lærerutdanning",
+                id = "ped",
                 name = "Lærerutdanning og pedagogikk"
             };
 
@@ -80,7 +204,7 @@ namespace KompetansetorgetServer.Models
 
             StudyGroup ingenior = new StudyGroup()
             {
-                id = "ingeniør",
+                id = "ingenior",
                 name = "Ingeniør og teknologiske fag"
             };
 
@@ -96,6 +220,44 @@ namespace KompetansetorgetServer.Models
                 name = "Realfag"
             };
 
+            StudyGroup språk = new StudyGroup()
+            {
+                id = "språk",
+                name = "Språk og litteratur"
+            };
+
+            StudyGroup økonomi = new StudyGroup()
+            {
+                id = "økonomi",
+                name = "Økonomi og juss"
+            };
+
+            StudyGroup administrasjon = new StudyGroup()
+            {
+                id = "administrasjon",
+                name = "Administrasjon og ledelse"
+            };
+            StudyGroup musikk = new StudyGroup()
+            {
+                id = "musikk",
+                name = "Musikk"
+            };
+            StudyGroup historie = new StudyGroup()
+            {
+                id = "historie",
+                name = "Historie, filosofi og religion"
+            };
+            StudyGroup medie = new StudyGroup()
+            {
+                id = "medie",
+                name = "Medie og kommunikasjonsfag"
+            };
+
+            StudyGroup kunstfag = new StudyGroup()
+            {
+                id = "kunstfag",
+                name = "Kunstfag"
+            };
             db.studyGroup.Add(idrett);
             db.studyGroup.Add(data);
             db.studyGroup.Add(ped);
@@ -103,7 +265,14 @@ namespace KompetansetorgetServer.Models
             db.studyGroup.Add(ingenior);
             db.studyGroup.Add(samfunnsfag);
             db.studyGroup.Add(realfag);
-
+            db.studyGroup.Add(uspesifisert);
+            db.studyGroup.Add(språk);
+            db.studyGroup.Add(økonomi);
+            db.studyGroup.Add(administrasjon);
+            db.studyGroup.Add(medie);
+            db.studyGroup.Add(historie);
+            db.studyGroup.Add(musikk);
+            db.studyGroup.Add(kunstfag);
             db.SaveChanges();
 
         }
@@ -113,9 +282,9 @@ namespace KompetansetorgetServer.Models
         {
             Device htc = new Device()
             {
-               id = "HT451WM08832",
-               deviceType = "android",
-               token = "fMXJqM0z0FQ:APA91bHHp_TLeg3Z3ES3qc1Kdt25KUFdX5G5gZLgVqrdjSA3uQZkmuR9V-b78X48T9ZGCGJkdyqvBeFrpoYyCbgnw5_7dslTjbR4E9SEm74uh-e4pOqeJjcrA5smhcQUuP_YQoNwVNvY"
+                id = "HT451WM08832",
+                deviceType = "android",
+                token = "fMXJqM0z0FQ:APA91bHHp_TLeg3Z3ES3qc1Kdt25KUFdX5G5gZLgVqrdjSA3uQZkmuR9V-b78X48T9ZGCGJkdyqvBeFrpoYyCbgnw5_7dslTjbR4E9SEm74uh-e4pOqeJjcrA5smhcQUuP_YQoNwVNvY"
 
             };
             db.devices.Add(htc);
@@ -132,7 +301,7 @@ namespace KompetansetorgetServer.Models
                 name = "Viktor Setervang",
                 email = "viktos08@uia.no"
 
-            };   
+            };
             StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
             StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrettsfag"));
             Device htc = db.devices.First(x => x.id.Equals("HT451WM08832"));
@@ -154,8 +323,8 @@ namespace KompetansetorgetServer.Models
 
             };
             StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrettsfag"));
-           // Device htc = db.devices.First(x => x.id.Equals("HT451WM08832"));
-           // student.Devices.Add(htc);
+            // Device htc = db.devices.First(x => x.id.Equals("HT451WM08832"));
+            // student.Devices.Add(htc);
             student.studyGroups.Add(idrett);
             db.students.Add(student);
             //htc.Student = student;
@@ -171,10 +340,35 @@ namespace KompetansetorgetServer.Models
                 name = "Heltid"
             };
 
+            JobType praksis = new JobType()
+            {
+                id = "praksis",
+                name = "Praksis/Internship"
+            };
+
+
             JobType deltid = new JobType()
             {
                 id = "deltid",
                 name = "Deltid"
+            };
+
+            JobType sommerjobb = new JobType()
+            {
+                id = "sommerjobb",
+                name = "Sommerjobb"
+            };
+
+            JobType stipend = new JobType()
+            {
+                id = "stipend",
+                name = "Stipend"
+            };
+
+            JobType trainee = new JobType()
+            {
+                id = "trainee",
+                name = "Trainee"
             };
 
             JobType fagl = new JobType()
@@ -194,7 +388,10 @@ namespace KompetansetorgetServer.Models
             db.jobTypes.Add(deltid);
             db.jobTypes.Add(fagl);
             db.jobTypes.Add(virksomhet);
-
+            db.jobTypes.Add(praksis);
+            db.jobTypes.Add(trainee);
+            db.jobTypes.Add(stipend);
+            db.jobTypes.Add(sommerjobb);
             db.SaveChanges();
 
         }
@@ -202,92 +399,111 @@ namespace KompetansetorgetServer.Models
         //Populates the Contact table
         private void PopulateContact()
         {
-            Contact andersen = new Contact()
+            Contact sarina = new Contact()
             {
                 id = 1,
-                name = "Snekker Andersen",
-                position = "Avdelingsjef",
-                phone = "45124367",
-                email = "andersen@hotmail.com"
+                name = "Sarina",
+                position = "",
+                phone = "0031 20 30 80 749",
+                email = "sarina@travelbird.nl"
 
             };
 
-            Contact mikkelsen = new Contact()
+            Contact andreas = new Contact()
             {
                 id = 2,
-                name = "Susanne mikkelsen",
-                position = "Avdelingsjef",
-                phone = "75224367",
-                email = "mikkelsen@hotmail.com"
+                name = "Andreas Köck",
+                position = "",
+                phone = "",
+                email = "a.koeck@testbirds.de"
 
             };
 
-            Contact syvertsen = new Contact()
+            Contact mads = new Contact()
             {
                 id = 3,
-                name = "Andre Syvertsen",
-                position = "Avdelingsjef",
-                phone = "23224367",
-                email = "syvertsen@hotmail.com"
+                name = "Mads Bukholt",
+                position = "",
+                phone = "",
+                email = "mads.bukholt@cuponation.com"
 
             };
 
-            Contact nilsen = new Contact()
+            Contact beconnected = new Contact()
             {
                 id = 4,
-                name = "Nils Nilsen",
-                position = "Avdelingsjef",
-                phone = "67224367",
-                email = "nilsen@hotmail.com"
+                name = "",
+                position = "",
+                phone = "",
+                email = ""
 
             };
 
-            Contact larsen = new Contact()
+            Contact emil = new Contact()
             {
                 id = 5,
-                name = "Jarl Larsen",
-                position = "privatperson",
-                phone = "",
-                email = "jarl.larsen@gmail.com"
+                name = "Emil Sebastian Pete",
+                position = "",
+                phone = "922 93 831",
+                email = "emil@mentornorge.no"
             };
 
-            Contact olsen = new Contact()
+            Contact anastasia = new Contact()
             {
                 id = 6,
-                name = "Esben Moland Olsen",
-                position = "",
-                phone = "",
-                email = "esben.m.olsen@uia.no"
+                name = "Mrs Anastasia Miliou",
+                position = "Scientific Director",
+                phone = "30 210 8253024",
+                email = "admissions@archipelago.gr"
             };
 
-            Contact flato = new Contact()
+            Contact thomas = new Contact()
             {
                 id = 7,
-                name = "Maja Flåto",
+                name = "Thomas Bang Torgersen",
                 position = "",
-                phone = "958 75 141",
-                email = "maja.flato@husbanken.no"
+                phone = "37 25 24 29",
+                email = "thomas.bang.torgersen@grimstad.kommune.no"
             };
 
-            Contact fensli = new Contact()
+            Contact alexander = new Contact()
             {
                 id = 8,
-                name = "Rune Werner Fensli",
+                name = "Alexander Øren",
                 position = "",
                 phone = "",
-                email = "rune.fensli@uia.no"
+                email = "ALEXANDER@IKSTART.NO"
+            };
+
+            Contact svein = new Contact()
+            {
+                id = 9,
+                name = "Svein Petter Undheim",
+                position = "",
+                phone = "",
+                email = "spu@accurateequity.com"
+            };
+
+            Contact yvonne = new Contact()
+            {
+                id = 10,
+                name = "Yvonne Larsson",
+                position = "",
+                phone = "",
+                email = "jobs@rabble.se"
             };
 
 
-            db.contacts.Add(andersen);
-            db.contacts.Add(mikkelsen);
-            db.contacts.Add(syvertsen);
-            db.contacts.Add(nilsen);
-            db.contacts.Add(larsen);
-            db.contacts.Add(olsen);
-            db.contacts.Add(flato);
-            db.contacts.Add(fensli);
-
+            db.contacts.Add(sarina);
+            db.contacts.Add(andreas);
+            db.contacts.Add(mads);
+            db.contacts.Add(beconnected);
+            db.contacts.Add(emil);
+            db.contacts.Add(anastasia);
+            db.contacts.Add(thomas);
+            db.contacts.Add(alexander);
+            db.contacts.Add(svein);
+            db.contacts.Add(yvonne);
             db.SaveChanges();
 
         }
@@ -296,114 +512,152 @@ namespace KompetansetorgetServer.Models
         //Populates the Company table
         private void PopulateCompany()
         {
-            Company snekkern = new Company()
+            Company travelbird = new Company()
             {
-                id = "snekkern",
-                name = "Snekkern",
-                adress = "Industrigata 3",
-                url = "http://snekkern.no/",
-                facebook = "",
-                linkedIn = "",
-                description = "Snekkrer ting",
-                logo = "http://w267110-www.php5.dittdomene.no/wp-content/uploads/2014/11/Snekkern_top_tag_straight.png"
-
-            };
-
-            Company spicheren = new Company()
-            {
-                id = "spicheren",
-                name = "Spicheren",
-                adress = "Gimlemoen 1",
-                url = "http://spicheren.no/",
-                facebook = "",
-                linkedIn = "",
-                description = "Treningssenter",
-                logo = "http://www.sia.no/~/media/Images/Spicheren/logo/Spicheren_500.png?h=98&la=nb-NO&w=499"
-
-            };
-
-            Company nav = new Company()
-            {
-                id = "nav",
-                name = "Nav",
-                adress = "Gyldenløves gate 23, 4611 Kristiansand S",
-                url = "http://nav.no/",
-                facebook = "",
-                linkedIn = "",
-                description = "Arbeids- og velferdsforvaltning",
-                logo = "https://appres.nav.no/_public/beta.nav.no/images/logo.png?_ts=1512923c9b0"
-
-            };
-
-            Company stamina = new Company()
-            {
-                id = "stamina",
-                name = "Stamina Hot",
-                adress = "Storgaten 90, 4877 Grimstad",
-                url = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad/",
-                facebook = "",
-                linkedIn = "",
-                description = "Treningssenter",
-                logo = "https://www.staminagroup.no/UI/logo.png"
-
-            };
-
-            Company privat = new Company()
-            {
-                id = "privat",
-                name = "Privatperson",
+                id = "travelbird",
+                name = "TravelBird",
                 adress = "",
                 url = "",
                 facebook = "",
                 linkedIn = "",
-                description = "Privatperson.",
-                logo = "http://kompetansetorget.uia.no/extension/kompetansetorget/design/kompetansetorget/images/logo-virksomhet.jpg"
+                description = "",
+                logo = "http://https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/travelbird/151481-1-nor-NO/travelbird_width-4.jpg"
+
             };
 
-            Company husbanken = new Company()
+            Company testbirds = new Company()
             {
-                id = "husbanken",
-                name = "Husbanken",
+                id = "testbirds",
+                name = "Testbirds",
                 adress = "",
-                url = "http://kompetansetorget.uia.no/virksomheter/husbanken",
+                url = "https://kompetansetorget.uia.no/stillinger/test-users-for-apps-websites-wanted",
                 facebook = "",
                 linkedIn = "",
-                description = "Husbanken er statens sentrale organ for gjennomføring av norsk boligpolitikk.\n" 
-                + "Økt bosetting av vanskeligstilte på boligmarkedet, herunder forebygging og bekjempelse av bostedsløshet," +
-                " er en av Husbankens viktigste målsettinger. I tillegg har Husbanken ansvar for å bidra til at det bygges " +
-                "flere universelt utformede og miljøvennlige boliger.\n" + "Husbanken disponerer økonomiske virkemidler, " +
-                "bistår med informasjon, kompetanseoppbygging og kunnskapsutvikling innenfor by-, bolig- og områdeutvikling," +
-                " samt boligsosialt arbeid.",
-                logo = "http://kompetansetorget.uia.no/extension/kompetansetorget/design/kompetansetorget/images/logo-virksomhet.jpg"
+                description = "",
+                logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/testbirds/29460-2-nor-NO/testbirds_width-4.jpg"
+
             };
 
-            Company uia = new Company()
+            Company testbirds2 = new Company()
             {
-                id = "uia",
-                name = "Universitetet i Agder",
+                id = "testbirds2",
+                name = "Testbirds",
                 adress = "",
-                url = "",
+                url = "https://kompetansetorget.uia.no/stillinger/testing-av-apper-og-nettsider",
                 facebook = "",
                 linkedIn = "",
-                description = "Universitetet i Agder har rundt 10.000 studenter" +
-                              " og 1.100 ansatte fordelt på Campus Kristiansand" +
-                              " og Campus Grimstad. Universitetet i Agder tilbyr " +
-                              "mer enn 150 studier og har et aktivt og ledende " +
-                              "forskermiljø. Vi vektlegger respekt, åpenhet og " +
-                              "evnen til å vise engasjement og stolthet over både " +
-                              "egne og andres resultater. Våre ansatte og studenter " +
-                              "trives godt og har stort faglig utbytte av virksomheten " +
-                              "på våre topp moderne og funksjonelle campuser.",
-                logo = "http://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter-internt/universitetet-i-agder/18076-2-nor-NO/universitetet-i-agder_width-4.jpg"
+                description = "",
+                logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/testbirds/29460-2-nor-NO/testbirds_width-4.jpg"
+
             };
 
-            db.companies.Add(stamina);
-            db.companies.Add(snekkern);
-            db.companies.Add(spicheren);
-            db.companies.Add(nav);
-            db.companies.Add(privat);
-            db.companies.Add(husbanken);
-            db.companies.Add(uia);
+            Company cuponation = new Company()
+            {
+                id = "cuponation",
+                name = "Cuponation",
+                adress = "",
+                url = "https://kompetansetorget.uia.no/stillinger/online-marketing-internship",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/cuponation-gmbh/157932-2-nor-NO/cuponation-gmbh_width-4.png"
+
+            };
+
+            Company beconnected = new Company()
+            {
+                id = "beconnected",
+                name = "BeConnected",
+                adress = "",
+                url = "https://kompetansetorget.uia.no/stillinger/do-you-love-languages",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/beconnected/156649-1-nor-NO/beconnected_width-4.png"
+
+            };
+
+            Company mentornorge = new Company()
+            {
+                id = "mentornorge",
+                name = "MentorNorge AS",
+                adress = "",
+                url = "www.mentornorge.no",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/mentornorge-as/13005-1-nor-NO/mentornorge-as_width-4.png"
+            };
+
+            Company archipelagos = new Company()
+            {
+                id = "archipelagos",
+                name = "Archipelagos Institute",
+                adress = "",
+                url = "http://kompetansetorget.uia.no/stillinger/internship",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/archipelagos-institute/83424-1-nor-NO/archipelagos-institute_width-4.png"
+            };
+
+            Company grimstadkommune = new Company()
+            {
+                id = "grimstadkommune",
+                name = "Grimstad Kommune, Berge gård senter",
+                adress = "",
+                url = "https://kompetansetorget.uia.no/stillinger/tilkallingsvikarer-nattjenesten-sykepleierstudenter-berge-gaard",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = ""
+            };
+
+            Company ikstart = new Company()
+            {
+                id = "ikstart",
+                name = "IKStart",
+                adress = "",
+                url = "https://kompetansetorget.uia.no/stillinger/fotballtrener-ved-fotballfritidsordning",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/ik-start/47382-1-nor-NO/ik-start_width-4.gif"
+            };
+
+            Company accurateequity = new Company()
+            {
+                id = "accurateequity",
+                name = "Accurate Equity - an Equatex Company",
+                adress = "",
+                url = "https://kompetansetorget.uia.no/stillinger/advisor-senior-advisor-financial-reporting-competence-center",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/accurate-equity-an-equatex-company/35741-1-nor-NO/accurate-equity-an-equatex-company_width-4.jpg"
+            };
+
+            Company rabble = new Company()
+            {
+                id = "rabble",
+                name = "Rabble",
+                adress = "",
+                url = "https://kompetansetorget.uia.no/stillinger/spennende-internship-innen-seo-markedsfoering-og-digital-kommunikasjon-hos-rabble",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/rabble/33218-2-nor-NO/rabble_width-4.png"
+            };
+            db.companies.Add(beconnected);
+            db.companies.Add(travelbird);
+            db.companies.Add(testbirds);
+            db.companies.Add(testbirds2);
+            db.companies.Add(cuponation);
+            db.companies.Add(mentornorge);
+            db.companies.Add(grimstadkommune);
+            db.companies.Add(ikstart);
+            db.companies.Add(accurateequity);
+            db.companies.Add(rabble);
             db.SaveChanges();
 
         }
@@ -413,68 +667,136 @@ namespace KompetansetorgetServer.Models
         {
             DateTime now = DateTime.Now;
 
-
             Job job = new Job()
             {
                 uuid = Guid.NewGuid().ToString(),
-                title = "Database ansvarlig",
-                description = "Database ansvarlig for Snekkern",
-                webpage = "http://snekkern.no/",
+                title = "Internship Allround Norway",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/internship-allround-norway",
                 linkedInProfile = "",
-                stepsToApply = "Send email",
-                expiryDate = now.AddDays(20),
-                created = now,
-                published = now,
-                modified = now
+                stepsToApply = "",
+                expiryDate = new DateTime(2016, 08, 31),
+                created = new DateTime(2016, 04, 11),
+                published = new DateTime(2016, 04, 11),
+                modified = new DateTime(2016, 04, 11)
             };
 
+            Company company = db.companies.First(x => x.id.Equals("travelbird"));
             Contact contact = db.contacts.First(x => x.id == 1);
-            Location location = db.locations.First(x => x.id.Equals("vestagder"));
+
+            JobType praksis = db.jobTypes.First(x => x.id.Equals("praksis"));
             JobType heltid = db.jobTypes.First(x => x.id.Equals("heltid"));
             JobType deltid = db.jobTypes.First(x => x.id.Equals("deltid"));
 
-            Company company = db.companies.First(x => x.id.Equals("snekkern"));
+            StudyGroup data = db.studyGroup.First(x => x.id.Equals("data"));
+            StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrett"));
+            StudyGroup helse = db.studyGroup.First(x => x.id.Equals("helse"));
+            StudyGroup historie = db.studyGroup.First(x => x.id.Equals("historie"));
+            StudyGroup administrasjon = db.studyGroup.First(x => x.id.Equals("administrasjon"));
+            StudyGroup ingenior = db.studyGroup.First(x => x.id.Equals("ingenior"));
+            StudyGroup kunstfag = db.studyGroup.First(x => x.id.Equals("kunstfag"));
+            StudyGroup ped = db.studyGroup.First(x => x.id.Equals("ped"));
+            StudyGroup medie = db.studyGroup.First(x => x.id.Equals("medie"));
+            StudyGroup musikk = db.studyGroup.First(x => x.id.Equals("musikk"));
+            StudyGroup realfag = db.studyGroup.First(x => x.id.Equals("realfag"));
+            StudyGroup samfunnsfag = db.studyGroup.First(x => x.id.Equals("samfunnsfag"));
+            StudyGroup økonomi = db.studyGroup.First(x => x.id.Equals("økonomi"));
+            StudyGroup språk = db.studyGroup.First(x => x.id.Equals("språk"));
+            StudyGroup uspesifisert = db.studyGroup.First(x => x.id.Equals("uspesifisert"));
 
-            StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
-            //StudyGroup idrett = db.StudyGroup.First(x => x.id.Equals("idrettsfag"));
-
+            Location va = db.locations.First(x => x.id.Equals("vestagder"));
+            Location ut = db.locations.First(x => x.id.Equals("utlandet"));
+            Location aker = db.locations.First(x => x.id.Equals("akershus"));
+            Location aa = db.locations.First(x => x.id.Equals("austagder"));
+            Location busk = db.locations.First(x => x.id.Equals("buskerud"));
+            Location finn = db.locations.First(x => x.id.Equals("finnmark"));
+            Location hed = db.locations.First(x => x.id.Equals("hedmark"));
+            Location hord = db.locations.First(x => x.id.Equals("hordaland"));
+            Location møre = db.locations.First(x => x.id.Equals("møreogromsdal"));
+            Location nordl = db.locations.First(x => x.id.Equals("nordland"));
+            Location nordt = db.locations.First(x => x.id.Equals("nordtrøndelag"));
+            Location opp = db.locations.First(x => x.id.Equals("oppland"));
+            Location oslo = db.locations.First(x => x.id.Equals("oslo"));
+            Location roga = db.locations.First(x => x.id.Equals("rogaland"));
+            Location sogn = db.locations.First(x => x.id.Equals("sognogfjordane"));
+            Location sørt = db.locations.First(x => x.id.Equals("sørtrøndelag"));
+            Location tele = db.locations.First(x => x.id.Equals("telemark"));
+            Location troms = db.locations.First(x => x.id.Equals("troms"));
+            Location vestf = db.locations.First(x => x.id.Equals("vestfold"));
+            Location østf = db.locations.First(x => x.id.Equals("østfold"));
+            Location svalb = db.locations.First(x => x.id.Equals("svalbard"));
 
             job.contacts.Add(contact);
-            job.studyGroups.Add(data);
-            //job.studyGroups.Add(idrett);
-            job.locations.Add(location);
-            job.jobTypes.Add(heltid);
+            job.studyGroups.Add(uspesifisert);
+
+            job.locations.Add(ut);
+            job.jobTypes.Add(praksis);
             job.companies.Add(company);
 
             db.jobs.Add(job);
             db.SaveChanges();
-  
+
 
 
             Job job2 = new Job()
             {
                 uuid = Guid.NewGuid().ToString(),
-                title = "PT",
-                description = "Er du vår nye mest selgende PT?!?!1",
-                webpage = "http://spicheren.no/",
+                title = "Test Users for Apps & Websites wanted!",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/test-users-for-apps-websites-wanted",
                 linkedInProfile = "",
                 stepsToApply = "Send email",
-                expiryDate = now.AddDays(21),
-                created = now.AddDays(1),
-                published = now.AddDays(1),
-                modified = now.AddDays(1)
+                expiryDate = new DateTime(2017, 01, 01),
+                created = new DateTime(2016, 04, 01),
+                published = new DateTime(2016, 04, 01),
+                modified = new DateTime(2016, 04, 11)
             };
 
             Contact contact2 = db.contacts.First(x => x.id == 2);
-            Company company2 = db.companies.First(x => x.id.Equals("spicheren"));
-
-            StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrettsfag"));
-
+            Company company2 = db.companies.First(x => x.id.Equals("testbirds"));
 
             job2.contacts.Add(contact2);
+
             job2.studyGroups.Add(idrett);
-            job2.locations.Add(location);
-            job2.jobTypes.Add(heltid);
+            job2.studyGroups.Add(data);
+            job2.studyGroups.Add(medie);
+            job2.studyGroups.Add(realfag);
+            job2.studyGroups.Add(økonomi);
+            job2.studyGroups.Add(språk);
+            job2.studyGroups.Add(musikk);
+            job2.studyGroups.Add(helse);
+            job2.studyGroups.Add(historie);
+            job2.studyGroups.Add(administrasjon);
+            job2.studyGroups.Add(ingenior);
+            job2.studyGroups.Add(kunstfag);
+            job2.studyGroups.Add(samfunnsfag);
+            job2.studyGroups.Add(ped);
+            job2.studyGroups.Add(uspesifisert);
+
+            job2.locations.Add(va);
+            job2.locations.Add(aker);
+            job2.locations.Add(busk);
+            job2.locations.Add(finn);
+            job2.locations.Add(hed);
+            job2.locations.Add(hord);
+            job2.locations.Add(møre);
+            job2.locations.Add(nordl);
+            job2.locations.Add(opp);
+            job2.locations.Add(oslo);
+            job2.locations.Add(roga);
+            job2.locations.Add(sogn);
+            job2.locations.Add(sørt);
+            job2.locations.Add(tele);
+            job2.locations.Add(troms);
+            job2.locations.Add(aa);
+            job2.locations.Add(vestf);
+            job2.locations.Add(østf);
+            job2.locations.Add(svalb);
+            job2.locations.Add(ut);
+
+
+            job2.jobTypes.Add(deltid);
+
             job2.companies.Add(company2);
 
             db.jobs.Add(job2);
@@ -486,27 +808,24 @@ namespace KompetansetorgetServer.Models
             Job job3 = new Job()
             {
                 uuid = Guid.NewGuid().ToString(),
-                title = "IT og kursanvarlig",
-                description = "IT og opplæring",
-                webpage = "http://nav.no/",
+                title = "Online Marketing internship",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/online-marketing-internship",
                 linkedInProfile = "",
                 stepsToApply = "Send email",
-                expiryDate = now.AddDays(22),
-                created = now.AddDays(2),
-                published = now.AddDays(2),
-                modified = now.AddDays(2)
+                expiryDate = new DateTime(2016, 12, 16),
+                created = new DateTime(2016, 03, 14),
+                published = new DateTime(2016, 03, 14),
+                modified = new DateTime(2016, 03, 14)
             };
 
             Contact contact3 = db.contacts.First(x => x.id == 3);
-            Company company3 = db.companies.First(x => x.id.Equals("nav"));
-            StudyGroup ped = db.studyGroup.First(x => x.id.Equals("lærerutdanning"));
+            Company company3 = db.companies.First(x => x.id.Equals("cuponation"));
 
             job3.contacts.Add(contact3);
-            job3.studyGroups.Add(data);
-            job3.studyGroups.Add(ped);
-
-            job3.locations.Add(location);
-            job3.jobTypes.Add(deltid);
+            job3.studyGroups.Add(medie);
+            job3.jobTypes.Add(praksis);
+            job3.locations.Add(ut);
             job3.companies.Add(company3);
 
             db.jobs.Add(job3);
@@ -515,26 +834,25 @@ namespace KompetansetorgetServer.Models
             Job job4 = new Job()
             {
                 uuid = Guid.NewGuid().ToString(),
-                title = "IT PT",
-                description = "Er du vår nye høyteknologiske IT PT?!",
-                webpage = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad",
+                title = "Do you love languages?",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/do-you-love-languages",
                 linkedInProfile = "",
                 stepsToApply = "Send email",
-                expiryDate = now.AddDays(23),
-                created = now.AddDays(3),
-                published = now.AddDays(3),
-                modified = now.AddDays(3)
+                expiryDate = new DateTime(2016, 09, 15),
+                created = new DateTime(2016, 03, 11),
+                published = new DateTime(2016, 03, 11),
+                modified = new DateTime(2016, 03, 11)
             };
 
             Contact contact4 = db.contacts.First(x => x.id == 4);
-            Company company4 = db.companies.First(x => x.id.Equals("stamina"));
-            Location aa = db.locations.First(x => x.id.Equals("austagder"));
+            Company company4 = db.companies.First(x => x.id.Equals("beconnected"));
 
             job4.contacts.Add(contact4);
-            job4.studyGroups.Add(data);
-            job4.studyGroups.Add(idrett);
+            job4.studyGroups.Add(ped);
+            job4.studyGroups.Add(språk);
 
-            job4.locations.Add(aa);
+            job4.locations.Add(ut);
             job4.jobTypes.Add(deltid);
             job4.companies.Add(company4);
 
@@ -545,6 +863,256 @@ namespace KompetansetorgetServer.Models
             db.jobs.Add(job4);
             db.SaveChanges();
             //return RedirectToAction("About", "Home");
+
+            Job job5 = new Job()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Testing av apper og nettsider",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/testing-av-apper-og-nettsider",
+                linkedInProfile = "",
+                stepsToApply = "Send email",
+                expiryDate = new DateTime(2017, 01, 01),
+                created = new DateTime(2016, 04, 01),
+                published = new DateTime(2016, 04, 01),
+                modified = new DateTime(2016, 04, 11)
+            };
+
+            Contact contact5 = db.contacts.First(x => x.id == 2);
+            Company company5 = db.companies.First(x => x.id.Equals("testbirds2"));
+
+            job5.contacts.Add(contact5);
+
+            job5.studyGroups.Add(idrett);
+            job5.studyGroups.Add(data);
+            job5.studyGroups.Add(medie);
+            job5.studyGroups.Add(realfag);
+            job5.studyGroups.Add(økonomi);
+            job5.studyGroups.Add(språk);
+            job5.studyGroups.Add(musikk);
+            job5.studyGroups.Add(helse);
+            job5.studyGroups.Add(historie);
+            job5.studyGroups.Add(administrasjon);
+            job5.studyGroups.Add(ingenior);
+            job5.studyGroups.Add(kunstfag);
+            job5.studyGroups.Add(samfunnsfag);
+            job5.studyGroups.Add(ped);
+            job5.studyGroups.Add(uspesifisert);
+
+            job5.locations.Add(va);
+            job5.locations.Add(aker);
+            job5.locations.Add(busk);
+            job5.locations.Add(finn);
+            job5.locations.Add(hed);
+            job5.locations.Add(hord);
+            job5.locations.Add(møre);
+            job5.locations.Add(nordl);
+            job5.locations.Add(opp);
+            job5.locations.Add(oslo);
+            job5.locations.Add(roga);
+            job5.locations.Add(sogn);
+            job5.locations.Add(sørt);
+            job5.locations.Add(tele);
+            job5.locations.Add(troms);
+            job5.locations.Add(aa);
+            job5.locations.Add(vestf);
+            job5.locations.Add(østf);
+            job5.locations.Add(svalb);
+            job5.locations.Add(ut);
+
+
+            job5.jobTypes.Add(deltid);
+
+            job5.companies.Add(company5);
+
+            db.jobs.Add(job5);
+            db.SaveChanges();
+
+            Job job6 = new Job()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Fleksibel deltidsjobb som privatunderviser",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/fleksibel-deltidsjobb-som-privatunderviser",
+                linkedInProfile = "",
+                stepsToApply = "Send email",
+                published = new DateTime(2016, 11, 12),
+
+            };
+
+            Contact contact6 = db.contacts.First(x => x.id == 5);
+            Company company6 = db.companies.First(x => x.id.Equals("mentornorge"));
+
+            job6.contacts.Add(contact6);
+
+            job6.studyGroups.Add(idrett);
+            job6.studyGroups.Add(data);
+            job6.studyGroups.Add(medie);
+            job6.studyGroups.Add(realfag);
+            job6.studyGroups.Add(økonomi);
+            job6.studyGroups.Add(språk);
+            job6.studyGroups.Add(musikk);
+            job6.studyGroups.Add(helse);
+            job6.studyGroups.Add(historie);
+            job6.studyGroups.Add(administrasjon);
+            job6.studyGroups.Add(ingenior);
+            job6.studyGroups.Add(kunstfag);
+            job6.studyGroups.Add(samfunnsfag);
+            job6.studyGroups.Add(ped);
+            job6.studyGroups.Add(uspesifisert);
+
+            job6.jobTypes.Add(deltid);
+
+            job6.companies.Add(company6);
+
+            db.jobs.Add(job6);
+            db.SaveChanges();
+
+            Job job7 = new Job()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Internship",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/internship",
+                linkedInProfile = "",
+                stepsToApply = "Send email",
+                published = new DateTime(2015, 11, 04),
+
+            };
+
+            Contact contact7 = db.contacts.First(x => x.id == 6);
+            Company company7 = db.companies.First(x => x.id.Equals("archipelagos"));
+
+            job7.contacts.Add(contact7);
+
+            job7.studyGroups.Add(medie);
+            job7.studyGroups.Add(realfag);
+            job7.studyGroups.Add(ingenior);
+            job7.studyGroups.Add(samfunnsfag);
+
+            job7.jobTypes.Add(deltid);
+
+            job7.companies.Add(company7);
+
+            db.jobs.Add(job7);
+            db.SaveChanges();
+
+            Job job8 = new Job()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Tilkallingsvikarer natttjenesten - sykepleierstudenter - Berge gård",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/tilkallingsvikarer-nattjenesten-sykepleierstudenter-berge-gaard",
+                linkedInProfile = "",
+                stepsToApply = "Send email",
+                published = new DateTime(2015, 09, 17),
+
+
+            };
+
+            Contact contact8 = db.contacts.First(x => x.id == 7);
+            Company company8 = db.companies.First(x => x.id.Equals("grimstadkommune"));
+
+            job8.contacts.Add(contact8);
+
+            job8.studyGroups.Add(uspesifisert);
+
+            job8.jobTypes.Add(deltid);
+
+            job8.companies.Add(company8);
+
+            db.jobs.Add(job8);
+            db.SaveChanges();
+
+
+            Job job9 = new Job()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Fotballtrener ved Fotballfritidsordning",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/fotballtrener-ved-fotballfritidsordning",
+                linkedInProfile = "",
+                stepsToApply = "Send email",
+                published = new DateTime(2015, 08, 17),
+
+
+            };
+
+            Contact contact9 = db.contacts.First(x => x.id == 8);
+            Company company9 = db.companies.First(x => x.id.Equals("ikstart"));
+
+            job9.contacts.Add(contact9);
+
+            job9.studyGroups.Add(idrett);
+
+            job9.jobTypes.Add(deltid);
+
+            job9.companies.Add(company9);
+
+            db.jobs.Add(job9);
+            db.SaveChanges();
+
+            Job job10 = new Job()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Advisor / Senior Advisor, Financial Reporting Competence Center",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/advisor-senior-advisor-financial-reporting-competence-center",
+                linkedInProfile = "",
+                stepsToApply = "Send email",
+                published = new DateTime(2015, 05, 08),
+
+
+            };
+
+            Contact contact10 = db.contacts.First(x => x.id == 9);
+            Company company10 = db.companies.First(x => x.id.Equals("accurateequity"));
+
+            job10.contacts.Add(contact10);
+
+            job10.studyGroups.Add(administrasjon);
+            job10.studyGroups.Add(data);
+            job10.studyGroups.Add(økonomi);
+            job10.studyGroups.Add(uspesifisert);
+
+            job10.jobTypes.Add(heltid);
+
+            job10.companies.Add(company10);
+
+            db.jobs.Add(job10);
+            db.SaveChanges();
+
+            Job job11 = new Job()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Spennende internship innen SEO, markedsføring og digital kommunikasjon hos Rabble",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/spennende-internship-innen-seo-markedsfoering-og-digital-kommunikasjon-hos-rabble",
+                linkedInProfile = "",
+                stepsToApply = "Send email",
+                published = new DateTime(2015, 05, 08),
+                expiryDate = new DateTime(2017, 06, 20),
+
+
+            };
+
+            Contact contact11 = db.contacts.First(x => x.id == 10);
+            Company company11 = db.companies.First(x => x.id.Equals("accurateequity"));
+
+            job11.contacts.Add(contact11);
+
+            job11.studyGroups.Add(medie);
+            job11.studyGroups.Add(økonomi);
+            job11.studyGroups.Add(uspesifisert);
+
+            job11.jobTypes.Add(heltid);
+
+            job11.companies.Add(company11);
+
+            db.jobs.Add(job11);
+            db.SaveChanges();
+
+
         }
 
 
@@ -565,6 +1133,10 @@ namespace KompetansetorgetServer.Models
             db.degrees.Add(bachelor);
             db.degrees.Add(master);
             db.SaveChanges();
+
+
+
+
         }
 
         private void PopulateCourse()
@@ -580,9 +1152,174 @@ namespace KompetansetorgetServer.Models
                 id = "IS-304",
                 name = "IS-304 - Informasjonssys., bachelor"
             };
+            Course be501 = new Course()
+            {
+                id = "BE-501",
+                name = "BE-501 - Øk.adm., master"
+            };
+            Course bio300 = new Course()
+            {
+                id = "BIO-300",
+                name = "BIO-300 - Biologi, bachelor"
+            };
+            Course bio500 = new Course()
+            {
+                id = "BIO-500",
+                name = "BIO-500 - Akvatisk økologi, master"
+            };
+            Course byg300 = new Course()
+            {
+                id = "BYG-300",
+                name = "BYG-300 - Byggdesign, bachelor"
+            };
+            Course byg500 = new Course()
+            {
+                id = "BYG-500",
+                name = "BYG-500 - Bygg, siv.ing. master"
+            };
 
+            Course dat303 = new Course()
+            {
+                id = "DAT-303",
+                name = "DAT-303 - Multimedia, bachelor"
+            };
+            Course ele301 = new Course()
+            {
+                id = "ELE-303",
+                name = "ELE-303 - Elektronikk, bachelor"
+            };
+            Course ene304g = new Course()
+            {
+                id = "ENE-304-G",
+                name = "ENE-304-G - Energi hovedprosjekt, bachelor"
+            };
+            Course ikt590 = new Course()
+            {
+                id = "IKT-590",
+                name = "IKT-590 - IKT, master"
+            };
+            Course ind590 = new Course()
+            {
+                id = "IND-590",
+                name = "IND-590 - Ind.øk. og tek.led., master"
+            };
+            Course is302 = new Course()
+            {
+                id = "IS-302",
+                name = "IS-302, Praksisprosjekt i infosys., bachelor"
+            };
+            Course is501 = new Course()
+            {
+                id = "IS-501",
+                name = "IS-501 - Informasjonssys., master"
+            };
+            Course kom207 = new Course()
+            {
+                id = "KOM-207",
+                name = "KOM-207 -- Kommunikasjon, bachelor"
+            };
+            Course kom500 = new Course()
+            {
+                id = "KOM-500",
+                name = "KOM-500 - Samfunnskom., master"
+            };
+            Course ma302 = new Course()
+            {
+                id = "MA-302",
+                name = "MA-302 - Matematikk, bachelor"
+            };
+            Course ma500 = new Course()
+            {
+                id = "MA-500",
+                name = "MA-500 - Matematikkdid., master"
+            };
+            Course mas306 = new Course()
+            {
+                id = "MAS-306",
+                name = "MAS-306 - Mekatronikk, bachelor"
+            };
+            Course mas500 = new Course()
+            {
+                id = "MAS-500",
+                name = "MAS-500 - Mekatronikk, master"
+            };
+            Course me502 = new Course()
+            {
+                id = "ME-502",
+                name = "ME-502 - Off.pol og ledelse, master"
+            };
+            Course me504 = new Course()
+            {
+                id = "ME-504",
+                name = "ME-504 - Psyk. helsearbeid, master"
+            };
+            Course ml312 = new Course()
+            {
+                id = "ML-312",
+                name = "ML-312 - Bioing., bachelor"
+            };
+            Course mm500 = new Course()
+            {
+                id = "MM-500",
+                name = "MM-500 - Multimedia, master"
+            };
+            Course org500 = new Course()
+            {
+                id = "ORG-500",
+                name = "ORG-500 - Ledelse, master"
+            };
+            Course ped233 = new Course()
+            {
+                id = "PED-233",
+                name = "PED-233 - Lærer (1.-7.trinn), bachelor"
+            };
+            Course sv301 = new Course()
+            {
+                id = "SV-301",
+                name = "SV-301, Samfunnsplanlegging, bachelor"
+            };
+            Course sv303 = new Course()
+            {
+                id = "SV-303",
+                name = "SV-303, Sosialt arbeid, bachelor"
+            };
+            Course ut503 = new Course()
+            {
+                id = "UT-503",
+                name = "UT-503 - Utvikling og samf.plan.,master"
+            };
             db.courses.Add(dat304);
+            db.courses.Add(be501);
+            db.courses.Add(bio300);
+            db.courses.Add(bio500);
+            db.courses.Add(byg300);
+            db.courses.Add(byg500);
+            db.courses.Add(dat303);
+            db.courses.Add(dat304);
+            db.courses.Add(ele301);
+            db.courses.Add(ene304g);
+            db.courses.Add(ikt590);
+            db.courses.Add(ind590);
+            db.courses.Add(is302);
             db.courses.Add(is304);
+            db.courses.Add(is501);
+            db.courses.Add(kom207);
+            db.courses.Add(kom500);
+            db.courses.Add(ma302);
+            db.courses.Add(ma500);
+            db.courses.Add(mas306);
+            db.courses.Add(mas500);
+            db.courses.Add(me502);
+            db.courses.Add(me504);
+            db.courses.Add(ml312);
+            db.courses.Add(mm500);
+            db.courses.Add(org500);
+            db.courses.Add(ped233);
+            db.courses.Add(sv301);
+            db.courses.Add(sv303);
+            db.courses.Add(ut503);
+
+
             db.SaveChanges();
 
             ApprovedCourse dat3041 = new ApprovedCourse()
@@ -605,8 +1342,8 @@ namespace KompetansetorgetServer.Models
         private void PopulateProject()
         {
 
-            
-            
+
+
             DateTime now = DateTime.Now;
 
             Project pro1 = new Project()
@@ -665,7 +1402,7 @@ namespace KompetansetorgetServer.Models
                               "per minutt/time/dag/måned - dersom man bare får tilgang til " +
                               "avleserdata. Da kan man også tilpasse sitt forbruk til tider " +
                               "på døgnet da prisen per kWh er lavest siden strømleverandøren " +
-                              "også kan vite hvor mye strøm som brukes per minutt/time.\n" + 
+                              "også kan vite hvor mye strøm som brukes per minutt/time.\n" +
                               "Frem til disse nye avleserne kommer, er det både a) vanskelig å" +
                               " følge med på eget forbruk og b) fortsatt nødvendig å gå til " +
                               "sikringsskapet for å lese av (ideelt sett) en gang i måneden for" +
@@ -676,7 +1413,7 @@ namespace KompetansetorgetServer.Models
                               "f.eks. være mulig å hente bildet hvert minutt, kjøre OCR på bildet" +
                               " for å så kunne skrive det avleste forbruket til en fil. Så kan man" +
                               " analysere avlesningene over tid for å finne forbruk per " +
-                              "min/time/døgn/måned/år.\n" + 
+                              "min/time/døgn/måned/år.\n" +
                               "Oppgaven går altså ut på å sette alt dette sammen: mobil + " +
                               "WiFi + hente bilde + OCR + lagre tid+avlest verdi til fil." +
                               "\n" + "Utfordringen i oppgaven ligger nok mest i å finne en plattform (Linux?)" +
@@ -730,8 +1467,8 @@ namespace KompetansetorgetServer.Models
                               " faglige kvalifikasjoner og prosjektbeskrivelse.\n" + "<b>Søknadsfrister: 1. mars 2016 og " +
                               "1. november 2016<b>\n" + "Mer informasjon om stipendet finner du " +
                               "på&nbsp;<a href=\"http://www.husbanken.no/boligsosialt-arbeid/stipendutlysning2014/\" " +
-                              "target=\"_self\">Husbankens nettsider</a>" ,
-            
+                              "target=\"_self\">Husbankens nettsider</a>",
+
                 webpage = "http://kompetansetorget.uia.no/oppgaver/husbankens-stipend-til-masteroppgaver-2016",
                 linkedInProfile = "",
                 stepsToApply = "",
@@ -759,7 +1496,7 @@ namespace KompetansetorgetServer.Models
 
             db.projects.Add(pro3);
             db.SaveChanges();
-           
+
             Contact contact8 = db.contacts.First(x => x.id == 8);
             ApprovedCourse dat3041 = db.approvedCourses.First(x => x.id.Equals("DAT-304"));
             now = DateTime.Now;
@@ -771,7 +1508,7 @@ namespace KompetansetorgetServer.Models
                 title = "APP for pasienter med hjemmemåling av INR, blodfortynnende faktor",
                 description = "Sørlandet Sykehus ved Kardiolog Jarle Jortveit ønsker utviklet en funksjonell" +
                               " APP basert på norske krav for samhandling mellom hjemmeboende pasient og " +
-                              "helsetjenestene.\n" + "Jarle Jortveit <Jarle.Jortveit@sshf.no> skrev:\n" + 
+                              "helsetjenestene.\n" + "Jarle Jortveit <Jarle.Jortveit@sshf.no> skrev:\n" +
                               "Jeg er ansvarlig for opplæring av pasienter i hjemmemåling INR/egendosering " +
                               "marevan i Aust-Agder. Savner en app for mobiltelefon hvor målinger, målområde" +
                               " og dosering kan registreres. INR nivå, tid innenfor terapeutisk nivå, endring" +
@@ -804,7 +1541,7 @@ namespace KompetansetorgetServer.Models
 
             db.projects.Add(pro4);
             db.SaveChanges();
-            
+
 
         }
 
