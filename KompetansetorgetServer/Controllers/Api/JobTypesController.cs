@@ -6,10 +6,12 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KompetansetorgetServer.Models;
+using System.Text;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
@@ -23,9 +25,29 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 jt.id,
                 jt.name,
-               // jt.type
+                jt.type
             });
         }
+
+        [HttpGet, Route("api/v1/jobtypes/hash")]
+        //[ResponseType(typeof(JobType))]
+        public async Task<IHttpActionResult> GetLocationsHash()
+        {
+            var result = from jobType in db.jobTypes select jobType;
+            List<JobType> jobTypeList = result.OrderBy(jt => jt.id).ToList();
+            StringBuilder sb = new StringBuilder();
+            foreach (var jobType in jobTypeList)
+            {
+                sb.Append(jobType.id);
+            }
+            string hash = CalculateMD5Hash(sb.ToString());
+
+            return Ok(new
+            {
+                hash
+            });
+        }
+
 
         // GET: api/jobTypes/5
         [ResponseType(typeof(JobType))]
@@ -40,7 +62,7 @@ namespace KompetansetorgetServer.Controllers.Api
             return Ok( new {
                 jobType.id,
                 jobType.name,
-               // jobType.type
+                jobType.type
             });
         }
 
@@ -137,6 +159,27 @@ namespace KompetansetorgetServer.Controllers.Api
         private bool JobTypeExists(string id)
         {
             return db.jobTypes.Count(e => e.id == id) > 0;
+        }
+
+        /// <summary>
+        /// Used to create a 32 bit hash of all the projects uuid,
+        /// used as part of the cache strategy.
+        /// This is not to create a safe encryption, but to create a hash that im
+        /// certain that the php backend can replicate.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private string CalculateMD5Hash(string input)
+        {
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
+            byte[] hash = md5.ComputeHash(inputBytes);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
         }
     }
 }

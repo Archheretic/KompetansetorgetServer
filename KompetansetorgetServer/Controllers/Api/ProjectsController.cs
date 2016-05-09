@@ -6,6 +6,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -15,7 +17,7 @@ using Microsoft.Ajax.Utilities;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
-    [Authorize]
+    //[Authorize]
     public class ProjectsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
@@ -160,6 +162,7 @@ namespace KompetansetorgetServer.Controllers.Api
                     project.title,
                     project.webpage,              
                     project.published,
+                    project.modified,
                     companies = project.companies.Select(c => new { c.id, c.name, c.logo })
                 });
             }
@@ -210,26 +213,61 @@ namespace KompetansetorgetServer.Controllers.Api
             }
 
             int amountOfProjects = db.projects.Count();
-            Project project = db.projects.OrderByDescending(j => j.modified).First();
+            Project projectLast = db.projects.OrderByDescending(j => j.modified).First();
+            // bad code, fix later if time
+            var result = from project in db.projects select project;
+            List<Project> projectList = result.OrderBy(j => j.published).ToList();
+            StringBuilder sb = new StringBuilder();
+            foreach (var project in projectList)
+            {
+                sb.Append(project.uuid);
+            }
+            string uuids = CalculateMD5Hash(sb.ToString());
             return Ok(new
             {
-                project.uuid,
-                project.modified,
-                amountOfProjects 
+                projectLast.uuid,
+                projectLast.modified,
+                amountOfProjects,
+                uuids
             });
+            /*
+                        return Ok(new
+                        {
+                            projectLast.uuid,
+                            projectLast.modified,
+                            amountOfProjects 
+                        });
+                        */
 
         }
 
-        private async Task<IHttpActionResult> SerializeLastModified(IQueryable<Project> unserializedJobs)
+        private async Task<IHttpActionResult> SerializeLastModified(IQueryable<Project> unserializedProjects)
         {
-            var project = unserializedJobs.OrderByDescending(p => p.modified).First();
-            int amountOfProjects = unserializedJobs.Count();
+            // bad code, fix later if time
+            var projectLast = unserializedProjects.OrderByDescending(p => p.modified).First();
+            List<Project> projects = unserializedProjects.OrderBy(p => p.published).ToList();
+            int amountOfProjects = projects.Count;
+            StringBuilder sb = new StringBuilder();
+            foreach (var project in projects)
+            {
+                sb.Append(project.uuid);
+            }
+            string uuids = CalculateMD5Hash(sb.ToString());
             return Ok(new
             {
-                project.uuid,
-                project.modified,
-                amountOfProjects
+                projectLast.uuid,
+                projectLast.modified,
+                amountOfProjects,
+                uuids
             });
+            /*
+            return Ok(new
+            {
+                projectLast.uuid,
+                projectLast.modified,
+                amountOfProjects,
+            });
+            */
         }
 
         /// <summary>
@@ -654,6 +692,27 @@ namespace KompetansetorgetServer.Controllers.Api
         private bool ProjectExists(string id)
         {
             return db.projects.Count(e => e.uuid == id) > 0;
+        }
+
+        /// <summary>
+        /// Used to create a 32 bit hash of all the projects uuid,
+        /// used as part of the cache strategy.
+        /// This is not to create a safe encryption, but to create a hash that im
+        /// certain that the php backend can replicate.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private string CalculateMD5Hash(string input)
+        {
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
+            byte[] hash = md5.ComputeHash(inputBytes);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
         }
     }
 }

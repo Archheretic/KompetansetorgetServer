@@ -7,6 +7,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -16,7 +18,7 @@ using Microsoft.Ajax.Utilities;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
-    [Authorize]
+    //[Authorize]
     public class JobsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
@@ -149,20 +151,58 @@ namespace KompetansetorgetServer.Controllers.Api
                 IQueryable<Job> jobs = GetJobsByTitle(titles);
                 return await SerializeLastModified(jobs);
             }
+
+            // bad code, fix later if time
+            var results = from job in db.jobs select job;
+            List<Job> jobList = results.OrderBy(j => j.published).ToList();
+            StringBuilder sb = new StringBuilder();
+            foreach (var job in jobList)
+            {
+                sb.Append(job.uuid);
+            }
+            string uuids = CalculateMD5Hash(sb.ToString());
+            Job jobLast = db.jobs.OrderByDescending(j => j.modified).First();
             int amountOfJobs = db.jobs.Count();
-            Job job = db.jobs.OrderByDescending(j => j.modified).First();
             return Ok(new
             {
-                    job.uuid,
-                    job.modified,
+                jobLast.uuid,
+                jobLast.modified,
+                amountOfJobs,
+                uuids
+            });
+            /*
+            int amountOfJobs = db.jobs.Count();
+            
+            return Ok(new
+            {
+                    jobLast.uuid,
+                    jobLast.modified,
                     amountOfJobs
             });
+            */
             
         }
 
         private async Task<IHttpActionResult> SerializeLastModified(IQueryable<Job> unserializedJobs)
             {
-            var job = unserializedJobs.OrderByDescending(j => j.modified).First();
+            // bad code, fix later if time
+            var jobLast = unserializedJobs.OrderByDescending(j => j.modified).First();
+            List<Job> jobs = unserializedJobs.OrderBy(j => j.published).ToList();
+            int amountOfJobs = jobs.Count;
+            StringBuilder sb = new StringBuilder();
+            foreach (var job in jobs)
+            {
+                sb.Append(job.uuid);
+            }
+            string uuids = CalculateMD5Hash(sb.ToString());
+            return Ok(new
+            {
+                jobLast.uuid,
+                jobLast.modified,
+                amountOfJobs,
+                uuids
+            });
+            /*
             int amountOfJobs = unserializedJobs.Count();
             return Ok(new
             {
@@ -170,6 +210,7 @@ namespace KompetansetorgetServer.Controllers.Api
              job.modified,
              amountOfJobs
             });
+            */
         }
     
         // GET: api/Jobs
@@ -228,6 +269,7 @@ namespace KompetansetorgetServer.Controllers.Api
                     job.title,
                     job.webpage,
                     job.published,
+                    job.modified,
                     job.expiryDate,
                     companies = job.companies.Select(c => new {c.id, c.name, c.logo})
                 });
@@ -565,6 +607,27 @@ namespace KompetansetorgetServer.Controllers.Api
                 default:
                     return GetJobs();
             }
+        }
+
+        /// <summary>
+        /// Used to create a 32 bit hash of all the projects uuid,
+        /// used as part of the cache strategy.
+        /// This is not to create a safe encryption, but to create a hash that im
+        /// certain that the php backend can replicate.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private string CalculateMD5Hash(string input)
+        {
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
+            byte[] hash = md5.ComputeHash(inputBytes);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
         }
 
 

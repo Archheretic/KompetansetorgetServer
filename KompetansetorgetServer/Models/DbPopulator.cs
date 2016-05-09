@@ -18,7 +18,7 @@ namespace KompetansetorgetServer.Models
             PopulateLocation();
             PopulateStudy_group();
             PopulateDevice();
-            PopulateStudent();
+           // PopulateStudent();
             PopulateJobType();
             PopulateContact();
             PopulateCompany();
@@ -154,6 +154,7 @@ namespace KompetansetorgetServer.Models
             db.locations.Add(finn);
             db.locations.Add(hed);
             db.locations.Add(hord);
+            db.locations.Add(møre);
             db.locations.Add(nordl);
             db.locations.Add(nordt);
             db.locations.Add(opp);
@@ -186,7 +187,7 @@ namespace KompetansetorgetServer.Models
             };
             StudyGroup data = new StudyGroup()
             {
-                id = "data",
+                id = "datateknologi",
                 name = "Datateknologi"
             };
 
@@ -202,9 +203,9 @@ namespace KompetansetorgetServer.Models
                 name = "Helse- og sosialfag"
             };
 
-            StudyGroup ingenior = new StudyGroup()
+            StudyGroup ingeniør = new StudyGroup()
             {
-                id = "ingenior",
+                id = "ingeniør",
                 name = "Ingeniør og teknologiske fag"
             };
 
@@ -262,7 +263,7 @@ namespace KompetansetorgetServer.Models
             db.studyGroup.Add(data);
             db.studyGroup.Add(ped);
             db.studyGroup.Add(helse);
-            db.studyGroup.Add(ingenior);
+            db.studyGroup.Add(ingeniør);
             db.studyGroup.Add(samfunnsfag);
             db.studyGroup.Add(realfag);
             db.studyGroup.Add(uspesifisert);
@@ -337,50 +338,66 @@ namespace KompetansetorgetServer.Models
             JobType heltid = new JobType()
             {
                 id = "heltid",
-                name = "Heltid"
+                name = "Heltid",
+                type = "job"
             };
 
             JobType praksis = new JobType()
             {
                 id = "praksis",
-                name = "Praksis/Internship"
+                name = "Praksis/Internship",
+                type = "job"
             };
 
 
             JobType deltid = new JobType()
             {
                 id = "deltid",
-                name = "Deltid"
+                name = "Deltid",
+                type = "job"
             };
 
             JobType sommerjobb = new JobType()
             {
                 id = "sommerjobb",
-                name = "Sommerjobb"
+                name = "Sommerjobb",
+                type = "job"
             };
 
             JobType stipend = new JobType()
             {
                 id = "stipend",
-                name = "Stipend"
+                name = "Stipend",
+                type = "job"
             };
 
             JobType trainee = new JobType()
             {
                 id = "trainee",
-                name = "Trainee"
+                name = "Trainee",
+                type = "job"
             };
 
             JobType fagl = new JobType()
             {
                 id = "faglærer",
-                name = "Fra faglærer"
+                name = "Fra faglærer",
+                type = "project",
             };
+
+            JobType stud = new JobType()
+            {
+                id = "student",
+                name = "Fra student",
+                type = "project",
+            };
+            
 
             JobType virksomhet = new JobType()
             {
                 id = "virksomhet",
-                name = "Fra virksomhet"
+                name = "Fra virksomhet",
+                type = "project",
             };
 
 
@@ -392,6 +409,7 @@ namespace KompetansetorgetServer.Models
             db.jobTypes.Add(trainee);
             db.jobTypes.Add(stipend);
             db.jobTypes.Add(sommerjobb);
+            db.jobTypes.Add(stud);
             db.SaveChanges();
 
         }
@@ -512,6 +530,45 @@ namespace KompetansetorgetServer.Models
         //Populates the Company table
         private void PopulateCompany()
         {
+            Company privat = new Company()
+            {
+                id = "privat",
+                name = "Privatperson",
+                adress = "",
+                url = "",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo =
+                    "http://kompetansetorget.uia.no/extension/kompetansetorget/design/kompetansetorget/images/logo-virksomhet.jpg"
+            };
+
+            Company husbanken = new Company()
+            {
+                id = "husbanken",
+                name = "Husbanken",
+                adress = "",
+                url = "",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "http://kompetansetorget.uia.no/extension/kompetansetorget/design/kompetansetorget/images/logo-virksomhet.jpg"
+            };
+
+            Company uia = new Company()
+            {
+                id = "uia",
+                name = "Universitetet i Agder",
+                adress = "",
+                url = "",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "http://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter-internt/universitetet-i-agder/18076-2-nor-NO/universitetet-i-agder_width-4.jpg"
+
+            };
+             
+
             Company travelbird = new Company()
             {
                 id = "travelbird",
@@ -530,7 +587,7 @@ namespace KompetansetorgetServer.Models
                 id = "testbirds",
                 name = "Testbirds",
                 adress = "",
-                url = "https://kompetansetorget.uia.no/stillinger/test-users-for-apps-websites-wanted",
+                url = "",
                 facebook = "",
                 linkedIn = "",
                 description = "",
@@ -543,7 +600,7 @@ namespace KompetansetorgetServer.Models
                 id = "testbirds2",
                 name = "Testbirds",
                 adress = "",
-                url = "https://kompetansetorget.uia.no/stillinger/testing-av-apper-og-nettsider",
+                url = "",
                 facebook = "",
                 linkedIn = "",
                 description = "",
@@ -556,7 +613,7 @@ namespace KompetansetorgetServer.Models
                 id = "cuponation",
                 name = "Cuponation",
                 adress = "",
-                url = "https://kompetansetorget.uia.no/stillinger/online-marketing-internship",
+                url = "",
                 facebook = "",
                 linkedIn = "",
                 description = "",
@@ -569,7 +626,7 @@ namespace KompetansetorgetServer.Models
                 id = "beconnected",
                 name = "BeConnected",
                 adress = "",
-                url = "https://kompetansetorget.uia.no/stillinger/do-you-love-languages",
+                url = "",
                 facebook = "",
                 linkedIn = "",
                 description = "",
@@ -594,7 +651,7 @@ namespace KompetansetorgetServer.Models
                 id = "archipelagos",
                 name = "Archipelagos Institute",
                 adress = "",
-                url = "http://kompetansetorget.uia.no/stillinger/internship",
+                url = "",
                 facebook = "",
                 linkedIn = "",
                 description = "",
@@ -606,7 +663,7 @@ namespace KompetansetorgetServer.Models
                 id = "grimstadkommune",
                 name = "Grimstad Kommune, Berge gård senter",
                 adress = "",
-                url = "https://kompetansetorget.uia.no/stillinger/tilkallingsvikarer-nattjenesten-sykepleierstudenter-berge-gaard",
+                url = "",
                 facebook = "",
                 linkedIn = "",
                 description = "",
@@ -618,7 +675,7 @@ namespace KompetansetorgetServer.Models
                 id = "ikstart",
                 name = "IKStart",
                 adress = "",
-                url = "https://kompetansetorget.uia.no/stillinger/fotballtrener-ved-fotballfritidsordning",
+                url = "",
                 facebook = "",
                 linkedIn = "",
                 description = "",
@@ -630,7 +687,7 @@ namespace KompetansetorgetServer.Models
                 id = "accurateequity",
                 name = "Accurate Equity - an Equatex Company",
                 adress = "",
-                url = "https://kompetansetorget.uia.no/stillinger/advisor-senior-advisor-financial-reporting-competence-center",
+                url = "",
                 facebook = "",
                 linkedIn = "",
                 description = "",
@@ -642,12 +699,17 @@ namespace KompetansetorgetServer.Models
                 id = "rabble",
                 name = "Rabble",
                 adress = "",
-                url = "https://kompetansetorget.uia.no/stillinger/spennende-internship-innen-seo-markedsfoering-og-digital-kommunikasjon-hos-rabble",
+                url = "",
                 facebook = "",
                 linkedIn = "",
                 description = "",
                 logo = "https://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/rabble/33218-2-nor-NO/rabble_width-4.png"
             };
+
+            db.companies.Add(privat);
+            db.companies.Add(husbanken);
+            db.companies.Add(uia);
+            db.companies.Add(archipelagos);
             db.companies.Add(beconnected);
             db.companies.Add(travelbird);
             db.companies.Add(testbirds);
@@ -688,12 +750,12 @@ namespace KompetansetorgetServer.Models
             JobType heltid = db.jobTypes.First(x => x.id.Equals("heltid"));
             JobType deltid = db.jobTypes.First(x => x.id.Equals("deltid"));
 
-            StudyGroup data = db.studyGroup.First(x => x.id.Equals("data"));
+            StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
             StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrett"));
             StudyGroup helse = db.studyGroup.First(x => x.id.Equals("helse"));
             StudyGroup historie = db.studyGroup.First(x => x.id.Equals("historie"));
             StudyGroup administrasjon = db.studyGroup.First(x => x.id.Equals("administrasjon"));
-            StudyGroup ingenior = db.studyGroup.First(x => x.id.Equals("ingenior"));
+            StudyGroup ingeniør = db.studyGroup.First(x => x.id.Equals("ingeniør"));
             StudyGroup kunstfag = db.studyGroup.First(x => x.id.Equals("kunstfag"));
             StudyGroup ped = db.studyGroup.First(x => x.id.Equals("ped"));
             StudyGroup medie = db.studyGroup.First(x => x.id.Equals("medie"));
@@ -767,7 +829,7 @@ namespace KompetansetorgetServer.Models
             job2.studyGroups.Add(helse);
             job2.studyGroups.Add(historie);
             job2.studyGroups.Add(administrasjon);
-            job2.studyGroups.Add(ingenior);
+            job2.studyGroups.Add(ingeniør);
             job2.studyGroups.Add(kunstfag);
             job2.studyGroups.Add(samfunnsfag);
             job2.studyGroups.Add(ped);
@@ -788,6 +850,7 @@ namespace KompetansetorgetServer.Models
             job2.locations.Add(sørt);
             job2.locations.Add(tele);
             job2.locations.Add(troms);
+            job2.locations.Add(nordt);
             job2.locations.Add(aa);
             job2.locations.Add(vestf);
             job2.locations.Add(østf);
@@ -893,7 +956,7 @@ namespace KompetansetorgetServer.Models
             job5.studyGroups.Add(helse);
             job5.studyGroups.Add(historie);
             job5.studyGroups.Add(administrasjon);
-            job5.studyGroups.Add(ingenior);
+            job5.studyGroups.Add(ingeniør);
             job5.studyGroups.Add(kunstfag);
             job5.studyGroups.Add(samfunnsfag);
             job5.studyGroups.Add(ped);
@@ -936,8 +999,10 @@ namespace KompetansetorgetServer.Models
                 webpage = "https://kompetansetorget.uia.no/stillinger/fleksibel-deltidsjobb-som-privatunderviser",
                 linkedInProfile = "",
                 stepsToApply = "Send email",
+                expiryDate = new DateTime(2017, 11, 12),
                 published = new DateTime(2016, 11, 12),
-
+                created = new DateTime(2016, 11, 12),
+                modified = new DateTime(2016, 11, 12)
             };
 
             Contact contact6 = db.contacts.First(x => x.id == 5);
@@ -955,7 +1020,7 @@ namespace KompetansetorgetServer.Models
             job6.studyGroups.Add(helse);
             job6.studyGroups.Add(historie);
             job6.studyGroups.Add(administrasjon);
-            job6.studyGroups.Add(ingenior);
+            job6.studyGroups.Add(ingeniør);
             job6.studyGroups.Add(kunstfag);
             job6.studyGroups.Add(samfunnsfag);
             job6.studyGroups.Add(ped);
@@ -977,6 +1042,9 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "Send email",
                 published = new DateTime(2015, 11, 04),
+                expiryDate = new DateTime(2016, 11, 04),
+                created = new DateTime(2015, 11, 04),
+                modified = new DateTime(2015, 11, 04),
 
             };
 
@@ -984,10 +1052,10 @@ namespace KompetansetorgetServer.Models
             Company company7 = db.companies.First(x => x.id.Equals("archipelagos"));
 
             job7.contacts.Add(contact7);
-
+            job7.locations.Add(ut);
             job7.studyGroups.Add(medie);
             job7.studyGroups.Add(realfag);
-            job7.studyGroups.Add(ingenior);
+            job7.studyGroups.Add(ingeniør);
             job7.studyGroups.Add(samfunnsfag);
 
             job7.jobTypes.Add(deltid);
@@ -1006,6 +1074,9 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "Send email",
                 published = new DateTime(2015, 09, 17),
+                expiryDate = new DateTime(2016, 09, 17),
+                created = new DateTime(2015, 09, 17),
+                modified = new DateTime(2015, 09, 17)
 
 
             };
@@ -1034,7 +1105,9 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "Send email",
                 published = new DateTime(2015, 08, 17),
-
+                expiryDate = new DateTime(2016, 08, 17),
+                created = new DateTime(2015, 08, 17),
+                modified = new DateTime(2015, 08, 17)
 
             };
 
@@ -1061,7 +1134,9 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "Send email",
                 published = new DateTime(2015, 05, 08),
-
+                expiryDate = new DateTime(2016, 05, 08),
+                created = new DateTime(2015, 05, 08),
+                modified = new DateTime(2015, 05, 08)
 
             };
 
@@ -1090,9 +1165,10 @@ namespace KompetansetorgetServer.Models
                 webpage = "https://kompetansetorget.uia.no/stillinger/spennende-internship-innen-seo-markedsfoering-og-digital-kommunikasjon-hos-rabble",
                 linkedInProfile = "",
                 stepsToApply = "Send email",
-                published = new DateTime(2015, 05, 08),
+                published = new DateTime(2015, 04, 15),
                 expiryDate = new DateTime(2017, 06, 20),
-
+                created = new DateTime(2015, 04, 15),
+                modified = new DateTime(2015, 04, 15)
 
             };
 
@@ -1100,7 +1176,7 @@ namespace KompetansetorgetServer.Models
             Company company11 = db.companies.First(x => x.id.Equals("accurateequity"));
 
             job11.contacts.Add(contact11);
-
+            job11.locations.Add(ut);
             job11.studyGroups.Add(medie);
             job11.studyGroups.Add(økonomi);
             job11.studyGroups.Add(uspesifisert);

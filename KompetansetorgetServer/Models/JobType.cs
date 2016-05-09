@@ -17,6 +17,7 @@ namespace KompetansetorgetServer.Models
         [Key]
         public string id { get; set; }
         public string name { get; set; }
+        public string type { get; set; }
 
         public virtual ICollection<Job> Jobs { get; set; }
         public virtual ICollection<Project> Projects { get; set; }

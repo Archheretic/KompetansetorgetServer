@@ -6,6 +6,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -20,10 +22,30 @@ namespace KompetansetorgetServer.Controllers.Api
         // GET: api/locations
         public IQueryable GetLocations()
         {
-            return db.locations.Select( l => new 
+            return db.locations.Select(l => new
             {
                 l.id,
                 l.name
+            });
+        }
+
+        [HttpGet, Route("api/v1/locations/hash")]
+        //[ResponseType(typeof(Location))]
+        public async Task<IHttpActionResult> GetLocationsHash()
+        {
+            var result = from location in db.locations select location;
+            // gives a bit different result on noone ascii then expected due to the collation on the database.
+            List<Location> locationList = result.OrderBy(l => l.id).ToList();
+            StringBuilder sb = new StringBuilder();
+            foreach (var location in locationList)
+            {
+                sb.Append(location.id);
+            }
+            string hash = CalculateMD5Hash(sb.ToString());
+
+            return Ok(new
+            {
+                hash
             });
         }
 
@@ -137,6 +159,27 @@ namespace KompetansetorgetServer.Controllers.Api
         private bool LocationExists(string id)
         {
             return db.locations.Count(e => e.id == id) > 0;
+        }
+
+        /// <summary>
+        /// Used to create a 32 bit hash of all the projects uuid,
+        /// used as part of the cache strategy.
+        /// This is not to create a safe encryption, but to create a hash that im
+        /// certain that the php backend can replicate.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private string CalculateMD5Hash(string input)
+        {
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.UTF8.GetBytes(input);
+            byte[] hash = md5.ComputeHash(inputBytes);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
         }
     }
 }
