@@ -17,7 +17,7 @@ using Microsoft.Ajax.Utilities;
 
 namespace KompetansetorgetServer.Controllers.Api
 {
-    //[Authorize]
+   // [Authorize]
     public class ProjectsController : ApiController
     {
         private KompetansetorgetServerContext db = new KompetansetorgetServerContext();
@@ -222,13 +222,13 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 sb.Append(project.uuid);
             }
-            string uuids = CalculateMD5Hash(sb.ToString());
+            string hash = CalculateMD5Hash(sb.ToString());
             return Ok(new
             {
                 projectLast.uuid,
                 projectLast.modified,
                 amountOfProjects,
-                uuids
+                hash
             });
             /*
                         return Ok(new
@@ -252,13 +252,13 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 sb.Append(project.uuid);
             }
-            string uuids = CalculateMD5Hash(sb.ToString());
+            string hash = CalculateMD5Hash(sb.ToString());
             return Ok(new
             {
                 projectLast.uuid,
                 projectLast.modified,
                 amountOfProjects,
-                uuids
+                hash
             });
             /*
             return Ok(new

@@ -160,7 +160,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 sb.Append(job.uuid);
             }
-            string uuids = CalculateMD5Hash(sb.ToString());
+            string hash = CalculateMD5Hash(sb.ToString());
             Job jobLast = db.jobs.OrderByDescending(j => j.modified).First();
             int amountOfJobs = db.jobs.Count();
             return Ok(new
@@ -168,7 +168,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 jobLast.uuid,
                 jobLast.modified,
                 amountOfJobs,
-                uuids
+                hash
             });
             /*
             int amountOfJobs = db.jobs.Count();
@@ -194,13 +194,13 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 sb.Append(job.uuid);
             }
-            string uuids = CalculateMD5Hash(sb.ToString());
+            string hash = CalculateMD5Hash(sb.ToString());
             return Ok(new
             {
                 jobLast.uuid,
                 jobLast.modified,
                 amountOfJobs,
-                uuids
+                hash
             });
             /*
             int amountOfJobs = unserializedJobs.Count();
