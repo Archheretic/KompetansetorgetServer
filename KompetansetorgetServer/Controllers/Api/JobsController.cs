@@ -36,12 +36,10 @@ namespace KompetansetorgetServer.Controllers.Api
                 (!types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace()))
             {
                 IQueryable<Job> jobs = GetJobsByMultiFilter(types, studyGroups, locations);
-                if (fields.Length == 2)
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish")
+                    || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
                 {
-                    if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
-                    {
-                        return GetSerializedWithFields(jobs);
-                    }
+                    return GetJobsSorted(jobs, sortBy);
                 }
                 return GetJobsSerialized(jobs);
             }
@@ -49,7 +47,7 @@ namespace KompetansetorgetServer.Controllers.Api
             if (!types.IsNullOrWhiteSpace())
             {
                 IQueryable<Job> jobs = GetJobsByType(types);
-                if (sortBy.Equals("published") || sortBy.Equals("-published")
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish")
                     || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
                 {
                    return GetJobsSorted(jobs, sortBy);
@@ -62,7 +60,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                // int i = studyGroups.Length;
                 IQueryable<Job> jobs = GetJobsByStudy(studyGroups);
-                if (sortBy.Equals("published") || sortBy.Equals("-published")
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish")
                     || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
                 {
                     return GetJobsSorted(jobs, sortBy);
@@ -73,7 +71,7 @@ namespace KompetansetorgetServer.Controllers.Api
             if (!locations.IsNullOrWhiteSpace())
             {
                 IQueryable<Job> jobs = GetJobsByLocation(locations);
-                if (sortBy.Equals("published") || sortBy.Equals("-published")
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish")
                     || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
                 {
                     return GetJobsSorted(jobs, sortBy);
@@ -84,7 +82,7 @@ namespace KompetansetorgetServer.Controllers.Api
             if (!titles.IsNullOrWhiteSpace())
             {
                 IQueryable<Job> jobs = GetJobsByTitle(titles);
-                if (sortBy.Equals("published") || sortBy.Equals("-published")
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish")
                     || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
                 {
                     return GetJobsSorted(jobs, sortBy);
@@ -102,7 +100,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return GetJobsWithFields(fields);
             }
 
-            if (sortBy.Equals("published") || sortBy.Equals("-published")
+            if (sortBy.Equals("publish") || sortBy.Equals("-publish")
                 || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
             {
                 return GetJobsSorted(sortBy);
@@ -154,7 +152,7 @@ namespace KompetansetorgetServer.Controllers.Api
 
             // bad code, fix later if time
             var results = from job in db.jobs select job;
-            List<Job> jobList = results.OrderBy(j => j.published).ToList();
+            List<Job> jobList = results.OrderByDescending(j => j.published).ToList();
             StringBuilder sb = new StringBuilder();
             foreach (var job in jobList)
             {
@@ -187,7 +185,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
             // bad code, fix later if time
             var jobLast = unserializedJobs.OrderByDescending(j => j.modified).First();
-            List<Job> jobs = unserializedJobs.OrderBy(j => j.published).ToList();
+            List<Job> jobs = unserializedJobs.OrderByDescending(j => j.published).ToList();
             int amountOfJobs = jobs.Count;
             StringBuilder sb = new StringBuilder();
             foreach (var job in jobs)
@@ -468,8 +466,8 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <summary>
         /// List jobs in a ascending or descending order based on sortBy parameter.
         /// Examples for use:
-        /// GET: api/jobs/?location=vestagder&sortby=published (oldest to newest)
-        /// GET: api/jobs/?location=vestagder&sortby=-published (newest to oldest)
+        /// GET: api/jobs/?location=vestagder&sortby=publish (oldest to newest)
+        /// GET: api/jobs/?location=vestagder&sortby=-publish (newest to oldest)
         /// GET: api/jobs/?type=deltid&sortby=expirydate (oldest to newest)
         /// GET: api/jobs/?type=deltid&sortby=-expirydate (newest to oldest)
         /// </summary>
@@ -504,14 +502,14 @@ namespace KompetansetorgetServer.Controllers.Api
                 case "expirydate":
                     jobs = jobs.OrderByDescending(j => j.expiryDate);
                     return jobs;
-                case "published":
+                case "publish":
                     jobs = jobs.OrderByDescending(j => j.published);
                     return jobs;
 
                 case "-expirydate":
                     jobs = jobs.OrderBy(j => j.expiryDate);
                     return jobs;
-                case "-published":
+                case "-publish":
                     jobs = jobs.OrderBy(j => j.published);
                     return jobs;
 
@@ -593,14 +591,14 @@ namespace KompetansetorgetServer.Controllers.Api
                 case "expirydate":
                     jobs = jobs.OrderByDescending(j => j.expiryDate);
                     return jobs;
-                case "published":
+                case "publish":
                     jobs = jobs.OrderByDescending(j => j.published);
                     return jobs;
 
                 case "-expirydate":
                     jobs = jobs.OrderBy(j => j.expiryDate);
                     return jobs;
-                case "-published":
+                case "-publish":
                     jobs = jobs.OrderBy(j => j.published);
                     return jobs;
 

@@ -35,6 +35,11 @@ namespace KompetansetorgetServer.Controllers.Api
                 (!types.IsNullOrWhiteSpace() && !courses.IsNullOrWhiteSpace()))
             {
                 IQueryable<Project> projects = GetProjectsByMultiFilter(types, studyGroups, courses);
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish"))
+                {
+                    return GetProjectsSorted(projects, sortBy);
+                }
+                /*
                 if (fields.Length == 2)
                 {
                     if (!fields[0].Equals("cname") || !fields[1].Equals("clogo"))
@@ -42,13 +47,14 @@ namespace KompetansetorgetServer.Controllers.Api
                         return GetSerializedWithFields(projects);
                     }
                 }
+                */
                 return GetProjectsSerialized(projects);
             }
 
             if (!types.IsNullOrWhiteSpace())
             {
                 IQueryable<Project> projects = GetProjectsByType(types);
-                if (sortBy.Equals("published") || sortBy.Equals("-published"))
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish"))
                 {
                     return GetProjectsSorted(projects, sortBy);
                 }
@@ -61,7 +67,7 @@ namespace KompetansetorgetServer.Controllers.Api
             {
                 int i = studyGroups.Length;
                 IQueryable<Project> projects = GetProjectsByStudy(studyGroups);
-                if (sortBy.Equals("published") || sortBy.Equals("-published"))
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish"))
                 {
                     return GetProjectsSorted(projects, sortBy);
                 }
@@ -71,7 +77,7 @@ namespace KompetansetorgetServer.Controllers.Api
             if (!courses.IsNullOrWhiteSpace())
             {
                 IQueryable<Project> projects = GetProjectsByCourse(courses);
-                if (sortBy.Equals("published") || sortBy.Equals("-published"))
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish"))
                 {
                     return GetProjectsSorted(projects, sortBy);
                 }
@@ -81,7 +87,7 @@ namespace KompetansetorgetServer.Controllers.Api
             if (!titles.IsNullOrWhiteSpace())
             {
                 IQueryable<Project> projects = GetProjectsByTitle(titles);
-                if (sortBy.Equals("published") || sortBy.Equals("-published"))
+                if (sortBy.Equals("publish") || sortBy.Equals("-publish"))
                 {
                     return GetProjectsSorted(projects, sortBy);
                 }
@@ -98,7 +104,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return GetProjectsWithFields(fields);
             }
 
-            if (sortBy.Equals("published") || sortBy.Equals("-published"))
+            if (sortBy.Equals("publish") || sortBy.Equals("-publish"))
             {
                 return GetProjectsSorted(sortBy);
             }
@@ -216,7 +222,7 @@ namespace KompetansetorgetServer.Controllers.Api
             Project projectLast = db.projects.OrderByDescending(j => j.modified).First();
             // bad code, fix later if time
             var result = from project in db.projects select project;
-            List<Project> projectList = result.OrderBy(j => j.published).ToList();
+            List<Project> projectList = result.OrderByDescending(j => j.published).ToList();
             StringBuilder sb = new StringBuilder();
             foreach (var project in projectList)
             {
@@ -245,7 +251,7 @@ namespace KompetansetorgetServer.Controllers.Api
         {
             // bad code, fix later if time
             var projectLast = unserializedProjects.OrderByDescending(p => p.modified).First();
-            List<Project> projects = unserializedProjects.OrderBy(p => p.published).ToList();
+            List<Project> projects = unserializedProjects.OrderByDescending(p => p.published).ToList();
             int amountOfProjects = projects.Count;
             StringBuilder sb = new StringBuilder();
             foreach (var project in projects)
@@ -286,6 +292,9 @@ namespace KompetansetorgetServer.Controllers.Api
             return projects;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private IQueryable<Project> GetProjectsByMultiFilter(string types = "", [FromUri] string[] studyGroups = null, string courses = "")
         {
             IQueryable<Project> projects = null;
@@ -449,7 +458,7 @@ namespace KompetansetorgetServer.Controllers.Api
         /// <returns></returns> 
         private IQueryable GetProjectsSerialized(IQueryable<Project> projects)
         {
-            return projects.Select(p => new
+            return projects.Select(p =>  new
             {
                 p.uuid,
                 p.title,
@@ -469,6 +478,8 @@ namespace KompetansetorgetServer.Controllers.Api
                 jobTypes = p.jobTypes.Select(jt => new { jt.id }),
                 studyGroups = p.studyGroups.Select(st => new { st.id })
             });
+
+            //return unordered.OrderByDescending(p => p.published);
         }
 
         /// <summary>
@@ -508,11 +519,11 @@ namespace KompetansetorgetServer.Controllers.Api
 
             switch (sortBy)
             { 
-                case "published":
+                case "publish":
                 projects = projects.OrderByDescending(j => j.published);
                 return projects;
 
-                case "-published":
+                case "-publish":
                     projects = projects.OrderBy(j => j.published);
                     return projects;
 
@@ -585,11 +596,11 @@ namespace KompetansetorgetServer.Controllers.Api
 
             switch (sortBy)
             {
-                case "published":
+                case "publish":
                     projects = projects.OrderByDescending(j => j.published);
                     return projects;
 
-                case "-published":
+                case "-publish":
                     projects = projects.OrderBy(j => j.published);
                     return projects;
 

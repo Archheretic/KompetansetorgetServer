@@ -808,10 +808,10 @@ namespace KompetansetorgetServer.Models
                 webpage = "https://kompetansetorget.uia.no/stillinger/test-users-for-apps-websites-wanted",
                 linkedInProfile = "",
                 stepsToApply = "Send email",
-                expiryDate = new DateTime(2017, 01, 01),
-                created = new DateTime(2016, 04, 01),
-                published = new DateTime(2016, 04, 01),
-                modified = new DateTime(2016, 04, 11)
+                expiryDate = new DateTime(2017, 01, 01, 01, 01, 01),
+                created = new DateTime(2016, 04, 01, 01, 01, 01),
+                published = new DateTime(2016, 04, 01, 01, 01, 01),
+                modified = new DateTime(2016, 04, 01, 01, 01, 01)
             };
 
             Contact contact2 = db.contacts.First(x => x.id == 2);
@@ -938,7 +938,7 @@ namespace KompetansetorgetServer.Models
                 expiryDate = new DateTime(2017, 01, 01),
                 created = new DateTime(2016, 04, 01),
                 published = new DateTime(2016, 04, 01),
-                modified = new DateTime(2016, 04, 11)
+                modified = new DateTime(2016, 04, 01)
             };
 
             Contact contact5 = db.contacts.First(x => x.id == 2);
