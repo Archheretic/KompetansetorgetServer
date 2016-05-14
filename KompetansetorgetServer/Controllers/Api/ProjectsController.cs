@@ -236,6 +236,8 @@ namespace KompetansetorgetServer.Controllers.Api
                 amountOfProjects,
                 hash
             });
+
+
             /*
                         return Ok(new
                         {
@@ -250,22 +252,30 @@ namespace KompetansetorgetServer.Controllers.Api
         private async Task<IHttpActionResult> SerializeLastModified(IQueryable<Project> unserializedProjects)
         {
             // bad code, fix later if time
-            var projectLast = unserializedProjects.OrderByDescending(p => p.modified).First();
-            List<Project> projects = unserializedProjects.OrderByDescending(p => p.published).ToList();
-            int amountOfProjects = projects.Count;
-            StringBuilder sb = new StringBuilder();
-            foreach (var project in projects)
-            {
-                sb.Append(project.uuid);
+            int amountOfProjects = 0;
+            try { 
+                var projectLast = unserializedProjects.OrderByDescending(p => p.modified).First();
+                List<Project> projects = unserializedProjects.OrderByDescending(p => p.published).ToList();
+                amountOfProjects = projects.Count;
+                StringBuilder sb = new StringBuilder();
+                foreach (var project in projects)
+                {
+                    sb.Append(project.uuid);
+                }
+                string hash = CalculateMD5Hash(sb.ToString());
+                return Ok(new
+                {
+                    projectLast.uuid,
+                    projectLast.modified,
+                    amountOfProjects,
+                    hash
+                });
             }
-            string hash = CalculateMD5Hash(sb.ToString());
-            return Ok(new
+            catch
             {
-                projectLast.uuid,
-                projectLast.modified,
-                amountOfProjects,
-                hash
-            });
+                return Ok(new
+                { amountOfProjects });
+            }
             /*
             return Ok(new
             {

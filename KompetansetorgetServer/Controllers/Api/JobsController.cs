@@ -36,12 +36,22 @@ namespace KompetansetorgetServer.Controllers.Api
                 (!types.IsNullOrWhiteSpace() && !locations.IsNullOrWhiteSpace()))
             {
                 IQueryable<Job> jobs = GetJobsByMultiFilter(types, studyGroups, locations);
+                
                 if (sortBy.Equals("publish") || sortBy.Equals("-publish")
                     || sortBy.Equals("-expirydate") || sortBy.Equals("expirydate"))
                 {
                     return GetJobsSorted(jobs, sortBy);
                 }
-                return GetJobsSerialized(jobs);
+
+                /*
+                if (fields.Length == 2)
+                {
+                    if (fields[0].Equals("cname") && fields[1].Equals("clogo"))
+                    {
+                        return GetSerializedWithFields(jobs);
+                    }
+                }
+                return GetJobsSerialized(jobs);*/
             }
 
             if (!types.IsNullOrWhiteSpace())
@@ -178,37 +188,39 @@ namespace KompetansetorgetServer.Controllers.Api
                     amountOfJobs
             });
             */
-            
+
         }
 
         private async Task<IHttpActionResult> SerializeLastModified(IQueryable<Job> unserializedJobs)
             {
             // bad code, fix later if time
-            var jobLast = unserializedJobs.OrderByDescending(j => j.modified).First();
-            List<Job> jobs = unserializedJobs.OrderByDescending(j => j.published).ToList();
-            int amountOfJobs = jobs.Count;
-            StringBuilder sb = new StringBuilder();
-            foreach (var job in jobs)
+
+            int amountOfJobs = 0;
+            try
             {
-                sb.Append(job.uuid);
+                var jobLast = unserializedJobs.OrderByDescending(j => j.modified).First();
+                List<Job> jobs = unserializedJobs.OrderByDescending(j => j.published).ToList();
+                amountOfJobs = jobs.Count;
+                StringBuilder sb = new StringBuilder();
+                foreach (var job in jobs)
+                {
+                    sb.Append(job.uuid);
+                }
+                string hash = CalculateMD5Hash(sb.ToString());
+                return Ok(new
+                {
+                    jobLast.uuid,
+                    jobLast.modified,
+                    amountOfJobs,
+                    hash
+                });
             }
-            string hash = CalculateMD5Hash(sb.ToString());
-            return Ok(new
+            catch
             {
-                jobLast.uuid,
-                jobLast.modified,
-                amountOfJobs,
-                hash
-            });
-            /*
-            int amountOfJobs = unserializedJobs.Count();
-            return Ok(new
-            {
-             job.uuid,
-             job.modified,
-             amountOfJobs
-            });
-            */
+                return Ok(new
+                {amountOfJobs});
+            }
+
         }
     
         // GET: api/Jobs

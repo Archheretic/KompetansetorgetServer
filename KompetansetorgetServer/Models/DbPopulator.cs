@@ -999,10 +999,10 @@ namespace KompetansetorgetServer.Models
                 webpage = "https://kompetansetorget.uia.no/stillinger/fleksibel-deltidsjobb-som-privatunderviser",
                 linkedInProfile = "",
                 stepsToApply = "Send email",
-                expiryDate = new DateTime(2017, 11, 12),
-                published = new DateTime(2016, 11, 12),
-                created = new DateTime(2016, 11, 12),
-                modified = new DateTime(2016, 11, 12)
+                expiryDate = new DateTime(2016, 11, 12),
+                published = new DateTime(2015, 11, 12),
+                created = new DateTime(2015, 11, 12),
+                modified = new DateTime(2015, 11, 12)
             };
 
             Contact contact6 = db.contacts.First(x => x.id == 5);
@@ -1134,7 +1134,7 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "Send email",
                 published = new DateTime(2015, 05, 08),
-                expiryDate = new DateTime(2016, 05, 08),
+                expiryDate = new DateTime(2017, 05, 08),
                 created = new DateTime(2015, 05, 08),
                 modified = new DateTime(2015, 05, 08)
 
