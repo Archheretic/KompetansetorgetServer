@@ -1417,11 +1417,6 @@ namespace KompetansetorgetServer.Models
 
         private void PopulateProject()
         {
-
-
-
-            DateTime now = DateTime.Now;
-
             Project pro1 = new Project()
             {
                 uuid = Guid.NewGuid().ToString(),
@@ -1444,9 +1439,9 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",
-                created = now,
-                published = now,
-                modified = now,
+                created = new DateTime(2016, 02, 26),
+                published = new DateTime(2016, 02, 26),
+                modified = new DateTime(2016, 02, 26),
                 status = "Ledig"
             };
 
@@ -1505,9 +1500,9 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",
-                created = now.AddDays(1),
-                published = now.AddDays(1),
-                modified = now.AddDays(1),
+                created = new DateTime(2016, 01, 27),
+                published = new DateTime(2016, 01, 27),
+                modified = new DateTime(2016, 01, 27),
                 status = "Ledig"
             };
 
@@ -1549,9 +1544,9 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",
-                created = now.AddDays(2),
-                published = now.AddDays(2),
-                modified = now.AddDays(2),
+                created = new DateTime(2016, 01, 22),
+                published = new DateTime(2016, 01, 22),
+                modified = new DateTime(2016, 01, 22),
                 status = "Ledig"
             };
 
@@ -1575,8 +1570,6 @@ namespace KompetansetorgetServer.Models
 
             Contact contact8 = db.contacts.First(x => x.id == 8);
             ApprovedCourse dat3041 = db.approvedCourses.First(x => x.id.Equals("DAT-304"));
-            now = DateTime.Now;
-
 
             Project pro4 = new Project()
             {
@@ -1602,9 +1595,9 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",
-                created = now.AddDays(2),
-                published = now.AddDays(2),
-                modified = now.AddDays(2),
+                created = new DateTime(2016,01,03),
+                published = new DateTime(2016, 01, 03),
+                modified = new DateTime(2016, 01, 03),
                 status = "Ledig"
             };
 
