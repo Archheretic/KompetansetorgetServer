@@ -331,7 +331,7 @@ namespace KompetansetorgetServer.Controllers.Api
             // White space Delimiter + removed.
             titles = titles.Replace("+", " ");
             var jobs = from job in db.jobs               
-                       where job.title.Equals(titles)
+                       where job.title.Contains(titles)
                        select job;
             
             return jobs;

@@ -42,12 +42,12 @@ namespace KompetansetorgetServer.PushNotifications
 
             else if (type == "project") { 
             push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
-                                  .WithJson(@"{""message"":""Nytt oppgaveforslag registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""project"",""uuid"":""15b4b7e8-ef9a-49a6-95e6-691190c7d76f""}"));
+                                  .WithJson(@"{""message"":""Nytt oppgaveforslag registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""project"",""uuid"":""3cbbc091-deae-40f5-97a8-9810aea0a284""}"));
             }
             else if (type == "job")
             {
                 push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
-                                      .WithJson(@"{""message"":""Ny jobbstilling registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""job"",""uuid"":""4df3e40e-f245-4b6b-98e0-37700cf1f72b""}"));
+                                      .WithJson(@"{""message"":""Ny jobbstilling registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""job"",""uuid"":""15edd7d5-7ddf-444e-af61-66ba16163e40""}"));
             }
 
             //Stop and wait for the queues to drains before it dispose 

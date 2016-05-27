@@ -375,7 +375,7 @@ namespace KompetansetorgetServer.Controllers.Api
             // White space delimiter + replaced.
             titles = titles.Replace("+", " ");
             var projects = from project in db.projects
-                       where project.title.Equals(titles)
+                       where project.title.Contains(titles)
                        select project;
 
             return projects;
