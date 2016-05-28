@@ -1616,70 +1616,62 @@ namespace KompetansetorgetServer.Models
 
         private void temp()
         {
-
-            Contact nilsen = new Contact()
+            Company etterIsoleringAgder = new Company()
             {
-                id = 4,
-                name = "Nils Nilsen",
-                position = "Avdelingsjef",
-                phone = "67224367",
-                email = "nilsen@hotmail.com"
-
-            };
-
-            db.contacts.Add(nilsen);
-            db.SaveChanges();
-
-            Company stamina = new Company()
-            {
-                id = "stamina",
-                name = "Stamina Hot",
-                adress = "Storgaten 90, 4877 Grimstad",
-                url = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad/",
+                id = "etterIsoleringAgder",
+                name = "Etterisolering Agder AS",
+                adress = "",
+                url = "",
                 facebook = "",
                 linkedIn = "",
-                description = "Treningssenter",
-                logo = "https://www.staminagroup.no/UI/logo.png"
+                description = "",
+                logo = "http://kompetansetorget.uia.no/extension/kompetansetorget/design/kompetansetorget/images/logo-virksomhet.jpg"
+            };
+
+            Contact bjorn = new Contact()
+            {
+                id = 11,
+                name = "Bjørn Ingebretsen",
+                position = "styreleder",
+                phone = "91564082",
+                email = "post@poi.as"
 
             };
-            db.companies.Add(stamina);
+
+            db.companies.Add(etterIsoleringAgder);
+            db.contacts.Add(bjorn);
             db.SaveChanges();
 
-            Location location = db.locations.First(x => x.id.Equals("austagder"));
-            StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
-            StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrettsfag"));
-
-            JobType deltid = db.jobTypes.First(x => x.id.Equals("deltid"));
-
-            DateTime now = DateTime.Now;
-
-            Job job4 = new Job()
+            Project isolasjon = new Project()
             {
                 uuid = Guid.NewGuid().ToString(),
-                title = "IT PT",
-                description = "Er du vår nye høyteknologiske IT PT?!",
-                webpage = "https://www.staminagroup.no/finnoss/grimstad/stamina-grimstad",
+                title = "Blåse isolasjon bak diffusjonsperre",
+                description = "",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/blaase-isolasjon-bak-diffusjonsperre",
                 linkedInProfile = "",
-                stepsToApply = "Send email",
-                expiryDate = now.AddDays(24),
-                created = now.AddDays(4),
-                published = now.AddDays(4),
-                modified = now.AddDays(4)
+                stepsToApply = "",
+                tutor = "",
+                created = new DateTime(2016, 05, 23),
+                published = new DateTime(2016, 05, 23),
+                modified = new DateTime(2016, 05, 23),
+                status = "Ledig"
             };
+            //Contact contact6 = db.contacts.First(x => x.id == 6);
+            //Company uia = db.companies.First(x => x.id.Equals("uia"));
+            //Degree bachelor = db.degrees.First(x => x.id.Equals("bachelor"));
+            //StudyGroup realfag = db.studyGroup.First(x => x.id.Equals("realfag"));
+            JobType virks = db.jobTypes.First(x => x.id.Equals("virksomhet"));
+     
+            isolasjon.contacts.Add(bjorn);
+            isolasjon.companies.Add(etterIsoleringAgder);
+            isolasjon.jobTypes.Add(virks);
+            //pro1.studyGroups.Add(realfag);
 
-            Contact contact4 = db.contacts.First(x => x.id == 4);
-            Company company4 = db.companies.First(x => x.id.Equals("stamina"));
+            //pro1.degrees.Add(bachelor);
+            //pro1.jobTypes.Add(fagl);
 
 
-            job4.contacts.Add(contact4);
-            job4.studyGroups.Add(data);
-            job4.studyGroups.Add(idrett);
-
-            job4.locations.Add(location);
-            job4.jobTypes.Add(deltid);
-            job4.companies.Add(company4);
-
-            db.jobs.Add(job4);
+            db.projects.Add(isolasjon);
             db.SaveChanges();
         }
 

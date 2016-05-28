@@ -179,6 +179,11 @@ namespace KompetansetorgetServer.Controllers.Api
                 */
             }
 
+            if (studyGroups.Count == 1 && studyGroups[0].id == "none")
+            {
+                return;
+            }
+
             // creates new relations between the student and the studygroups provided
             foreach (var study in studyGroups)
             {
