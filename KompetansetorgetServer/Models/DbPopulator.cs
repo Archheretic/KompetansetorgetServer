@@ -13,22 +13,24 @@ namespace KompetansetorgetServer.Models
         // Populates all the tables in the correct order.
         public void PopulateAll()
         {
-            //PopulateStudent2();
+            ////PopulateStudent2();
 
-            PopulateLocation();
-            PopulateStudy_group();
-            PopulateDevice();
-           // PopulateStudent();
-            PopulateJobType();
-            PopulateContact();
-            PopulateCompany();
-            PopulateJob();
+            //PopulateLocation();
+            //PopulateStudy_group();
+            ////PopulateDevice();
+            ////PopulateStudent();
+            //PopulateJobType();
+            //PopulateContact();
+            //PopulateCompany();
+            //PopulateJob();
 
 
-            PopulateDegree();
-            PopulateCourse();
-            PopulateProject();
+            //PopulateDegree();
+            //PopulateCourse();
+            //PopulateProject();
             //temp();
+            //Extra();
+            ExtraData2();
         }
 
         //Populates the Location table
@@ -1673,7 +1675,302 @@ namespace KompetansetorgetServer.Models
 
             db.projects.Add(isolasjon);
             db.SaveChanges();
+
+
+            Company fia = new Company()
+            {
+                id = "fia",
+                name = "Farm in Action",
+                adress = "",
+                url = "",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "http://kompetansetorget.uia.no/extension/kompetansetorget/design/kompetansetorget/images/logo-virksomhet.jpg"
+            };
+
+            Contact magnus = new Contact()
+            {
+                id = 12,
+                name = "Magnus Gellein",
+                position = "Faglig ansvarlig",
+                phone = "94139095",
+                email = "gellein@farminaction.no"
+
+            };
+
+            db.companies.Add(fia);
+            db.contacts.Add(magnus);
+            db.SaveChanges();
+
+            Project rusrehab = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Rusrehabilitering i InnPåTunet tiltak, med faglig oppfølgning inkludert.",
+                description = "",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/rusrehabilitering-i-innpaatunet-tiltak-med-faglig-oppfoelgning-inkludert",
+                linkedInProfile = "",
+                stepsToApply = "",
+                tutor = "",
+                created = new DateTime(2016, 04, 16),
+                published = new DateTime(2016, 04, 16),
+                modified = new DateTime(2016, 04, 16),
+                status = "Ledig"
+            };
+
+            Degree master = db.degrees.First(x => x.id.Equals("master"));
+            StudyGroup helse = db.studyGroup.First(x => x.id.Equals("helse"));
+            Course me504 = db.courses.First(x => x.id.Equals("ME-504"));
+
+
+            rusrehab.contacts.Add(magnus);
+            rusrehab.companies.Add(fia);
+            rusrehab.jobTypes.Add(virks);
+            rusrehab.degrees.Add(master);
+            rusrehab.studyGroups.Add(helse);
+            rusrehab.courses.Add(me504);
+
+
+            //pro1.studyGroups.Add(realfag);
+
+            //pro1.degrees.Add(bachelor);
+            //pro1.jobTypes.Add(fagl);
+
+
+            db.projects.Add(rusrehab);
+            db.SaveChanges();
         }
 
+        private void Extra()
+        {
+            Contact siri = new Contact()
+            {
+                id = 13,
+                name = "Siri Håvås Haugland",
+                position = "",
+                phone = "",
+                email = "siri.h.haugland@uia.no"
+            };
+
+            db.contacts.Add(siri);
+            db.SaveChanges();
+
+            Project informasjonsmateriell = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Utvikle informasjonsmateriell/pakke til forskningsseminar",
+                description = "",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/utvikle-informasjonsmateriell-pakke-til-forskningsseminar",
+                linkedInProfile = "",
+                stepsToApply = "",
+                tutor = "",
+                created = new DateTime(2016, 04, 15),
+                published = new DateTime(2016, 04, 15),
+                modified = new DateTime(2016, 04, 15),
+                status = "Ledig"
+            };
+            Company uia = db.companies.First(x => x.id.Equals("uia"));
+            JobType fagl = db.jobTypes.First(x => x.id.Equals("faglærer"));
+            informasjonsmateriell.contacts.Add(siri);
+            informasjonsmateriell.companies.Add(uia);
+            informasjonsmateriell.jobTypes.Add(fagl);
+
+            db.projects.Add(informasjonsmateriell);
+            db.SaveChanges();
+
+            Contact yngvar = new Contact()
+            {
+                id = 14,
+                name = "Yngvar Asbjørn Olsen",
+                position = "",
+                phone = "",
+                email = "yngvar.a.olsen@uia.no"
+            };
+
+            db.contacts.Add(yngvar);
+            db.SaveChanges();
+
+            Project gyrodactylus = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Utvikling av en metode for farging av Gyrodactylus spp in vitro",
+                description = "",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/utvikling-av-en-metode-for-farging-av-gyrodactylus-spp-in-vitro",
+                linkedInProfile = "",
+                stepsToApply = "",
+                tutor = "",
+                created = new DateTime(2016, 04, 16),
+                published = new DateTime(2016, 04, 16),
+                modified = new DateTime(2016, 04, 16),
+                status = "Ledig"
+            };
+
+            StudyGroup realfag = db.studyGroup.First(x => x.id.Equals("realfag"));
+            Course bio300 = db.courses.First(x => x.id.Equals("BIO-300"));
+
+            gyrodactylus.contacts.Add(yngvar);
+            gyrodactylus.companies.Add(uia);
+            gyrodactylus.jobTypes.Add(fagl);
+            gyrodactylus.studyGroups.Add(realfag);
+            gyrodactylus.courses.Add(bio300);
+
+            db.projects.Add(gyrodactylus);
+            db.SaveChanges();
+
+
+            Contact erlend = new Contact()
+            {
+                id = 15,
+                name = "Erlend Wangsteen",
+                position = "",
+                phone = "41009164",
+                email = "erlendwangensteen@gmail.com"
+            };
+
+            Company abnc = new Company()
+            {
+                id = "abnc",
+                name = "abnc",
+                adress = "",
+                url = "",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "http://kompetansetorget.uia.no/extension/kompetansetorget/design/kompetansetorget/images/logo-virksomhet.jpg"
+            };
+
+            db.contacts.Add(erlend);
+            db.companies.Add(abnc);
+            db.SaveChanges();
+            Project strategi = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Utarbeiding av strategi i forbindelse med lansering av nytt produkt.",
+                description = "",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/utarbeiding-av-strategi-i-forbindelse-med-lansering-av-nytt-produkt",
+                linkedInProfile = "",
+                stepsToApply = "",
+                tutor = "",
+                created = new DateTime(2016, 02, 16),
+                published = new DateTime(2016, 02, 16),
+                modified = new DateTime(2016, 02, 16),
+                status = "Ledig"
+            };
+
+            StudyGroup admin = db.studyGroup.First(x => x.id.Equals("administrasjon"));
+            JobType virk = db.jobTypes.First(x => x.id.Equals("virksomhet"));
+
+            strategi.contacts.Add(erlend);
+            strategi.companies.Add(abnc);
+            strategi.jobTypes.Add(virk);
+            strategi.studyGroups.Add(admin);
+
+            db.projects.Add(strategi);
+            db.SaveChanges();
+
+            Project demohandelsplattform = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Konstruksjon av demo-handelsplattform",
+                description = "",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/konstruksjon-av-demo-handelsplattform",
+                linkedInProfile = "",
+                stepsToApply = "",
+                tutor = "",
+                created = new DateTime(2016, 02, 18),
+                published = new DateTime(2016, 02, 18),
+                modified = new DateTime(2016, 02, 18),
+                status = "Ledig"
+            };
+
+            StudyGroup datateknologi = db.studyGroup.First(x => x.id.Equals("datateknologi"));
+            demohandelsplattform.contacts.Add(erlend);
+            demohandelsplattform.companies.Add(abnc);
+            demohandelsplattform.jobTypes.Add(virk);
+            demohandelsplattform.studyGroups.Add(datateknologi);
+
+            db.projects.Add(demohandelsplattform);
+            db.SaveChanges();
+
+            Project handelsplattform = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Konstruksjon av demo-handelsplattform",
+                description = "",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/konstruksjon-av-demo-handelsplattform",
+                linkedInProfile = "",
+                stepsToApply = "",
+                tutor = "",
+                created = new DateTime(2016, 02, 16, 1, 1, 1),
+                published = new DateTime(2016, 02, 16, 1, 1, 1),
+                modified = new DateTime(2016, 02, 16, 1, 1, 1),
+                status = "Ledig"
+            };
+
+            StudyGroup oko = db.studyGroup.First(x => x.id.Equals("økonomi"));
+            handelsplattform.contacts.Add(erlend);
+            handelsplattform.companies.Add(abnc);
+            handelsplattform.jobTypes.Add(virk);
+            handelsplattform.studyGroups.Add(oko);
+
+            db.projects.Add(handelsplattform);
+            db.SaveChanges();
+        }
+
+        public void ExtraData2()
+        {
+            Contact kirsti = new Contact()
+            {
+                id = 16,
+                name = "Kirsti Lie",
+                position = "",
+                phone = "48264770",
+                email = "kirlie@ae.no"
+            };
+
+            Company agderEnergi = new Company()
+            {
+                id = "agderEnergi",
+                name = "Agder Energi",
+                adress = "",
+                url = "",
+                facebook = "",
+                linkedIn = "",
+                description = "",
+                logo = "http://kompetansetorget.uia.no/var/kompetansetorget/storage/images/virksomheter/agder-energi/10593-1-nor-NO/agder-energi_width-4.jpg"
+            };
+
+            db.contacts.Add(kirsti);
+            db.companies.Add(agderEnergi);
+            db.SaveChanges();
+
+            Project strategi = new Project()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Fullstendig interaktiv 3D visualisering av Kraftstasjon (Tungefoss) med innlagte e-læringsressurser og dokumentasjon",
+                description = "",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/utarbeiding-av-strategi-i-forbindelse-med-lansering-av-nytt-produkt",
+                linkedInProfile = "",
+                stepsToApply = "",
+                tutor = "",
+                created = new DateTime(2016, 02, 08),
+                published = new DateTime(2016, 02, 08),
+                modified = new DateTime(2016, 02, 08),
+                status = "Valgt"
+            };
+
+            StudyGroup data = db.studyGroup.First(x => x.id.Equals("datateknologi"));
+            JobType virk = db.jobTypes.First(x => x.id.Equals("virksomhet"));
+            Degree bach = db.degrees.First(x => x.id.Equals("bachelor"));
+            Course dat303 = db.courses.First(x => x.id.Equals("DAT-303"));
+
+            strategi.contacts.Add(kirsti);
+            strategi.companies.Add(agderEnergi);
+            strategi.jobTypes.Add(virk);
+            strategi.studyGroups.Add(data);
+            strategi.degrees.Add(bach);
+            strategi.courses.Add(dat303);
+            db.SaveChanges();
+        }
     }
 }
