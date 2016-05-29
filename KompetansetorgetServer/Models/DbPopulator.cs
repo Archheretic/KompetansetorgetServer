@@ -13,23 +13,23 @@ namespace KompetansetorgetServer.Models
         // Populates all the tables in the correct order.
         public void PopulateAll()
         {
-            ////PopulateStudent2();
+            //PopulateStudent2();
 
-            //PopulateLocation();
-            //PopulateStudy_group();
-            ////PopulateDevice();
-            ////PopulateStudent();
-            //PopulateJobType();
-            //PopulateContact();
-            //PopulateCompany();
-            //PopulateJob();
+            PopulateLocation();
+            PopulateStudy_group();
+            //PopulateDevice();
+            //PopulateStudent();
+            PopulateJobType();
+            PopulateContact();
+            PopulateCompany();
+            PopulateJob();
 
 
-            //PopulateDegree();
-            //PopulateCourse();
-            //PopulateProject();
-            //temp();
-            //Extra();
+            PopulateDegree();
+            PopulateCourse();
+            PopulateProject();
+            temp();
+            Extra();
             ExtraData2();
         }
 
@@ -1799,9 +1799,9 @@ namespace KompetansetorgetServer.Models
                 linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",
-                created = new DateTime(2016, 04, 16),
-                published = new DateTime(2016, 04, 16),
-                modified = new DateTime(2016, 04, 16),
+                created = new DateTime(2016, 04, 16, 1, 1, 2),
+                published = new DateTime(2016, 04, 16, 1, 1, 2),
+                modified = new DateTime(2016, 04, 16, 1, 1, 2),
                 status = "Ledig"
             };
 

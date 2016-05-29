@@ -150,7 +150,7 @@ namespace KompetansetorgetServer.Controllers
             string nToken =
      "erFSVhQN-Qc:APA91bGGzos4X2Hh4np_swN6U15_8U1mCOXekMT95k4evG2S1TvT67DgzQ5gXEv8_9uSRhCveP99jqMAygGSyp1TxQomegJpzLd-iXQQvPAf99D5DPZr6cYpLwz7ezyQfASQuMQnB6Im";
 
-            p.PushToAndroid(nToken, null);
+            p.PushToAndroid(nToken, "project");
             return RedirectToAction("About", "Home");
         }
 

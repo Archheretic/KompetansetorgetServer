@@ -140,20 +140,30 @@ namespace KompetansetorgetServer.Controllers.Api
         {
             // can only be one device atm, so hardcoding it...
             Device newDevice = devices[0];
-            Device d = db.devices.First(x => x.id.Equals(newDevice.id));
-            if (d != null)
+            try
             {
-                d.Student = student;
-                d.deviceType = newDevice.deviceType;
-                d.token = newDevice.token;
-                db.Entry(d).State = EntityState.Modified;
-                db.SaveChanges();
+                Device d = db.devices.First(x => x.id.Equals(newDevice.id));
+                if (d != null)
+                {
+                    d.Student = student;
+                    d.deviceType = newDevice.deviceType;
+                    d.token = newDevice.token;
+                    db.Entry(d).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                else
+                {
+                    newDevice.Student = student;
+                    db.devices.Add(newDevice);
+                    db.SaveChanges();
+                }
             }
-        
-            else
+            catch
             {
                 newDevice.Student = student;
                 db.devices.Add(newDevice);
+                db.SaveChanges();
             }
         }
 

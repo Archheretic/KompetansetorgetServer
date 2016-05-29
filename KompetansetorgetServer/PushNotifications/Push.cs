@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using PushSharp;
 using PushSharp.Android;
 using PushSharp.Apple;
 
 using System.IO;
+using System.Linq;
 using System.Web;
+using KompetansetorgetServer.Models;
 using Microsoft.Owin.Logging;
 using PushSharp.Core;
 
@@ -33,22 +36,30 @@ namespace KompetansetorgetServer.PushNotifications
            // "f1NihVZfat0:APA91bE7vk55QCEbQzjYfI0jUv1bdCTP9ciK27AXXutSsXfJcOmAZCt8vRxFrMHHslo6DbVZyNKRMdxfYN6np1NJ9DR6Tz20SV9hInGlia7ftgq0o-mimw_UI7cUfE9wi4FzQJgND7y5";
 
             push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyDIbpRonx7yh3NKBAr4rAzmfmIFeEWRTfE"));
+            KompetansetorgetServerContext db = new KompetansetorgetServerContext();
 
-            if (type == null)
+            Random rnd = new Random();
+            string uuid;
+            string message;
+            if (type == "project")
             {
-                push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
-                      .WithJson(@"{""message"":""Nytt oppgaveforslag registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""project"",""uuid"":""15b4b7e8-ef9a-49a6-95e6-691190c7d76f""}"));
+                List<Project> projects = db.projects.ToList();
+                int index = rnd.Next(0, projects.Count); // creates a number between 0 and Count
+                uuid = projects[index].uuid;
+                message = "Nytt oppgaveforslag registert!";
             }
 
-            else if (type == "project") { 
+            else
+            {
+                List<Job> jobs = db.jobs.ToList();
+                int index = rnd.Next(0, jobs.Count); // creates a number between 0 and Count
+                uuid = jobs[index].uuid;
+                message = "Ny jobbstilling registert!";
+            }
+
             push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
-                                  .WithJson(@"{""message"":""Nytt oppgaveforslag registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""project"",""uuid"":""3cbbc091-deae-40f5-97a8-9810aea0a284""}"));
-            }
-            else if (type == "job")
-            {
-                push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(myAuthToken)
-                                      .WithJson(@"{""message"":""Ny jobbstilling registert!"",""badge"":""7"",""sound"":""sound.caf"",""type"":""job"",""uuid"":""15edd7d5-7ddf-444e-af61-66ba16163e40""}"));
-            }
+                                    .WithJson("{\"message\":\"" + message + "\",\"badge\":\"7\",\"sound\":\"sound.caf\",\"type\":\"" + type + "\", \"uuid\":\"" + uuid + "\"}"));
+
 
             //Stop and wait for the queues to drains before it dispose 
             push.StopAllServices();

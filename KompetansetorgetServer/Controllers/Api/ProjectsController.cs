@@ -218,7 +218,7 @@ namespace KompetansetorgetServer.Controllers.Api
                 return await SerializeLastModified(projects);
             }
 
-            int amountOfProjects = db.projects.Count();
+            string amountOfProjects = db.projects.Count().ToString();
             Project projectLast = db.projects.OrderByDescending(j => j.modified).First();
             // bad code, fix later if time
             var result = from project in db.projects select project;
