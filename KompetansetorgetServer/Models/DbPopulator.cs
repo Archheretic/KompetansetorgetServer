@@ -1895,9 +1895,9 @@ namespace KompetansetorgetServer.Models
             Project handelsplattform = new Project()
             {
                 uuid = Guid.NewGuid().ToString(),
-                title = "Konstruksjon av demo-handelsplattform",
+                title = "Utarbeiding av derivater for internett-handelsplattform",
                 description = "",
-                webpage = "http://kompetansetorget.uia.no/oppgaver/konstruksjon-av-demo-handelsplattform",
+                webpage = "http://kompetansetorget.uia.no/oppgaver/utarbeiding-av-derivater-for-internett-handelsplattform",
                 linkedInProfile = "",
                 stepsToApply = "",
                 tutor = "",

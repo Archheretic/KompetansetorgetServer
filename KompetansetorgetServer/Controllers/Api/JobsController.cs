@@ -170,7 +170,8 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             string hash = CalculateMD5Hash(sb.ToString());
             Job jobLast = db.jobs.OrderByDescending(j => j.modified).First();
-            int amountOfJobs = db.jobs.Count();
+            int count = db.jobs.Count();
+            string amountOfJobs = count.ToString();
             return Ok(new
             {
                 jobLast.uuid,
@@ -195,18 +196,19 @@ namespace KompetansetorgetServer.Controllers.Api
             {
             // bad code, fix later if time
 
-            int amountOfJobs = 0;
+            int count = 0;
             try
             {
                 var jobLast = unserializedJobs.OrderByDescending(j => j.modified).First();
                 List<Job> jobs = unserializedJobs.OrderByDescending(j => j.published).ToList();
-                amountOfJobs = jobs.Count;
+                count = jobs.Count;
                 StringBuilder sb = new StringBuilder();
                 foreach (var job in jobs)
                 {
                     sb.Append(job.uuid);
                 }
                 string hash = CalculateMD5Hash(sb.ToString());
+                string amountOfJobs = count.ToString();
                 return Ok(new
                 {
                     jobLast.uuid,
@@ -217,6 +219,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch
             {
+                string amountOfJobs = count.ToString();
                 return Ok(new
                 {amountOfJobs});
             }

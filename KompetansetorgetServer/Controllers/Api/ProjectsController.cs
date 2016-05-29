@@ -252,17 +252,18 @@ namespace KompetansetorgetServer.Controllers.Api
         private async Task<IHttpActionResult> SerializeLastModified(IQueryable<Project> unserializedProjects)
         {
             // bad code, fix later if time
-            int amountOfProjects = 0;
+            int count = 0;
             try { 
                 var projectLast = unserializedProjects.OrderByDescending(p => p.modified).First();
                 List<Project> projects = unserializedProjects.OrderByDescending(p => p.published).ToList();
-                amountOfProjects = projects.Count;
+                count = projects.Count;
                 StringBuilder sb = new StringBuilder();
                 foreach (var project in projects)
                 {
                     sb.Append(project.uuid);
                 }
                 string hash = CalculateMD5Hash(sb.ToString());
+                string amountOfProjects = count.ToString();
                 return Ok(new
                 {
                     projectLast.uuid,
@@ -273,6 +274,7 @@ namespace KompetansetorgetServer.Controllers.Api
             }
             catch
             {
+                string amountOfProjects = count.ToString();
                 return Ok(new
                 { amountOfProjects });
             }
