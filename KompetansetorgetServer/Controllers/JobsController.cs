@@ -144,13 +144,23 @@ namespace KompetansetorgetServer.Controllers
             return RedirectToAction("About", "Home");
         }
 
-        public ActionResult TestPushToNadia()
+        public ActionResult TestPushProjectToNadia()
         {
             Push p = new Push();
-            string nToken =
-     "erFSVhQN-Qc:APA91bGGzos4X2Hh4np_swN6U15_8U1mCOXekMT95k4evG2S1TvT67DgzQ5gXEv8_9uSRhCveP99jqMAygGSyp1TxQomegJpzLd-iXQQvPAf99D5DPZr6cYpLwz7ezyQfASQuMQnB6Im";
+            Device d = db.devices.First(x => x.id.Equals("86e0e4a5"));
+            string nToken = d.token;
 
             p.PushToAndroid(nToken, "project");
+            return RedirectToAction("About", "Home");
+        }
+
+        public ActionResult TestPushJobToNadia()
+        {
+            Push p = new Push();
+            Device d = db.devices.First(x => x.id.Equals("86e0e4a5"));
+            string nToken = d.token;
+
+            p.PushToAndroid(nToken, "job");
             return RedirectToAction("About", "Home");
         }
 
