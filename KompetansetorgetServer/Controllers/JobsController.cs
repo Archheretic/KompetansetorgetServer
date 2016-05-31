@@ -164,12 +164,48 @@ namespace KompetansetorgetServer.Controllers
             return RedirectToAction("About", "Home");
         }
 
+
+        public ActionResult TestPushProjectToKjetil()
+        {
+            Push p = new Push();
+            Device d = db.devices.First(x => x.id.Equals("ENU7N15B04007825"));
+            string nToken = d.token;
+
+            p.PushToAndroid(nToken, "project");
+            return RedirectToAction("About", "Home");
+        }
+
+        public ActionResult TestPushJobToKjetil()
+        {
+            Push p = new Push();
+            Device d = db.devices.First(x => x.id.Equals("ENU7N15B04007825"));
+            string nToken = d.token;
+
+            p.PushToAndroid(nToken, "job");
+            return RedirectToAction("About", "Home");
+        }
+
         public ActionResult TestPushToAll()
         {
             PushAll p = new PushAll();
             p.SendMessageToAllAndroid("Hei alle sammen");
             return RedirectToAction("About", "Home");
         }
+
+        public ActionResult TestPushProjectToAll()
+        {
+            PushAll p = new PushAll();
+            p.SendAdvertToAllAndroid("project");
+            return RedirectToAction("About", "Home");
+        }
+
+        public ActionResult TestPushJobToAll()
+        {
+            PushAll p = new PushAll();
+            p.SendAdvertToAllAndroid("job");
+            return RedirectToAction("About", "Home");
+        }
+
 
         public ActionResult PopulateDb()
         {
