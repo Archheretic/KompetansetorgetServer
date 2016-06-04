@@ -1972,5 +1972,49 @@ namespace KompetansetorgetServer.Models
             strategi.courses.Add(dat303);
             db.SaveChanges();
         }
+
+        public void InsertTrenerJobb()
+        {
+            Job job9 = new Job()
+            {
+                uuid = Guid.NewGuid().ToString(),
+                title = "Fotballtrener ved Fotballfritidsordning",
+                description = "",
+                webpage = "https://kompetansetorget.uia.no/stillinger/fotballtrener-ved-fotballfritidsordning",
+                linkedInProfile = "",
+                stepsToApply = "Send email",
+                published = new DateTime(2015, 08, 17),
+                expiryDate = new DateTime(2016, 08, 17),
+                created = new DateTime(2015, 08, 17),
+                modified = new DateTime(2015, 08, 17)
+
+            };
+
+            Contact contact9 = db.contacts.First(x => x.id == 8);
+            Company company9 = db.companies.First(x => x.id.Equals("ikstart"));
+
+            job9.contacts.Add(contact9);
+            StudyGroup idrett = db.studyGroup.First(x => x.id.Equals("idrett"));
+            JobType deltid = db.jobTypes.First(x => x.id.Equals("deltid"));
+
+            job9.studyGroups.Add(idrett);
+
+            job9.jobTypes.Add(deltid);
+
+            job9.companies.Add(company9);
+
+            db.jobs.Add(job9);
+            db.SaveChanges();
+        }
+
+        public void DeleteTrenerJobb()
+        {
+            var trener = (from job in db.jobs
+                        where job.title == "Fotballtrener ved Fotballfritidsordning"
+                       select job).FirstOrDefault();
+
+            db.jobs.Remove(trener);
+            db.SaveChanges();
+        }
     }
 }

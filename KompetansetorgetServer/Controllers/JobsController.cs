@@ -206,6 +206,19 @@ namespace KompetansetorgetServer.Controllers
             return RedirectToAction("About", "Home");
         }
 
+        public ActionResult RemoveTrainerJob()
+        {
+            DbPopulator populator = new DbPopulator();
+            populator.DeleteTrenerJobb();
+            return RedirectToAction("About", "Home");
+        }
+
+        public ActionResult InsertTrenerJobb()
+        {
+            DbPopulator populator = new DbPopulator();
+            populator.InsertTrenerJobb();
+            return RedirectToAction("About", "Home");
+        }
 
         public ActionResult PopulateDb()
         {
